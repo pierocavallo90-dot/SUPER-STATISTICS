@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V8.1 - Precision Search</title>
+    <title>BETBAR | Scouting Engine V8.2 - Bulletproof Search</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -93,7 +93,7 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v8">V8.1 PRECISION SEARCH</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v8">V8.2 CORE</span></div>
         <div class="api-status">
             <div class="api-dot"></div>
             SOFASCORE DATA
@@ -114,7 +114,7 @@
 
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Ricerca nel Database Calcio...</div>
+        <div class="loader-text" id="loader-log">Ricerca nel Database...</div>
     </div>
 
     <div class="dashboard" id="dashboard">
@@ -191,19 +191,20 @@
         const delay = ms => new Promise(res => setTimeout(res, ms));
         let myRadarChart = null;
 
-        // DIZIONARIO TRADUZIONI 
+        // DIZIONARIO TRADUZIONI - L'arma segreta
         const TeamAliasMap = {
             "viking": "Viking FK", "viking fk": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
-            "bayern monaco": "Bayern Munich", "stella rossa": "Crvena zvezda", "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", 
-            "borussia dortmund": "Borussia Dortmund", "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", 
-            "sporting lisbona": "Sporting", "sporting cp": "Sporting", "manchester utd": "Manchester United", 
-            "man city": "Manchester City", "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", 
-            "eintracht francoforte": "Eintracht Frankfurt", "lione": "Lyon", "olympique lione": "Lyon", 
-            "marsiglia": "Marseille", "olympique marsiglia": "Marseille", "lilla": "Lille", "nizza": "Nice", 
-            "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", "shakhtar donetsk": "Shakhtar Donetsk", 
-            "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", "besiktas": "Beşiktaş", "basilea": "Basel", 
-            "stella rossa belgrado": "Crvena zvezda", "dinamo kiev": "Dynamo Kyiv", "atletico madrid": "Atlético Madrid",
-            "milan": "AC Milan", "inter": "Inter", "juve": "Juventus", "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
+            "bayern monaco": "Bayern Munich", "bayern": "Bayern Munich", "stella rossa": "Crvena zvezda", 
+            "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", "borussia dortmund": "Borussia Dortmund", 
+            "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", "sporting lisbona": "Sporting", 
+            "sporting cp": "Sporting", "manchester utd": "Manchester United", "man city": "Manchester City", 
+            "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", "eintracht francoforte": "Eintracht Frankfurt", 
+            "lione": "Lyon", "olympique lione": "Lyon", "marsiglia": "Marseille", "olympique marsiglia": "Marseille", 
+            "lilla": "Lille", "nizza": "Nice", "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", 
+            "shakhtar donetsk": "Shakhtar Donetsk", "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", 
+            "besiktas": "Beşiktaş", "basilea": "Basel", "stella rossa belgrado": "Crvena zvezda", "dinamo kiev": "Dynamo Kyiv", 
+            "atletico madrid": "Atlético Madrid", "milan": "AC Milan", "inter": "Inter", "juve": "Juventus", 
+            "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
         };
 
         const LeagueTiers = {
@@ -244,19 +245,20 @@
                 throw new Error(`Connessione all'endpoint fallita: ${err.message}`);
             }
 
-            // FILTRO ESTREMO: Deve essere "Team", deve avere lo sport "Football" e deve contenere il nome.
-            let teamObj = searchData.results?.find(r => 
-                r.type === 'team' && 
-                r.entity?.sport?.name === 'Football' && 
-                r.entity?.name.toLowerCase().includes(queryName.toLowerCase())
-            );
+            // RICERCA A CASCATA: Prima cerca il nome esatto
+            let teamObj = searchData.results?.find(r => r.type === 'team' && r.entity?.name.toLowerCase() === queryName.toLowerCase());
             
-            // Se non trova corrispondenza esatta, prende la PRIMA squadra di calcio disponibile (ignora pallamano, hockey, ecc.)
-            if(!teamObj && searchData.results) {
-                teamObj = searchData.results.find(r => r.type === 'team' && r.entity?.sport?.name === 'Football');
+            // Se non trova il nome esatto, cerca se il nome "contiene" la query
+            if (!teamObj && searchData.results) {
+                teamObj = searchData.results.find(r => r.type === 'team' && r.entity?.name.toLowerCase().includes(queryName.toLowerCase()));
+            }
+
+            // Se fallisce ancora, prende il PRIMO team che capita nella lista
+            if (!teamObj && searchData.results) {
+                teamObj = searchData.results.find(r => r.type === 'team');
             }
             
-            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata nel database Calcio. Riprova con il nome ufficiale.`);
+            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Controlla di aver scritto bene il nome.`);
             
             let teamId = teamObj.entity.id;
             let actualName = teamObj.entity.name;
@@ -385,7 +387,7 @@
 
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                alert(`⚠️ ERRORE:\n\n${error.message}`);
+                alert(`⚠️ ERRORE MOTORE:\n\n${error.message}`);
             }
         }
 
