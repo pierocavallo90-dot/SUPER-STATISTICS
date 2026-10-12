@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V8.2 - Bulletproof Search</title>
+    <title>BETBAR | Scouting Engine V9 - Schema Unlocked</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -21,7 +21,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v8 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v9 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -93,7 +93,7 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v8">V8.2 CORE</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v9">V9 SCHEMA UNLOCKED</span></div>
         <div class="api-status">
             <div class="api-dot"></div>
             SOFASCORE DATA
@@ -103,7 +103,7 @@
     <div class="search-container">
         <div class="search-box">
             <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Viking">
+            <input type="text" id="input-home" class="search-input" placeholder="Es. Atalanta">
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
@@ -191,7 +191,6 @@
         const delay = ms => new Promise(res => setTimeout(res, ms));
         let myRadarChart = null;
 
-        // DIZIONARIO TRADUZIONI - L'arma segreta
         const TeamAliasMap = {
             "viking": "Viking FK", "viking fk": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
             "bayern monaco": "Bayern Munich", "bayern": "Bayern Munich", "stella rossa": "Crvena zvezda", 
@@ -245,24 +244,30 @@
                 throw new Error(`Connessione all'endpoint fallita: ${err.message}`);
             }
 
-            // RICERCA A CASCATA: Prima cerca il nome esatto
-            let teamObj = searchData.results?.find(r => r.type === 'team' && r.entity?.name.toLowerCase() === queryName.toLowerCase());
+            // ADATTAMENTO ALLA NUOVA STRUTTURA JSON (searchData.teams)
+            let teams = searchData.teams || [];
             
-            // Se non trova il nome esatto, cerca se il nome "contiene" la query
-            if (!teamObj && searchData.results) {
-                teamObj = searchData.results.find(r => r.type === 'team' && r.entity?.name.toLowerCase().includes(queryName.toLowerCase()));
+            // Filtro sicuro: prendiamo solo squadre che hanno lo sport Football
+            let footballTeams = teams.filter(t => t.sport && t.sport.name === 'Football');
+            
+            // 1. Cerca il nome esatto
+            let teamObj = footballTeams.find(t => t.name.toLowerCase() === queryName.toLowerCase());
+            
+            // 2. Se non trova il nome esatto, cerca se lo contiene
+            if (!teamObj && footballTeams.length > 0) {
+                teamObj = footballTeams.find(t => t.name.toLowerCase().includes(queryName.toLowerCase()));
             }
 
-            // Se fallisce ancora, prende il PRIMO team che capita nella lista
-            if (!teamObj && searchData.results) {
-                teamObj = searchData.results.find(r => r.type === 'team');
+            // 3. Come ultima risorsa, prende la prima squadra di calcio della lista
+            if (!teamObj && footballTeams.length > 0) {
+                teamObj = footballTeams[0];
             }
             
             if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Controlla di aver scritto bene il nome.`);
             
-            let teamId = teamObj.entity.id;
-            let actualName = teamObj.entity.name;
-            let country = teamObj.entity.category?.name || "Unknown";
+            let teamId = teamObj.id;
+            let actualName = teamObj.name;
+            let country = teamObj.country?.name || "Unknown";
             let tierData = getTierData(country);
 
             await delay(800);
