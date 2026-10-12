@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V7.1 - Diagnostic ELO</title>
+    <title>BETBAR | Scouting Engine V8 - Final ELO</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -21,7 +21,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v7 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v8 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -93,35 +93,31 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v7">V7.1 DIAGNOSTIC</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v8">V8 FINAL ELO</span></div>
         <div class="api-status">
             <div class="api-dot"></div>
             SOFASCORE DATA
         </div>
     </div>
 
-    <!-- AREA RICERCA -->
     <div class="search-container">
         <div class="search-box">
             <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Viking">
+            <input type="text" id="input-home" class="search-input" placeholder="Es. Atalanta">
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
-            <input type="text" id="input-away" class="search-input" placeholder="Es. Bayern Munich">
+            <input type="text" id="input-away" class="search-input" placeholder="Es. Bayern Monaco">
         </div>
-        <button class="btn-scout" onclick="runScoutingEngine()">Analizza Match</button>
+        <button class="btn-scout" onclick="runScoutingEngine()">Analizza ELO</button>
     </div>
 
-    <!-- LOADER -->
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Interrogazione Server...</div>
+        <div class="loader-text" id="loader-log">Connessione Database e Traduzione Nomi...</div>
     </div>
 
-    <!-- DASHBOARD OUTPUT -->
     <div class="dashboard" id="dashboard">
-        
         <div class="match-arena">
             <div class="team-col" id="col-home">
                 <div class="tc-malus" id="ui-home-malus">-15 Punti ELO</div>
@@ -133,7 +129,6 @@
 
             <div class="h2h-col">
                 <div class="h2h-title">📊 Statistiche Pesate ELO</div>
-                
                 <div class="h2h-row">
                     <div class="h2h-val" id="h2h-pi-h">0.0</div>
                     <div class="h2h-lbl">Power Index Reale</div>
@@ -198,7 +193,16 @@
 
         // DIZIONARIO TRADUZIONI 
         const TeamAliasMap = {
-            "bayern monaco": "Bayern Munich", "stella rossa": "Crvena zvezda", "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", "borussia dortmund": "Borussia Dortmund", "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", "sporting lisbona": "Sporting", "sporting cp": "Sporting", "manchester utd": "Manchester United", "man city": "Manchester City", "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", "eintracht francoforte": "Eintracht Frankfurt", "lione": "Lyon", "olympique lione": "Lyon", "marsiglia": "Marseille", "olympique marsiglia": "Marseille", "lilla": "Lille", "nizza": "Nice", "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", "shakhtar donetsk": "Shakhtar Donetsk", "bodo glimt": "Bodø/Glimt", "bodo/glimt": "Bodø/Glimt", "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", "besiktas": "Beşiktaş", "basilea": "Basel", "stella rossa belgrado": "Crvena zvezda", "dinamo kiev": "Dynamo Kyiv"
+            "bayern monaco": "Bayern Munich", "stella rossa": "Crvena zvezda", "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", 
+            "borussia dortmund": "Borussia Dortmund", "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", 
+            "sporting lisbona": "Sporting", "sporting cp": "Sporting", "manchester utd": "Manchester United", 
+            "man city": "Manchester City", "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", 
+            "eintracht francoforte": "Eintracht Frankfurt", "lione": "Lyon", "olympique lione": "Lyon", 
+            "marsiglia": "Marseille", "olympique marsiglia": "Marseille", "lilla": "Lille", "nizza": "Nice", 
+            "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", "shakhtar donetsk": "Shakhtar Donetsk", 
+            "bodo glimt": "Bodø/Glimt", "bodo/glimt": "Bodø/Glimt", "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", 
+            "besiktas": "Beşiktaş", "basilea": "Basel", "stella rossa belgrado": "Crvena zvezda", "dinamo kiev": "Dynamo Kyiv",
+            "atletico madrid": "Atlético Madrid"
         };
 
         const LeagueTiers = {
@@ -216,19 +220,13 @@
 
         function setLog(text) { document.getElementById('loader-log').textContent = text; }
 
-        // ==========================================
-        // FETCH SICURO CON AUTO-DISCOVERY E CATTURA TESTO
-        // ==========================================
         async function fetchAPI(url) {
             let res = await fetch(url, apiOptions);
-            let text = await res.text(); // Catturiamo il testo invece di forzare il .json()
-            
-            if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto su RapidAPI.");
+            let text = await res.text(); 
+            if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto.");
             if (!res.ok) throw new Error(`Errore Server (${res.status}). Dettaglio: ${text.substring(0, 80)}`);
-            if (!text || text.trim() === "") throw new Error(`Il server ha risposto con una pagina vuota all'indirizzo: ${url}`);
-            
-            try { return JSON.parse(text); } 
-            catch (e) { throw new Error(`Il server non ha restituito JSON. Ha restituito questo testo grezzo: ${text.substring(0, 150)}...`); }
+            if (!text || text.trim() === "") throw new Error(`Il server ha restituito una pagina vuota.`);
+            try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta non valida dal server.`); }
         }
 
         async function fetchTeamStats(teamName) {
@@ -236,22 +234,20 @@
             let queryName = TeamAliasMap[cleanInput] || teamName.trim();
             setLog(`Ricerca nel database per: ${queryName}...`);
             
+            // UTILIZZO ENDPOINT 3 (Quello che ha funzionato nel test diagnostico)
+            let searchUrl = `https://${API_HOST}/auto-complete?query=${encodeURIComponent(queryName)}`;
             let searchData;
+            
             try {
-                // Tenta Endpoint 1 (Standard)
-                searchData = await fetchAPI(`https://${API_HOST}/search?query=${encodeURIComponent(queryName)}`);
-            } catch (err1) {
-                try {
-                    // Tenta Endpoint 2 (V1 Api Dojo)
-                    searchData = await fetchAPI(`https://${API_HOST}/api/v1/search/all?query=${encodeURIComponent(queryName)}`);
-                } catch (err2) {
-                    throw new Error(`Ricerca Fallita.\nEndpoint 1: ${err1.message}\nEndpoint 2: ${err2.message}`);
-                }
+                searchData = await fetchAPI(searchUrl);
+            } catch (err) {
+                throw new Error(`Connessione all'endpoint fallita: ${err.message}`);
             }
 
+            // Ricerca nei risultati per tipo 'team'
             let teamObj = searchData.results?.find(r => r.type === 'team' && r.entity?.name.toLowerCase().includes(queryName.toLowerCase()));
             if(!teamObj && searchData.results) teamObj = searchData.results.find(r => r.type === 'team');
-            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Riprova con un nome internazionale o più corto.`);
+            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Riprova con il nome internazionale esatto.`);
             
             let teamId = teamObj.entity.id;
             let actualName = teamObj.entity.name;
@@ -261,19 +257,9 @@
             await delay(800);
             setLog(`Estrazione ultimi match per ${actualName} (${country})...`);
 
-            let matchData;
-            try {
-                matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
-            } catch (err3) {
-                try {
-                    // Tenta Endpoint Eventi V1
-                    matchData = await fetchAPI(`https://${API_HOST}/api/v1/team/${teamId}/events/last`);
-                } catch (err4) {
-                    throw new Error(`Fallito recupero match.\nErrore: ${err3.message}`);
-                }
-            }
-            
+            let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
             let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
+            
             if(!events || events.length === 0) throw new Error(`Nessun match ufficiale recente per ${actualName}.`);
 
             let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
@@ -390,7 +376,7 @@
 
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                alert(`⚠️ ERRORE DIAGNOSTICO:\n\n${error.message}`);
+                alert(`⚠️ ERRORE:\n\n${error.message}`);
             }
         }
 
