@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V6.1 - Strict Data</title>
+    <title>BETBAR | Scouting Engine V7 - Smart ELO</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -18,7 +18,6 @@
             --accent-red: #ff3366;  
             --accent-gold: #fbbf24;
             --neon-green: #22c55e;
-            --border-glow: rgba(0, 240, 255, 0.3);
         }
 
         * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
@@ -28,7 +27,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v6 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v7 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -101,7 +100,7 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v6">V6.1 STRICT DATA</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v7">V7 TRANSLATOR + ELO</span></div>
         <div class="api-status">
             <div class="api-dot"></div>
             SOFASCORE DATA
@@ -116,7 +115,7 @@
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
-            <input type="text" id="input-away" class="search-input" placeholder="Es. Bayern Munich">
+            <input type="text" id="input-away" class="search-input" placeholder="Es. Bayern Monaco">
         </div>
         <button class="btn-scout" onclick="runScoutingEngine()">Analizza ELO</button>
     </div>
@@ -124,7 +123,7 @@
     <!-- LOADER -->
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Connessione Server UEFA...</div>
+        <div class="loader-text" id="loader-log">Connessione Database e Traduzione Nomi...</div>
     </div>
 
     <!-- DASHBOARD OUTPUT -->
@@ -204,6 +203,42 @@
         const delay = ms => new Promise(res => setTimeout(res, ms));
         let myRadarChart = null;
 
+        // DIZIONARIO TRADUZIONI ITALIANO -> NOMI INTERNAZIONALI
+        const TeamAliasMap = {
+            "bayern monaco": "Bayern Munich",
+            "stella rossa": "Crvena zvezda",
+            "lipsia": "RB Leipzig",
+            "rb lipsia": "RB Leipzig",
+            "borussia dortmund": "Borussia Dortmund",
+            "psg": "Paris Saint-Germain",
+            "paris saint germain": "Paris Saint-Germain",
+            "sporting lisbona": "Sporting",
+            "sporting cp": "Sporting",
+            "manchester utd": "Manchester United",
+            "man city": "Manchester City",
+            "bayer leverkusen": "Bayer Leverkusen",
+            "stoccarda": "VfB Stuttgart",
+            "eintracht francoforte": "Eintracht Frankfurt",
+            "lione": "Lyon",
+            "olympique lione": "Lyon",
+            "marsiglia": "Marseille",
+            "olympique marsiglia": "Marseille",
+            "lilla": "Lille",
+            "nizza": "Nice",
+            "siviglia": "Sevilla",
+            "bruges": "Club Brugge",
+            "shakhtar": "Shakhtar Donetsk",
+            "shakhtar donetsk": "Shakhtar Donetsk",
+            "bodo glimt": "Bodø/Glimt",
+            "bodo/glimt": "Bodø/Glimt",
+            "galatasaray": "Galatasaray",
+            "fenerbahce": "Fenerbahçe",
+            "besiktas": "Beşiktaş",
+            "basilea": "Basel",
+            "stella rossa belgrado": "Crvena zvezda",
+            "dinamo kiev": "Dynamo Kyiv"
+        };
+
         const LeagueTiers = {
             "England": 1, "Spain": 1, "Germany": 1, "Italy": 1,
             "France": 2, "Netherlands": 2, "Portugal": 2, "Belgium": 2, "Brazil": 2, "Argentina": 2,
@@ -224,20 +259,25 @@
         function setLog(text) { document.getElementById('loader-log').textContent = text; }
 
         async function fetchTeamStats(teamName) {
-            setLog(`Ricerca ID per ${teamName}...`);
-            let searchRes = await fetch(`https://${API_HOST}/search?query=${encodeURIComponent(teamName)}`, apiOptions);
+            // TRADUZIONE AUTOMATICA DEL NOME (Se presente nel dizionario)
+            let cleanInput = teamName.trim().toLowerCase();
+            let queryName = TeamAliasMap[cleanInput] || teamName.trim();
+
+            setLog(`Ricerca nel database per: ${queryName}...`);
+            let searchRes = await fetch(`https://${API_HOST}/search?query=${encodeURIComponent(queryName)}`, apiOptions);
             
             if (searchRes.status === 403 || searchRes.status === 401) {
-                throw new Error("Errore API Key. Controlla di esserti iscritto al piano Basic su RapidAPI.");
+                throw new Error("Errore API Key. Controlla il tuo account RapidAPI.");
             }
-            if (!searchRes.ok) throw new Error("Errore comunicazione con Sofascore.");
+            if (!searchRes.ok) throw new Error("Errore comunicazione con i server Sofascore.");
             
             let searchData = await searchRes.json();
-            let teamObj = searchData.results?.find(r => r.type === 'team' && r.entity?.name.toLowerCase().includes(teamName.toLowerCase()));
+            
+            // Cerca match esatto, se non lo trova prende la prima "Squadra di calcio" che appare
+            let teamObj = searchData.results?.find(r => r.type === 'team' && r.entity?.name.toLowerCase().includes(queryName.toLowerCase()));
             if(!teamObj && searchData.results) teamObj = searchData.results.find(r => r.type === 'team');
             
-            // SE NON TROVA LA SQUADRA, ORA SI BLOCCA E RESTITUISCE ERRORE
-            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Prova a inserire il nome inglese (es: "Bayern Munich").`);
+            if(!teamObj) throw new Error(`Nessun risultato trovato per la squadra "${teamName}". Prova a usare un nome più semplice (Es. "Real" invece di "Real Madrid CF").`);
             
             let teamId = teamObj.entity.id;
             let actualName = teamObj.entity.name;
@@ -246,12 +286,12 @@
 
             await delay(800);
 
-            setLog(`Estrazione storici per ${actualName} (${country})...`);
+            setLog(`Estrazione ultimi 5 match per ${actualName} (${country})...`);
             let matchRes = await fetch(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`, apiOptions);
             let matchData = await matchRes.json();
             
             let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
-            if(!events || events.length === 0) throw new Error(`Nessun match recente trovato per ${actualName}`);
+            if(!events || events.length === 0) throw new Error(`Nessun match ufficiale recente trovato per ${actualName}.`);
 
             let form = [];
             let goalsScored = 0;
@@ -310,12 +350,12 @@
                 if (tierDiff > 0) {
                     hMalus = tierDiff * 15; 
                     hPower -= hMalus;
-                    reasons.push({ text: `🚨 ALLARME ELO: Il ${home.team.name} gioca in un campionato di ${tierDiff} categorie inferiore. Applicata penalità di -${hMalus} punti.`, type: 'alert'});
+                    reasons.push({ text: `🚨 PENALITÀ ELO: Il ${home.team.name} gioca in un campionato di ${tierDiff} categorie inferiore rispetto all'avversario. Subisce un Malus di -${hMalus} punti sul Power Index.`, type: 'alert'});
                 } else if (tierDiff < 0) {
                     let diffAbs = Math.abs(tierDiff);
                     aMalus = diffAbs * 15;
                     aPower -= aMalus;
-                    reasons.push({ text: `🚨 ALLARME ELO: L'${away.team.name} subisce un malus di -${aMalus} punti per dislivello campionati.`, type: 'alert'});
+                    reasons.push({ text: `🚨 PENALITÀ ELO: I dati dell'${away.team.name} vengono ridimensionati. Subisce un Malus di -${aMalus} punti per dislivello di campionato.`, type: 'alert'});
                 }
 
                 hPower = Math.max(10, hPower); 
@@ -334,7 +374,7 @@
                 const totalExpGoals = expGoalsHome + expGoalsAway;
 
                 const radarData = {
-                    labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio (PI)'],
+                    labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio Totale'],
                     home: [ hPower, Math.min(100, (expGoalsHome / 2.5) * 100), Math.max(0, 100 - (hWeightedConceded / 2.5) * 100), Math.max(0, hFormScore - hMalus), hPower ],
                     away: [ aPower, Math.min(100, (expGoalsAway / 2.5) * 100), Math.max(0, 100 - (aWeightedConceded / 2.5) * 100), Math.max(0, aFormScore - aMalus), aPower ]
                 };
@@ -345,21 +385,21 @@
 
                 if (diff > 15) {
                     prediction = "1"; confidence = 75 + (diff / 2);
-                    reasons.push({ text: `Dominio ELO del ${home.team.name} (PI: ${hPower.toFixed(1)} vs ${aPower.toFixed(1)}).`, type: 'normal' });
+                    reasons.push({ text: `Dominio ELO schiacciante a favore del ${home.team.name} (Punteggio Reale: ${hPower.toFixed(1)} vs ${aPower.toFixed(1)}).`, type: 'normal' });
                 } else if (diff < -15) {
                     prediction = "2"; confidence = 75 + (Math.abs(diff) / 2);
-                    reasons.push({ text: `L'${away.team.name} schiaccia l'avversario calcolando i veri valori delle leghe (PI: ${aPower.toFixed(1)} vs ${hPower.toFixed(1)}).`, type: 'normal' });
+                    reasons.push({ text: `L'${away.team.name} domina il match calcolando i veri valori delle leghe UEFA (Punteggio Reale: ${aPower.toFixed(1)} vs ${hPower.toFixed(1)}).`, type: 'normal' });
                 } else {
                     prediction = diff > 0 ? "1X" : "X2"; confidence = 78 - Math.abs(diff);
-                    reasons.push({ text: `Scontro bilanciato anche dopo le correzioni ELO. Consigliata la doppia chance.`, type: 'normal' });
+                    reasons.push({ text: `Le forze in campo, al netto dei coefficienti UEFA, si equivalgono. Si consiglia vivamente la doppia chance.`, type: 'normal' });
                 }
 
                 if (totalExpGoals > 2.8) {
                     prediction += " + OVER 1.5"; confidence += 5;
-                    reasons.push({ text: `xG Sintetico ELO altissimo: previsti ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' });
+                    reasons.push({ text: `xG Sintetico (Corretto ELO) indica un'alta probabilità di reti: attesi ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' });
                 } else if (totalExpGoals < 2.0) {
                     prediction += " + UNDER 3.5"; confidence += 5;
-                    reasons.push({ text: `Sfida bloccata. Difese solide al netto delle categorie, projection di ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' });
+                    reasons.push({ text: `Blocco tattico. Difese solide al netto delle categorie, projection matematica di soli ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' });
                 }
 
                 return {
@@ -398,7 +438,8 @@
 
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                alert("❌ ERRORE: " + error.message);
+                // Mostra un alert umano e chiaro per gli errori
+                alert(`⚠️ ERRORE MOTORE:\n\n${error.message}`);
             }
         }
 
