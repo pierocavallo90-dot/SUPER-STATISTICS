@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V10 - Master Unlock</title>
+    <title>BETBAR | Scouting Engine V11 - Follower Filter ELO</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -21,7 +21,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v10 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v11 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -93,7 +93,7 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v10">V10 MASTER API</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v11">V11 POPULARITY CORE</span></div>
         <div class="api-status">
             <div class="api-dot"></div>
             SOFASCORE DATA
@@ -103,7 +103,7 @@
     <div class="search-container">
         <div class="search-box">
             <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Atalanta">
+            <input type="text" id="input-home" class="search-input" placeholder="Es. Viking">
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
@@ -114,7 +114,7 @@
 
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Ricerca nell'Archivio Completo...</div>
+        <div class="loader-text" id="loader-log">Isolamento Squadra Principale...</div>
     </div>
 
     <div class="dashboard" id="dashboard">
@@ -193,21 +193,20 @@
 
         const TeamAliasMap = {
             "viking": "Viking FK", "viking fk": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
-            "bayern monaco": "Bayern Munich", "bayern": "Bayern Munich", "stella rossa": "Crvena zvezda", 
+            "bayern monaco": "FC Bayern München", "bayern": "FC Bayern München", "stella rossa": "Crvena zvezda", 
             "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", "borussia dortmund": "Borussia Dortmund", 
             "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", "sporting lisbona": "Sporting", 
             "sporting cp": "Sporting", "manchester utd": "Manchester United", "man city": "Manchester City", 
             "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", "eintracht francoforte": "Eintracht Frankfurt", 
             "lione": "Lyon", "olympique lione": "Lyon", "marsiglia": "Marseille", "olympique marsiglia": "Marseille", 
             "lilla": "Lille", "nizza": "Nice", "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", 
-            "shakhtar donetsk": "Shakhtar Donetsk", "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", 
-            "besiktas": "Beşiktaş", "basilea": "Basel", "stella rossa belgrado": "Crvena zvezda", "dinamo kiev": "Dynamo Kyiv", 
-            "atletico madrid": "Atlético Madrid", "milan": "AC Milan", "inter": "Inter", "juve": "Juventus", 
-            "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
+            "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", "besiktas": "Beşiktaş", "basilea": "Basel", 
+            "dinamo kiev": "Dynamo Kyiv", "atletico madrid": "Atlético Madrid", "milan": "AC Milan", "inter": "Inter", 
+            "juve": "Juventus", "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
         };
 
         const LeagueTiers = {
-            "England": 1, "Spain": 1, "Germany": 1, "Italy": 1,
+            "England": 1, "Spain": 1, "Germany": 1, "Italy": 1, "Europe": 1,
             "France": 2, "Netherlands": 2, "Portugal": 2, "Belgium": 2, "Brazil": 2, "Argentina": 2,
             "Turkey": 3, "Scotland": 3, "Switzerland": 3, "Austria": 3, "Greece": 3, "USA": 3,
             "Norway": 4, "Sweden": 4, "Denmark": 4, "Croatia": 4, "Serbia": 4, "Czech Republic": 4, "Poland": 4, "Ukraine": 4
@@ -225,7 +224,7 @@
             let res = await fetch(url, apiOptions);
             let text = await res.text(); 
             if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto.");
-            if (!res.ok) throw new Error(`Errore Server (${res.status}). Dettaglio: ${text.substring(0, 80)}`);
+            if (!res.ok) throw new Error(`Errore Server (${res.status}).`);
             if (!text || text.trim() === "") throw new Error(`Il server ha restituito una pagina vuota.`);
             try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta non valida dal server.`); }
         }
@@ -233,47 +232,35 @@
         async function fetchTeamStats(teamName) {
             let cleanInput = teamName.trim().toLowerCase();
             let queryName = TeamAliasMap[cleanInput] || teamName.trim();
-            setLog(`Ricerca nel database per: ${queryName}...`);
+            setLog(`Ricerca globale per: ${queryName}...`);
             
-            // L'ENDPOINT D'ORO (Test 3)
             let searchUrl = `https://${API_HOST}/teams/search?name=${encodeURIComponent(queryName)}`;
             let searchData;
             
             try {
                 searchData = await fetchAPI(searchUrl);
             } catch (err) {
-                throw new Error(`Connessione all'endpoint fallita: ${err.message}`);
+                throw new Error(`Connessione all'archivio fallita: ${err.message}`);
             }
 
-            // PARSER UNIVERSALE: Trova l'array di squadre ovunque esso sia (data, results, teams)
             let teamsList = [];
             if (Array.isArray(searchData.data)) teamsList = searchData.data;
             else if (Array.isArray(searchData.results)) teamsList = searchData.results;
             else if (Array.isArray(searchData.teams)) teamsList = searchData.teams;
             else {
-                // Ricerca approfondita: estrae qualsiasi array trovi
                 for (let key in searchData) {
                     if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; }
                 }
             }
             
-            // Filtra solo squadre di calcio (se il parametro sport esiste)
             let footballTeams = teamsList.filter(t => !t.sport || (t.sport && t.sport.name === 'Football'));
-            
-            // 1. Cerca il nome esatto
-            let teamObj = footballTeams.find(t => t.name && t.name.toLowerCase() === queryName.toLowerCase());
-            
-            // 2. Cerca per inclusione
-            if (!teamObj && footballTeams.length > 0) {
-                teamObj = footballTeams.find(t => t.name && t.name.toLowerCase().includes(queryName.toLowerCase()));
-            }
+            if(footballTeams.length === 0) throw new Error(`Nessuna squadra trovata per "${teamName}".`);
 
-            // 3. Prima risorsa disponibile
-            if (!teamObj && footballTeams.length > 0) {
-                teamObj = footballTeams[0];
-            }
+            // LA MAGIA: Ordina SEMPRE le squadre per numero di follower decrescenti.
+            // La prima sarà SEMPRE la squadra reale globale e non un'amatoriale.
+            footballTeams.sort((a, b) => (b.userCount || 0) - (a.userCount || 0));
             
-            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Controlla di aver scritto bene il nome.`);
+            let teamObj = footballTeams[0]; // Prende in automatico la regina assoluta della ricerca
             
             let teamId = teamObj.id || teamObj.entity?.id;
             let actualName = teamObj.name || teamObj.entity?.name;
@@ -281,7 +268,7 @@
             let tierData = getTierData(country);
 
             await delay(800);
-            setLog(`Estrazione ultimi match per ${actualName} (${country})...`);
+            setLog(`Calcolo dati di forma per ${actualName}...`);
 
             let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
             let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
