@@ -3,48 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V4 - Data Driven</title>
+    <title>BETBAR | Scouting Engine V9 - Schema Unlocked</title>
     
-    <!-- Importazione Chart.js per il Radar Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
-            --bg-base: #0f172a;
-            --bg-panel: #1e293b;
-            --bg-darker: #0b1120;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent-blue: #00f0ff; /* Ciano Home */
-            --accent-red: #ff3366;  /* Rosso Away */
-            --accent-gold: #fbbf24;
-            --neon-green: #22c55e;
-            --border-glow: rgba(0, 240, 255, 0.3);
+            --bg-base: #0f172a; --bg-panel: #1e293b; --bg-darker: #0b1120;
+            --text-main: #f8fafc; --text-muted: #94a3b8;
+            --accent-blue: #00f0ff; --accent-red: #ff3366;  
+            --accent-gold: #fbbf24; --neon-green: #22c55e; --neon-red: #ef4444;
         }
 
-        * { box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
-        
-        body { 
-            margin: 0; padding: 0; background-color: var(--bg-base); color: var(--text-main); 
-            min-height: 100vh; display: flex; flex-direction: column;
-        }
+        * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+        body { margin: 0; padding: 0; background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* HEADER & SEARCH */
-        .top-nav {
-            background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
-        }
+        .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
+        .logo-v9 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        .search-container {
-            display: flex; gap: 15px; background: var(--bg-panel); padding: 15px;
-            border-radius: 12px; margin: 20px auto; max-width: 1000px; width: 95%;
-            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 15px; border-radius: 12px; margin: 20px auto; max-width: 1000px; width: 95%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .search-box { flex: 1; display: flex; flex-direction: column; gap: 5px; }
         .search-lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase;}
         .search-input { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 6px; font-size: 1.1rem; font-weight: bold; outline: none;}
@@ -52,51 +34,44 @@
         .btn-scout { background: linear-gradient(90deg, var(--accent-gold), #eab308); color: #000; border: none; padding: 0 30px; border-radius: 6px; font-weight: 900; font-size: 1rem; text-transform: uppercase; cursor: pointer; transition: 0.2s;}
         .btn-scout:hover { filter: brightness(1.1); transform: translateY(-1px);}
 
-        /* LOADER */
         .loader-container { display: none; text-align: center; padding: 50px; flex-direction: column; align-items: center; gap: 15px;}
         .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         .loader-text { color: var(--accent-gold); font-family: monospace; font-weight: bold; font-size: 0.9rem;}
 
-        /* DASHBOARD (OUTPUT) */
         .dashboard { display: none; max-width: 1100px; margin: 0 auto; padding: 0 15px 40px 15px; width: 100%; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* MATCH ARENA (Cards + H2H Grid) */
         .match-arena { display: flex; gap: 15px; margin-bottom: 20px; align-items: stretch;}
         @media (max-width: 850px) { .match-arena { flex-direction: column; } }
         
-        .team-col { flex: 1; background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); text-align: center; display:flex; flex-direction:column; align-items:center; justify-content:center;}
-        .tc-name { font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; text-transform: uppercase;}
+        .team-col { flex: 1; background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); text-align: center; display:flex; flex-direction:column; align-items:center; justify-content:center; position: relative; overflow: hidden;}
+        .tc-name { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; z-index: 2;}
         .home-color { color: var(--accent-blue); text-shadow: 0 0 15px rgba(0,240,255,0.3);}
         .away-color { color: var(--accent-red); text-shadow: 0 0 15px rgba(255,51,102,0.3);}
         
-        .form-track { display: flex; gap: 5px; justify-content: center; margin-top: 15px;}
+        .tc-tier { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; color: var(--accent-gold); z-index: 2;}
+        .tc-malus { position: absolute; top: 10px; right: 10px; font-size: 0.8rem; background: rgba(239, 68, 68, 0.2); color: var(--neon-red); font-weight: bold; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--neon-red); display: none; z-index: 2;}
+
+        .form-track { display: flex; gap: 5px; justify-content: center; margin-top: 10px; z-index: 2;}
         .form-badge { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.8rem; font-weight: bold; color: #fff;}
         .form-w { background: var(--neon-green); }
         .form-d { background: var(--text-muted); }
         .form-l { background: var(--neon-red); }
 
-        /* GRIGLIA CENTRALE H2H */
         .h2h-col { flex: 1.2; background: var(--bg-darker); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 30px rgba(0,0,0,0.5);}
         .h2h-title { text-align: center; font-size: 0.8rem; color: var(--accent-gold); font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase;}
         .h2h-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed rgba(255,255,255,0.1);}
         .h2h-row:last-child { border-bottom: none; }
-        .h2h-val { font-size: 1.3rem; font-weight: 900; width: 60px; text-align: center; }
-        .h2h-lbl { font-size: 0.8rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; flex: 1; text-align: center;}
+        .h2h-val { font-size: 1.3rem; font-weight: 900; width: 60px; text-align: center; transition: 0.5s;}
+        .h2h-lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; flex: 1; text-align: center;}
         .val-win { color: var(--neon-green); text-shadow: 0 0 10px rgba(34,197,94,0.4);}
         .val-lose { color: var(--text-muted); opacity: 0.5; }
 
-        /* RADAR CHART CONTAINER */
         .radar-container { background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; justify-content: center; align-items: center;}
         .chart-wrapper { position: relative; width: 100%; max-width: 500px; height: 350px; }
 
-        /* LA SENTENZA (GOLDEN BET) */
-        .golden-bet-container {
-            background: linear-gradient(145deg, #151e2e, var(--bg-darker));
-            border: 2px solid var(--accent-gold); border-radius: 16px; padding: 30px; text-align: center;
-            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; position: relative;
-        }
+        .golden-bet-container { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; position: relative; }
         .gb-badge { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: var(--accent-gold); color: #000; padding: 4px 20px; font-weight: 900; font-size: 0.8rem; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; letter-spacing: 1px;}
         .gb-prediction { font-size: 3.5rem; font-weight: 900; color: #fff; margin: 20px 0 10px 0; line-height: 1.1; text-shadow: 0 0 20px rgba(255,255,255,0.2);}
         .gb-confidence { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);}
@@ -106,103 +81,93 @@
         .conf-low { background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red);}
         .conf-text { font-weight: bold; font-size: 0.9rem; }
 
-        /* MOTIVAZIONI AI */
         .ai-analysis { background: var(--bg-panel); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
         .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: 900; font-size: 1.1rem; color: var(--accent-gold);}
         .ai-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;}
         .ai-list li { display: flex; gap: 15px; background: var(--bg-darker); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent-gold); font-size: 0.95rem; line-height: 1.4;}
+        .ai-list li.ai-alert { border-left-color: var(--neon-red); background: rgba(239, 68, 68, 0.05); }
         .ai-list li::before { content: '🤖'; font-size: 1.2rem; }
-
+        .ai-list li.ai-alert::before { content: '🚨'; }
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> v4</div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v9">V9 SCHEMA UNLOCKED</span></div>
         <div class="api-status">
             <div class="api-dot"></div>
             SOFASCORE DATA
         </div>
     </div>
 
-    <!-- AREA RICERCA -->
     <div class="search-container">
         <div class="search-box">
             <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Inter">
+            <input type="text" id="input-home" class="search-input" placeholder="Es. Atalanta">
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
-            <input type="text" id="input-away" class="search-input" placeholder="Es. Juventus">
+            <input type="text" id="input-away" class="search-input" placeholder="Es. Bayern Monaco">
         </div>
-        <button class="btn-scout" onclick="runScoutingEngine()">Analizza</button>
+        <button class="btn-scout" onclick="runScoutingEngine()">Analizza ELO</button>
     </div>
 
-    <!-- LOADER -->
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Avvio Motore...</div>
+        <div class="loader-text" id="loader-log">Ricerca nel Database...</div>
     </div>
 
-    <!-- DASHBOARD OUTPUT -->
     <div class="dashboard" id="dashboard">
-        
-        <!-- MATCH ARENA -->
         <div class="match-arena">
-            <!-- HOME CARD -->
-            <div class="team-col">
+            <div class="team-col" id="col-home">
+                <div class="tc-malus" id="ui-home-malus">-15 Punti ELO</div>
                 <div class="tc-name home-color" id="ui-home-name">Team A</div>
-                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:bold;">STATO DI FORMA</div>
+                <div class="tc-tier" id="ui-home-tier">Tier</div>
+                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA BRUTA (NO MALUS)</div>
                 <div class="form-track" id="ui-home-form"></div>
             </div>
 
-            <!-- TABELLA H2H CENTRALE -->
             <div class="h2h-col">
-                <div class="h2h-title">📊 Statistiche Pure (Ultime 5)</div>
-                
+                <div class="h2h-title">📊 Statistiche Pesate ELO</div>
                 <div class="h2h-row">
-                    <div class="h2h-val" id="h2h-rate-h">0.0</div>
-                    <div class="h2h-lbl">Rating Sofascore</div>
-                    <div class="h2h-val" id="h2h-rate-a">0.0</div>
+                    <div class="h2h-val" id="h2h-pi-h">0.0</div>
+                    <div class="h2h-lbl">Power Index Reale</div>
+                    <div class="h2h-val" id="h2h-pi-a">0.0</div>
                 </div>
-                
                 <div class="h2h-row">
                     <div class="h2h-val" id="h2h-xg-h">0.0</div>
-                    <div class="h2h-lbl">xG Sintetico Atteso</div>
+                    <div class="h2h-lbl">xG Atteso (Valore)</div>
                     <div class="h2h-val" id="h2h-xg-a">0.0</div>
                 </div>
-
                 <div class="h2h-row">
                     <div class="h2h-val" id="h2h-gf-h">0.0</div>
-                    <div class="h2h-lbl">Gol Fatti (Media)</div>
+                    <div class="h2h-lbl">Efficacia Offensiva</div>
                     <div class="h2h-val" id="h2h-gf-a">0.0</div>
                 </div>
-
                 <div class="h2h-row">
                     <div class="h2h-val" id="h2h-gs-h">0.0</div>
-                    <div class="h2h-lbl">Gol Subiti (Media)</div>
+                    <div class="h2h-lbl">Solidità Difensiva</div>
                     <div class="h2h-val" id="h2h-gs-a">0.0</div>
                 </div>
             </div>
 
-            <!-- AWAY CARD -->
-            <div class="team-col">
+            <div class="team-col" id="col-away">
+                <div class="tc-malus" id="ui-away-malus">-15 Punti ELO</div>
                 <div class="tc-name away-color" id="ui-away-name">Team B</div>
-                <div style="font-size:0.75rem; color:var(--text-muted); font-weight:bold;">STATO DI FORMA</div>
+                <div class="tc-tier" id="ui-away-tier">Tier</div>
+                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA BRUTA (NO MALUS)</div>
                 <div class="form-track" id="ui-away-form"></div>
             </div>
         </div>
 
-        <!-- RADAR CHART -->
         <div class="radar-container">
             <div class="chart-wrapper">
                 <canvas id="radarChart"></canvas>
             </div>
         </div>
 
-        <!-- LA SENTENZA -->
         <div class="golden-bet-container">
-            <div class="gb-badge">LA SENTENZA ALGORITMICA</div>
+            <div class="gb-badge">LA SENTENZA (CORRETTA ELO)</div>
             <div class="gb-prediction" id="ui-prediction">-</div>
             <div class="gb-confidence">
                 <div class="conf-circle" id="ui-conf-circle"></div>
@@ -210,337 +175,284 @@
             </div>
         </div>
 
-        <!-- MOTIVAZIONI AI -->
         <div class="ai-analysis">
             <div class="ai-header">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Tracciamento Logica
+                Console di Calcolo ELO
             </div>
             <ul class="ai-list" id="ui-ai-reasons"></ul>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // CONFIGURAZIONE API RAPIDAPI (SOFASCORE)
-        // ==========================================
         const API_KEY = "768b184eb7mshaeaa81a195d2543p15a1d0jsnff4a155c9c37";
         const API_HOST = "sofascore.p.rapidapi.com";
-
         const apiOptions = { method: 'GET', headers: { 'x-rapidapi-key': API_KEY, 'x-rapidapi-host': API_HOST } };
         const delay = ms => new Promise(res => setTimeout(res, ms));
-        let myRadarChart = null; // Variabile globale per il grafico
+        let myRadarChart = null;
+
+        const TeamAliasMap = {
+            "viking": "Viking FK", "viking fk": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
+            "bayern monaco": "Bayern Munich", "bayern": "Bayern Munich", "stella rossa": "Crvena zvezda", 
+            "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", "borussia dortmund": "Borussia Dortmund", 
+            "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", "sporting lisbona": "Sporting", 
+            "sporting cp": "Sporting", "manchester utd": "Manchester United", "man city": "Manchester City", 
+            "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", "eintracht francoforte": "Eintracht Frankfurt", 
+            "lione": "Lyon", "olympique lione": "Lyon", "marsiglia": "Marseille", "olympique marsiglia": "Marseille", 
+            "lilla": "Lille", "nizza": "Nice", "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", 
+            "shakhtar donetsk": "Shakhtar Donetsk", "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", 
+            "besiktas": "Beşiktaş", "basilea": "Basel", "stella rossa belgrado": "Crvena zvezda", "dinamo kiev": "Dynamo Kyiv", 
+            "atletico madrid": "Atlético Madrid", "milan": "AC Milan", "inter": "Inter", "juve": "Juventus", 
+            "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
+        };
+
+        const LeagueTiers = {
+            "England": 1, "Spain": 1, "Germany": 1, "Italy": 1,
+            "France": 2, "Netherlands": 2, "Portugal": 2, "Belgium": 2, "Brazil": 2, "Argentina": 2,
+            "Turkey": 3, "Scotland": 3, "Switzerland": 3, "Austria": 3, "Greece": 3, "USA": 3,
+            "Norway": 4, "Sweden": 4, "Denmark": 4, "Croatia": 4, "Serbia": 4, "Czech Republic": 4, "Poland": 4, "Ukraine": 4
+        };
+
+        function getTierData(country) {
+            let t = LeagueTiers[country] || 4;
+            let label = t===1 ? `⭐ Elite (${country})` : t===2 ? `🛡️ Premium (${country})` : t===3 ? `⚔️ Standard (${country})` : `📉 Minor (${country})`;
+            return { tier: t, label: label };
+        }
 
         function setLog(text) { document.getElementById('loader-log').textContent = text; }
 
-        // ==========================================
-        // 1. DATA FETCHER & PARSER
-        // ==========================================
-        async function fetchTeamStats(teamName) {
-            try {
-                setLog(`Ricerca ID per ${teamName}...`);
-                let searchRes = await fetch(`https://${API_HOST}/search?query=${encodeURIComponent(teamName)}`, apiOptions);
-                if (!searchRes.ok) throw new Error("API Limit");
-                
-                let searchData = await searchRes.json();
-                let teamObj = searchData.results?.find(r => r.type === 'team' && r.entity?.name.toLowerCase().includes(teamName.toLowerCase()));
-                if(!teamObj && searchData.results) teamObj = searchData.results.find(r => r.type === 'team');
-                if(!teamObj) throw new Error("Non trovato");
-                
-                let teamId = teamObj.entity.id;
-                let actualName = teamObj.entity.name;
-                await delay(800);
-
-                setLog(`Estrazione dati storici per ${actualName}...`);
-                let matchRes = await fetch(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`, apiOptions);
-                let matchData = await matchRes.json();
-                
-                let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
-                if(!events || events.length === 0) throw new Error("Nessun match");
-
-                let form = [];
-                let goalsScored = 0;
-                let goalsConceded = 0;
-                let points = 0;
-
-                events.forEach(ev => {
-                    let isHome = ev.homeTeam.id === teamId;
-                    let scored = isHome ? ev.homeScore.current : ev.awayScore.current;
-                    let conceded = isHome ? ev.awayScore.current : ev.homeScore.current;
-                    
-                    goalsScored += scored;
-                    goalsConceded += conceded;
-
-                    if (scored > conceded) { form.push('W'); points += 3; }
-                    else if (scored === conceded) { form.push('D'); points += 1; }
-                    else { form.push('L'); }
-                });
-
-                let winRatio = points / 15; 
-                let avgScored = goalsScored / events.length;
-                let rating = 6.4 + (winRatio * 1.2) + (avgScored * 0.2);
-
-                return {
-                    team: { name: actualName },
-                    pregameForm: { avgRating: rating, form: form },
-                    stats: { goalsScored: avgScored, goalsConceded: (goalsConceded / events.length) }
-                };
-
-            } catch (error) {
-                console.warn(`Fallback simulato per ${teamName}`);
-                return generateSimulatedData(teamName);
-            }
+        async function fetchAPI(url) {
+            let res = await fetch(url, apiOptions);
+            let text = await res.text(); 
+            if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto.");
+            if (!res.ok) throw new Error(`Errore Server (${res.status}). Dettaglio: ${text.substring(0, 80)}`);
+            if (!text || text.trim() === "") throw new Error(`Il server ha restituito una pagina vuota.`);
+            try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta non valida dal server.`); }
         }
 
-        function generateSimulatedData(teamName) {
-            let name = teamName.trim().toUpperCase();
-            let seed = 0;
-            for(let i=0; i<name.length; i++) seed += name.charCodeAt(i);
+        async function fetchTeamStats(teamName) {
+            let cleanInput = teamName.trim().toLowerCase();
+            let queryName = TeamAliasMap[cleanInput] || teamName.trim();
+            setLog(`Ricerca nel database per: ${queryName}...`);
             
-            let rating = (6.40 + (seed % 100) / 100);
-            const results = ['W', 'D', 'L', 'W', 'W', 'D'];
-            let form = [];
-            for(let i=0; i<5; i++) form.push(results[(seed + i) % results.length]);
+            let searchUrl = `https://${API_HOST}/auto-complete?query=${encodeURIComponent(queryName)}`;
+            let searchData;
             
-            let gScored = (0.8 + (seed % 15) / 10);
-            let gConceded = (0.5 + (seed % 12) / 10);
+            try {
+                searchData = await fetchAPI(searchUrl);
+            } catch (err) {
+                throw new Error(`Connessione all'endpoint fallita: ${err.message}`);
+            }
+
+            // ADATTAMENTO ALLA NUOVA STRUTTURA JSON (searchData.teams)
+            let teams = searchData.teams || [];
+            
+            // Filtro sicuro: prendiamo solo squadre che hanno lo sport Football
+            let footballTeams = teams.filter(t => t.sport && t.sport.name === 'Football');
+            
+            // 1. Cerca il nome esatto
+            let teamObj = footballTeams.find(t => t.name.toLowerCase() === queryName.toLowerCase());
+            
+            // 2. Se non trova il nome esatto, cerca se lo contiene
+            if (!teamObj && footballTeams.length > 0) {
+                teamObj = footballTeams.find(t => t.name.toLowerCase().includes(queryName.toLowerCase()));
+            }
+
+            // 3. Come ultima risorsa, prende la prima squadra di calcio della lista
+            if (!teamObj && footballTeams.length > 0) {
+                teamObj = footballTeams[0];
+            }
+            
+            if(!teamObj) throw new Error(`Squadra "${teamName}" non trovata. Controlla di aver scritto bene il nome.`);
+            
+            let teamId = teamObj.id;
+            let actualName = teamObj.name;
+            let country = teamObj.country?.name || "Unknown";
+            let tierData = getTierData(country);
+
+            await delay(800);
+            setLog(`Estrazione ultimi match per ${actualName} (${country})...`);
+
+            let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
+            let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
+            
+            if(!events || events.length === 0) throw new Error(`Nessun match ufficiale recente per ${actualName}.`);
+
+            let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
+
+            events.forEach(ev => {
+                let isHome = ev.homeTeam.id === teamId;
+                let scored = isHome ? ev.homeScore.current : ev.awayScore.current;
+                let conceded = isHome ? ev.awayScore.current : ev.homeScore.current;
+                
+                goalsScored += scored; goalsConceded += conceded;
+                if (scored > conceded) { form.push('W'); points += 3; }
+                else if (scored === conceded) { form.push('D'); points += 1; }
+                else { form.push('L'); }
+            });
+
+            let winRatio = points / 15; 
+            let rawAvgScored = goalsScored / events.length;
+            let rawAvgConceded = goalsConceded / events.length;
+            let rawRating = 6.4 + (winRatio * 1.2) + (rawAvgScored * 0.2);
 
             return {
-                team: { name: teamName },
-                pregameForm: { avgRating: rating, form: form },
-                stats: { goalsScored: gScored, goalsConceded: gConceded }
+                team: { name: actualName, country: country, tier: tierData.tier, label: tierData.label },
+                pregameForm: { avgRating: rawRating, form: form },
+                stats: { rawScored: rawAvgScored, rawConceded: rawAvgConceded }
             };
         }
 
-        // ==========================================
-        // 2. IL MOTORE (Algoritmo Ponderato)
-        // ==========================================
         const ScoutingEngine = {
             calcMomentum: function(formArray) {
                 let pts = 0;
-                formArray.forEach((res, index) => {
-                    let weight = 1 + (index * 0.15); 
-                    if(res === 'W') pts += 3 * weight;
-                    if(res === 'D') pts += 1 * weight;
-                });
-                return Math.min(100, Math.max(10, (pts / 18) * 100)); 
+                formArray.forEach((res, index) => { let w = 1 + (index * 0.15); if(res === 'W') pts += 3 * w; if(res === 'D') pts += 1 * w; });
+                return (pts / 18) * 100; 
             },
 
             analyze: function(home, away) {
-                const hFormScore = this.calcMomentum(home.pregameForm.form);
-                const aFormScore = this.calcMomentum(away.pregameForm.form);
-                const hRate = home.pregameForm.avgRating;
-                const aRate = away.pregameForm.avgRating;
+                let reasons = [];
+                let hFormScore = this.calcMomentum(home.pregameForm.form);
+                let aFormScore = this.calcMomentum(away.pregameForm.form);
+                let hRate = home.pregameForm.avgRating;
+                let aRate = away.pregameForm.avgRating;
 
-                const hPower = ((hRate * 10) * 0.55) + (hFormScore * 0.45);
-                const aPower = ((aRate * 10) * 0.55) + (aFormScore * 0.45);
+                let hPower = ((hRate * 10) * 0.55) + (hFormScore * 0.45);
+                let aPower = ((aRate * 10) * 0.55) + (aFormScore * 0.45);
 
-                // xG Sintetico (Gol Fatti Team A incrociati con Gol Subiti Team B)
-                const expGoalsHome = (home.stats.goalsScored + away.stats.goalsConceded) / 2;
-                const expGoalsAway = (away.stats.goalsScored + home.stats.goalsConceded) / 2;
+                let tierDiff = home.team.tier - away.team.tier; 
+                let hMalus = 0; let aMalus = 0;
+
+                if (tierDiff > 0) {
+                    hMalus = tierDiff * 15; hPower -= hMalus;
+                    reasons.push({ text: `🚨 PENALITÀ ELO: Il ${home.team.name} subisce un Malus di -${hMalus} punti (Lega inferiore).`, type: 'alert'});
+                } else if (tierDiff < 0) {
+                    aMalus = Math.abs(tierDiff) * 15; aPower -= aMalus;
+                    reasons.push({ text: `🚨 PENALITÀ ELO: L'${away.team.name} subisce un Malus di -${aMalus} punti per dislivello di campionato.`, type: 'alert'});
+                }
+
+                hPower = Math.max(10, hPower); aPower = Math.max(10, aPower);
+
+                let hGoalMult = Math.max(0.3, Math.min(2.0, 1 - (tierDiff * 0.2))); 
+                let aGoalMult = Math.max(0.3, Math.min(2.0, 1 + (tierDiff * 0.2)));
+
+                const hWeightedScored = home.stats.rawScored * hGoalMult;
+                const aWeightedScored = away.stats.rawScored * aGoalMult;
+                const hWeightedConceded = home.stats.rawConceded / hGoalMult;
+                const aWeightedConceded = away.stats.rawConceded / aGoalMult;
+
+                const expGoalsHome = (hWeightedScored + aWeightedConceded) / 2;
+                const expGoalsAway = (aWeightedScored + hWeightedConceded) / 2;
                 const totalExpGoals = expGoalsHome + expGoalsAway;
 
-                // Calcoli Normalizzati per il Radar Chart (Scala 0-100)
                 const radarData = {
-                    labels: ['Attacco (xG)', 'Solidità Difensiva', 'Forma Recente', 'Rating Generale', 'Dominio (Power Index)'],
-                    home: [
-                        Math.min(100, (expGoalsHome / 2.5) * 100),
-                        Math.max(0, 100 - (home.stats.goalsConceded / 2.5) * 100),
-                        hFormScore,
-                        ((hRate - 6) / 2) * 100,
-                        hPower
-                    ],
-                    away: [
-                        Math.min(100, (expGoalsAway / 2.5) * 100),
-                        Math.max(0, 100 - (away.stats.goalsConceded / 2.5) * 100),
-                        aFormScore,
-                        ((aRate - 6) / 2) * 100,
-                        aPower
-                    ]
+                    labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio Totale'],
+                    home: [ hPower, Math.min(100, (expGoalsHome / 2.5) * 100), Math.max(0, 100 - (hWeightedConceded / 2.5) * 100), Math.max(0, hFormScore - hMalus), hPower ],
+                    away: [ aPower, Math.min(100, (expGoalsAway / 2.5) * 100), Math.max(0, 100 - (aWeightedConceded / 2.5) * 100), Math.max(0, aFormScore - aMalus), aPower ]
                 };
 
-                let prediction = "";
-                let confidence = 0;
-                let reasons = [];
-                let diff = hPower - aPower;
-                
-                if (diff > 10) {
-                    prediction = "1";
-                    confidence = 70 + (diff / 2);
-                    reasons.push(`Dominio statistico del ${home.team.name} (Power Index: ${hPower.toFixed(1)} vs ${aPower.toFixed(1)}).`);
-                } else if (diff < -10) {
-                    prediction = "2";
-                    confidence = 70 + (Math.abs(diff) / 2);
-                    reasons.push(`L'${away.team.name} sovrasta l'avversario per rating e stato di forma recente.`);
-                } else {
-                    prediction = diff > 0 ? "1X" : "X2";
-                    confidence = 75 - Math.abs(diff);
-                    reasons.push(`Equilibrio nel differenziale forma (${Math.abs(diff).toFixed(1)} pt). Necessaria doppia chance.`);
-                }
+                let prediction = ""; let confidence = 0; let diff = hPower - aPower;
 
-                if (totalExpGoals > 2.6) {
-                    prediction += " + OVER 1.5";
-                    confidence += 6;
-                    reasons.push(`Alta probabilità di reti. xG Sintetico totale atteso: ${totalExpGoals.toFixed(2)}.`);
-                } else if (totalExpGoals < 2.0) {
-                    prediction += " + UNDER 3.5";
-                    confidence += 5;
-                    reasons.push(`Difese ermetiche. Proiezione matematica di ${totalExpGoals.toFixed(2)} gol complessivi.`);
-                }
+                if (diff > 15) { prediction = "1"; confidence = 75 + (diff / 2); reasons.push({ text: `Dominio ELO del ${home.team.name} (PI: ${hPower.toFixed(1)} vs ${aPower.toFixed(1)}).`, type: 'normal' }); } 
+                else if (diff < -15) { prediction = "2"; confidence = 75 + (Math.abs(diff) / 2); reasons.push({ text: `L'${away.team.name} domina il match calcolando i veri valori delle leghe (PI: ${aPower.toFixed(1)} vs ${hPower.toFixed(1)}).`, type: 'normal' }); } 
+                else { prediction = diff > 0 ? "1X" : "X2"; confidence = 78 - Math.abs(diff); reasons.push({ text: `Forze equivalenti. Si consiglia vivamente la doppia chance.`, type: 'normal' }); }
 
-                if (expGoalsHome >= 1.15 && expGoalsAway >= 1.15) {
-                    prediction += " (GG)";
-                    confidence += 3;
-                    reasons.push(`xG Individuale > 1.15 per entrambe le formazioni.`);
-                }
+                if (totalExpGoals > 2.8) { prediction += " + OVER 1.5"; confidence += 5; reasons.push({ text: `xG Sintetico (Corretto ELO) indica attesi ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' }); } 
+                else if (totalExpGoals < 2.0) { prediction += " + UNDER 3.5"; confidence += 5; reasons.push({ text: `Blocco tattico. Projection matematica di soli ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' }); }
 
                 return {
-                    expGoalsHome, expGoalsAway, totalExpGoals,
-                    radarData: radarData,
-                    prediction: prediction,
-                    confidence: Math.min(95, Math.max(50, confidence)),
-                    reasons: reasons
+                    hPower, aPower, hMalus, aMalus, expGoalsHome, expGoalsAway, totalExpGoals, hWeightedScored, aWeightedScored,
+                    hDefensiveScore: Math.max(10, 100 - (hWeightedConceded / 2.5) * 100),
+                    aDefensiveScore: Math.max(10, 100 - (aWeightedConceded / 2.5) * 100),
+                    radarData: radarData, prediction: prediction, confidence: Math.min(95, Math.max(50, confidence)), reasons: reasons
                 };
             }
         };
 
-        // ==========================================
-        // 3. LOGICA DI CONTROLLO INTERFACCIA
-        // ==========================================
         async function runScoutingEngine() {
             let hInput = document.getElementById('input-home').value;
             let aInput = document.getElementById('input-away').value;
-            
             if(!hInput || !aInput) { alert("Inserisci entrambe le squadre."); return; }
 
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loader').style.display = 'flex';
             
-            setLog("Estrazione Statistiche e Rating...");
-            let homeData = await fetchTeamStats(hInput);
-            await delay(1000); 
-            let awayData = await fetchTeamStats(aInput);
-            
-            setLog("Elaborazione H2H e Matrice Radar...");
-            await delay(600); 
+            try {
+                let homeData = await fetchTeamStats(hInput);
+                await delay(1000); 
+                let awayData = await fetchTeamStats(aInput);
+                setLog("Calcolo Penalità ELO in corso...");
+                await delay(600); 
 
-            let analysis = ScoutingEngine.analyze(homeData, awayData);
-            
-            renderDashboard(homeData, awayData, analysis);
+                let analysis = ScoutingEngine.analyze(homeData, awayData);
+                renderDashboard(homeData, awayData, analysis);
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                drawRadarChart(homeData.team.name, awayData.team.name, analysis.radarData);
 
-            document.getElementById('loader').style.display = 'none';
-            document.getElementById('dashboard').style.display = 'block';
-            
-            drawRadarChart(homeData.team.name, awayData.team.name, analysis.radarData);
+            } catch (error) {
+                document.getElementById('loader').style.display = 'none';
+                alert(`⚠️ ERRORE MOTORE:\n\n${error.message}`);
+            }
         }
 
-        // Funzione per impostare valori H2H e colori
-        function setH2HRow(idH, idA, valH, valA, reverseColors = false) {
-            let elH = document.getElementById(idH);
-            let elA = document.getElementById(idA);
-            elH.textContent = valH.toFixed(2);
-            elA.textContent = valA.toFixed(2);
-            
+        function setH2HRow(idH, idA, valH, valA, isPercentage = false) {
+            let elH = document.getElementById(idH); let elA = document.getElementById(idA);
+            elH.textContent = isPercentage ? valH.toFixed(0) + '%' : valH.toFixed(2); 
+            elA.textContent = isPercentage ? valA.toFixed(0) + '%' : valA.toFixed(2);
             elH.className = 'h2h-val'; elA.className = 'h2h-val';
-            
-            let condition = reverseColors ? valH < valA : valH > valA;
             if (valH === valA) { /* draw */ }
-            else if (condition) { elH.classList.add('val-win'); elA.classList.add('val-lose'); }
+            else if (valH > valA) { elH.classList.add('val-win'); elA.classList.add('val-lose'); }
             else { elA.classList.add('val-win'); elH.classList.add('val-lose'); }
         }
 
         function renderDashboard(hData, aData, analysis) {
-            // Nomi
-            document.getElementById('ui-home-name').textContent = hData.team.name.toUpperCase();
-            document.getElementById('ui-away-name').textContent = aData.team.name.toUpperCase();
-
-            // Forma Visiva
+            document.getElementById('ui-home-name').textContent = hData.team.name;
+            document.getElementById('ui-home-tier').textContent = hData.team.label;
+            document.getElementById('ui-away-name').textContent = aData.team.name;
+            document.getElementById('ui-away-tier').textContent = aData.team.label;
             renderFormTrack('ui-home-form', hData.pregameForm.form);
             renderFormTrack('ui-away-form', aData.pregameForm.form);
 
-            // Popola Griglia H2H
-            setH2HRow('h2h-rate-h', 'h2h-rate-a', hData.pregameForm.avgRating, aData.pregameForm.avgRating);
-            setH2HRow('h2h-xg-h', 'h2h-xg-a', analysis.expGoalsHome, analysis.expGoalsAway);
-            setH2HRow('h2h-gf-h', 'h2h-gf-a', hData.stats.goalsScored, aData.stats.goalsScored);
-            setH2HRow('h2h-gs-h', 'h2h-gs-a', hData.stats.goalsConceded, aData.stats.goalsConceded, true); // Reverse per i gol subiti (meno è meglio)
+            let hMalusEl = document.getElementById('ui-home-malus');
+            if(analysis.hMalus > 0) { hMalusEl.style.display = 'block'; hMalusEl.textContent = `-${analysis.hMalus} Punti ELO`; } else { hMalusEl.style.display = 'none'; }
+            let aMalusEl = document.getElementById('ui-away-malus');
+            if(analysis.aMalus > 0) { aMalusEl.style.display = 'block'; aMalusEl.textContent = `-${analysis.aMalus} Punti ELO`; } else { aMalusEl.style.display = 'none'; }
 
-            // La Sentenza
+            setH2HRow('h2h-pi-h', 'h2h-pi-a', analysis.hPower, analysis.aPower);
+            setH2HRow('h2h-xg-h', 'h2h-xg-a', analysis.expGoalsHome, analysis.expGoalsAway);
+            setH2HRow('h2h-gf-h', 'h2h-gf-a', analysis.hWeightedScored, analysis.aWeightedScored);
+            setH2HRow('h2h-gs-h', 'h2h-gs-a', analysis.hDefensiveScore, analysis.aDefensiveScore, true); 
+
             document.getElementById('ui-prediction').textContent = analysis.prediction;
-            document.getElementById('ui-conf-text').textContent = `Fiducia Algoritmo: ${analysis.confidence.toFixed(1)}%`;
+            document.getElementById('ui-conf-text').textContent = `Fiducia Motore: ${analysis.confidence.toFixed(1)}%`;
             
-            let circle = document.getElementById('ui-conf-circle');
-            circle.className = 'conf-circle';
+            let circle = document.getElementById('ui-conf-circle'); circle.className = 'conf-circle';
             if(analysis.confidence >= 75) circle.classList.add('conf-high');
             else if(analysis.confidence >= 60) circle.classList.add('conf-med');
             else circle.classList.add('conf-low');
 
             let reasonsHtml = '';
-            analysis.reasons.forEach(r => { reasonsHtml += `<li>${r}</li>`; });
+            analysis.reasons.forEach(r => { let cls = r.type === 'alert' ? 'ai-alert' : ''; reasonsHtml += `<li class="${cls}">${r.text}</li>`; });
             document.getElementById('ui-ai-reasons').innerHTML = reasonsHtml;
         }
 
         function renderFormTrack(containerId, formArray) {
-            let html = '';
-            formArray.forEach(res => {
-                let cls = res === 'W' ? 'form-w' : (res === 'D' ? 'form-d' : 'form-l');
-                html += `<div class="form-badge ${cls}">${res}</div>`;
-            });
+            let html = ''; formArray.forEach(res => { let cls = res === 'W' ? 'form-w' : (res === 'D' ? 'form-d' : 'form-l'); html += `<div class="form-badge ${cls}">${res}</div>`; });
             document.getElementById(containerId).innerHTML = html;
         }
 
-        // ==========================================
-        // 4. GENERAZIONE RADAR CHART (Chart.js)
-        // ==========================================
         function drawRadarChart(homeName, awayName, radarData) {
             const ctx = document.getElementById('radarChart').getContext('2d');
-            
-            // Distruggi il grafico vecchio se esiste
-            if (myRadarChart) { myRadarChart.destroy(); }
-
-            Chart.defaults.color = '#94a3b8';
-            Chart.defaults.font.family = 'Inter';
+            if (myRadarChart) myRadarChart.destroy();
+            Chart.defaults.color = '#94a3b8'; Chart.defaults.font.family = 'Inter';
 
             myRadarChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: radarData.labels,
-                    datasets: [
-                        {
-                            label: homeName.toUpperCase(),
-                            data: radarData.home,
-                            backgroundColor: 'rgba(0, 240, 255, 0.2)',
-                            borderColor: '#00f0ff',
-                            pointBackgroundColor: '#00f0ff',
-                            pointBorderColor: '#fff',
-                            borderWidth: 2
-                        },
-                        {
-                            label: awayName.toUpperCase(),
-                            data: radarData.away,
-                            backgroundColor: 'rgba(255, 51, 102, 0.2)',
-                            borderColor: '#ff3366',
-                            pointBackgroundColor: '#ff3366',
-                            pointBorderColor: '#fff',
-                            borderWidth: 2
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            pointLabels: { font: { size: 12, weight: 'bold' }, color: '#f8fafc' },
-                            ticks: { display: false, min: 0, max: 100 }
-                        }
-                    },
-                    plugins: {
-                        legend: { position: 'top', labels: { color: '#f8fafc', font: { weight: 'bold', size: 14 } } },
-                        tooltip: { backgroundColor: '#1e293b', titleColor: '#fbbf24', bodyFont: { size: 14 } }
-                    }
-                }
+                type: 'radar', data: { labels: radarData.labels, datasets: [
+                        { label: homeName.toUpperCase(), data: radarData.home, backgroundColor: 'rgba(0, 240, 255, 0.2)', borderColor: '#00f0ff', pointBackgroundColor: '#00f0ff', pointBorderColor: '#fff', borderWidth: 2 },
+                        { label: awayName.toUpperCase(), data: radarData.away, backgroundColor: 'rgba(255, 51, 102, 0.2)', borderColor: '#ff3366', pointBackgroundColor: '#ff3366', pointBorderColor: '#fff', borderWidth: 2 }
+                    ]},
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: 'rgba(255, 255, 255, 0.1)' }, grid: { color: 'rgba(255, 255, 255, 0.1)' }, pointLabels: { font: { size: 12, weight: 'bold' }, color: '#f8fafc' }, ticks: { display: false, min: 0, max: 100 } } }, plugins: { legend: { position: 'top', labels: { color: '#f8fafc', font: { weight: 'bold', size: 14 } } }, tooltip: { backgroundColor: '#1e293b', titleColor: '#fbbf24', bodyFont: { size: 14 } } } }
             });
         }
     </script>
