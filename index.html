@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V12 - Pro Tipster</title>
+    <title>BETBAR | Scouting Engine V13 - Time-Sync Core</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -21,7 +21,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v12 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v13 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -71,7 +71,6 @@
         .radar-container { background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; justify-content: center; align-items: center;}
         .chart-wrapper { position: relative; width: 100%; max-width: 500px; height: 350px; }
 
-        /* NUOVA UI: TOP 5 BETS */
         .top-bets-container { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; }
         .tb-header { text-align: center; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
         
@@ -106,25 +105,25 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v12">V12 PRO TIPSTER</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v13">V13 TIME-SYNC</span></div>
         <div class="api-status"><div class="api-dot"></div> SOFASCORE DATA</div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
             <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Atalanta">
+            <input type="text" id="input-home" class="search-input" placeholder="Es. Atletico Madrid">
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
-            <input type="text" id="input-away" class="search-input" placeholder="Es. Roma">
+            <input type="text" id="input-away" class="search-input" placeholder="Es. Manchester United">
         </div>
         <button class="btn-scout" onclick="runScoutingEngine()">Elabora Quote</button>
     </div>
 
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Generazione Matrice ELO...</div>
+        <div class="loader-text" id="loader-log">Allineamento Temporale Dati...</div>
     </div>
 
     <div class="dashboard" id="dashboard">
@@ -133,7 +132,7 @@
                 <div class="tc-malus" id="ui-home-malus">-15 Punti ELO</div>
                 <div class="tc-name home-color" id="ui-home-name">Team A</div>
                 <div class="tc-tier" id="ui-home-tier">Tier</div>
-                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA BRUTA (NO MALUS)</div>
+                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA RECENTE</div>
                 <div class="form-track" id="ui-home-form"></div>
             </div>
 
@@ -165,7 +164,7 @@
                 <div class="tc-malus" id="ui-away-malus">-15 Punti ELO</div>
                 <div class="tc-name away-color" id="ui-away-name">Team B</div>
                 <div class="tc-tier" id="ui-away-tier">Tier</div>
-                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA BRUTA (NO MALUS)</div>
+                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA RECENTE</div>
                 <div class="form-track" id="ui-away-form"></div>
             </div>
         </div>
@@ -228,7 +227,6 @@
 
         function setLog(text) { document.getElementById('loader-log').textContent = text; }
 
-        // DISTRIBUZIONE DI POISSON (Per calcolo Risultato Esatto e Gol)
         function poisson(k, lambda) {
             let p = Math.exp(-lambda);
             for(let i=1; i<=k; i++) p *= (lambda/i);
@@ -252,22 +250,21 @@
             let searchUrl = `https://${API_HOST}/teams/search?name=${encodeURIComponent(queryName)}`;
             let searchData;
             
-            try {
-                searchData = await fetchAPI(searchUrl);
-            } catch (err) {
-                throw new Error(`Connessione all'archivio fallita: ${err.message}`);
-            }
+            try { searchData = await fetchAPI(searchUrl); } 
+            catch (err) { throw new Error(`Connessione all'archivio fallita: ${err.message}`); }
 
             let teamsList = [];
             if (Array.isArray(searchData.data)) teamsList = searchData.data;
             else if (Array.isArray(searchData.results)) teamsList = searchData.results;
             else if (Array.isArray(searchData.teams)) teamsList = searchData.teams;
-            else {
-                for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } }
-            }
+            else { for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } } }
             
-            let footballTeams = teamsList.filter(t => !t.sport || (t.sport && t.sport.name === 'Football'));
-            if(footballTeams.length === 0) throw new Error(`Nessuna squadra trovata per "${teamName}".`);
+            // LUCCHETTO GENERE: Assicura di prendere solo team Maschili se il dato è presente (ignora le donne "F")
+            let footballTeams = teamsList.filter(t => 
+                (!t.sport || (t.sport && t.sport.name === 'Football')) && 
+                (!t.gender || t.gender === 'M')
+            );
+            if(footballTeams.length === 0) throw new Error(`Nessuna squadra maschile trovata per "${teamName}".`);
 
             footballTeams.sort((a, b) => (b.userCount || 0) - (a.userCount || 0));
             let teamObj = footballTeams[0]; 
@@ -278,18 +275,31 @@
             let tierData = getTierData(country);
 
             await delay(800);
-            setLog(`Calcolo dati di forma per ${actualName}...`);
+            setLog(`Calcolo sincronizzato forma per ${actualName}...`);
 
             let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
-            let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
+            
+            // TIMESTAMPS SORTER: Filtra i match finiti e li ordina dal PIÙ RECENTE al più vecchio
+            let allFinishedEvents = matchData.events?.filter(e => e.status.type === 'finished') || [];
+            allFinishedEvents.sort((a, b) => b.startTimestamp - a.startTimestamp);
+            
+            // Estrae solo gli ultimi 5 in ordine temporale reale
+            let events = allFinishedEvents.slice(0, 5);
+            
             if(!events || events.length === 0) throw new Error(`Nessun match ufficiale recente per ${actualName}.`);
 
             let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
 
-            events.forEach(ev => {
+            // Dato che 'events' è ordinato dal più recente (index 0) al più vecchio (index 4)
+            // e noi vogliamo renderizzarli da sinistra (più vecchio) a destra (più recente),
+            // inverto l'array prima di processarlo per l'estetica della UI
+            let chronologicalEvents = [...events].reverse();
+
+            chronologicalEvents.forEach(ev => {
                 let isHome = ev.homeTeam.id === teamId;
                 let scored = isHome ? ev.homeScore.current : ev.awayScore.current;
                 let conceded = isHome ? ev.awayScore.current : ev.homeScore.current;
+                
                 goalsScored += scored; goalsConceded += conceded;
                 if (scored > conceded) { form.push('W'); points += 3; }
                 else if (scored === conceded) { form.push('D'); points += 1; }
@@ -316,48 +326,39 @@
                 let diff = hPower - aPower;
                 let totalXg = xgHome + xgAway;
                 
-                // 1. Mercato 1X2 & Doppie Chance (Base ELO)
                 if (diff > 18) bets.push({ market: "Esito Finale", pick: "1 Fisso", conf: Math.min(96, 70 + diff) });
                 if (diff > 8 && diff <= 18) bets.push({ market: "Doppia Chance", pick: "1X", conf: 85 + (diff/2) });
                 if (diff < -18) bets.push({ market: "Esito Finale", pick: "2 Fisso", conf: Math.min(96, 70 + Math.abs(diff)) });
                 if (diff < -8 && diff >= -18) bets.push({ market: "Doppia Chance", pick: "X2", conf: 85 + (Math.abs(diff)/2) });
                 
-                // 2. Handicap (Sbilanciamenti Estremi)
                 if (diff > 30) bets.push({ market: "Handicap Europeo", pick: "1 (H -1)", conf: 75 + (diff - 30) });
                 if (diff < -30) bets.push({ market: "Handicap Europeo", pick: "2 (H -1)", conf: 75 + (Math.abs(diff) - 30) });
 
-                // 3. Goal / No Goal
                 let bttsProb = (1 - poisson(0, xgHome)) * (1 - poisson(0, xgAway)) * 100;
                 if (bttsProb > 65) bets.push({ market: "Entrambe Segnano", pick: "GOAL", conf: bttsProb });
                 if (bttsProb < 40) bets.push({ market: "Entrambe Segnano", pick: "NO GOAL", conf: 100 - bttsProb });
 
-                // 4. Over / Under (Match)
                 let over25Prob = (1 - (poisson(0, totalXg) + poisson(1, totalXg) + poisson(2, totalXg))) * 100;
                 if (over25Prob > 60) bets.push({ market: "Goal Totali", pick: "OVER 2.5", conf: over25Prob + 5 });
                 if (totalXg > 3.5) bets.push({ market: "Goal Totali", pick: "OVER 3.5", conf: over25Prob - 15 });
                 if (over25Prob < 40) bets.push({ market: "Goal Totali", pick: "UNDER 2.5", conf: 100 - over25Prob });
                 if (totalXg < 2.0) bets.push({ market: "Goal Totali", pick: "UNDER 3.5", conf: 85 });
 
-                // 5. Over Squadra Singola
                 if (xgHome > 1.8) bets.push({ market: "Goal Squadra Casa", pick: "OVER 1.5 CASA", conf: 70 + (xgHome * 10) });
                 if (xgAway > 1.8) bets.push({ market: "Goal Squadra Ospite", pick: "OVER 1.5 OSPITE", conf: 70 + (xgAway * 10) });
 
-                // 6. Multigoal
                 if (totalXg >= 2.0 && totalXg <= 3.5) bets.push({ market: "Multigoal Match", pick: "2-4 GOAL", conf: 82 });
                 if (totalXg >= 1.5 && totalXg <= 2.5) bets.push({ market: "Multigoal Match", pick: "1-3 GOAL", conf: 80 });
 
-                // 7. Combo (Mix di Valore)
                 if (diff > 12 && over25Prob > 55) bets.push({ market: "Combo Match", pick: "1 + OVER 1.5", conf: Math.min(90, 60 + diff + (over25Prob/4)) });
                 if (diff < -12 && over25Prob > 55) bets.push({ market: "Combo Match", pick: "2 + OVER 1.5", conf: Math.min(90, 60 + Math.abs(diff) + (over25Prob/4)) });
                 if (diff > 8 && bttsProb < 45) bets.push({ market: "Combo Match", pick: "1X + NO GOAL", conf: 75 });
                 if (diff > -5 && diff < 5 && bttsProb > 60) bets.push({ market: "Combo Match", pick: "X o GOAL", conf: 80 });
 
-                // 8. Stima Corner e Tempi (Matematica Derivata)
                 let estCorners = 8 + (totalXg * 0.6) + (Math.abs(diff) / 12);
                 if (estCorners > 10.5) bets.push({ market: "Calci d'Angolo", pick: "OVER 8.5 CORNER", conf: 78 });
                 if (Math.abs(diff) > 20 && totalXg > 2.8) bets.push({ market: "Goal 1° Tempo", pick: "OVER 0.5 HT", conf: 88 });
 
-                // 9. Cluster Risultato Esatto (Calcolo probabilità combinata Poisson)
                 let scores = [];
                 for(let h=0; h<=3; h++) {
                     for(let a=0; a<=3; a++) {
@@ -368,9 +369,8 @@
                 scores.sort((a,b) => b.prob - a.prob);
                 let cluster = `${scores[0].score} / ${scores[1].score} / ${scores[2].score}`;
                 let clusterConf = scores[0].prob + scores[1].prob + scores[2].prob;
-                bets.push({ market: "Cluster Risultato Esatto", pick: cluster, conf: Math.min(85, clusterConf * 1.5) }); // Moltiplicatore visivo per renderlo comparabile
+                bets.push({ market: "Cluster Risultato Esatto", pick: cluster, conf: Math.min(85, clusterConf * 1.5) }); 
 
-                // Ordina per confidenza decrescente e rimuove duplicati simili (es. 1 Fisso e 1X)
                 bets.sort((a, b) => b.conf - a.conf);
                 
                 let finalBets = [];
@@ -378,7 +378,6 @@
                 
                 for(let b of bets) {
                     if(finalBets.length >= 5) break;
-                    // Evita di suggerire sia "1 Fisso" che "1X" per dare varietà alla Top 5
                     if(b.market === "Doppia Chance" && seenMarkets.has("Esito Finale")) continue;
                     if(b.market === "Goal Totali" && seenMarkets.has("Goal Totali")) continue; 
                     
@@ -424,7 +423,6 @@
                 const expGoalsAway = (aWeightedScored + hWeightedConceded) / 2;
                 const totalExpGoals = expGoalsHome + expGoalsAway;
 
-                // Generazione della Top 5 Bets
                 let topBets = this.generateTopBets(hPower, aPower, expGoalsHome, expGoalsAway);
 
                 reasons.push({ text: `La simulazione di Poisson prevede ${expGoalsHome.toFixed(2)} xG per la squadra di casa e ${expGoalsAway.toFixed(2)} xG per gli ospiti.`, type: 'normal' });
@@ -500,7 +498,6 @@
             setH2HRow('h2h-gf-h', 'h2h-gf-a', analysis.hWeightedScored, analysis.aWeightedScored);
             setH2HRow('h2h-gs-h', 'h2h-gs-a', analysis.hDefensiveScore, analysis.aDefensiveScore, true); 
 
-            // RENDER TOP 5 BETS
             let betsHtml = '';
             analysis.topBets.forEach((bet, index) => {
                 let rank = index + 1;
