@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V11 - Follower Filter ELO</title>
+    <title>BETBAR | Scouting Engine V12 - Pro Tipster</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -21,7 +21,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v11 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v12 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
@@ -71,15 +71,28 @@
         .radar-container { background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; justify-content: center; align-items: center;}
         .chart-wrapper { position: relative; width: 100%; max-width: 500px; height: 350px; }
 
-        .golden-bet-container { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 30px; text-align: center; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; position: relative; }
-        .gb-badge { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: var(--accent-gold); color: #000; padding: 4px 20px; font-weight: 900; font-size: 0.8rem; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; letter-spacing: 1px;}
-        .gb-prediction { font-size: 3.5rem; font-weight: 900; color: #fff; margin: 20px 0 10px 0; line-height: 1.1; text-shadow: 0 0 20px rgba(255,255,255,0.2);}
-        .gb-confidence { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.3); padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);}
-        .conf-circle { width: 12px; height: 12px; border-radius: 50%; }
-        .conf-high { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green);}
-        .conf-med { background: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold);}
-        .conf-low { background: var(--neon-red); box-shadow: 0 0 10px var(--neon-red);}
-        .conf-text { font-weight: bold; font-size: 0.9rem; }
+        /* NUOVA UI: TOP 5 BETS */
+        .top-bets-container { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; }
+        .tb-header { text-align: center; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        
+        .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden;}
+        .bet-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--text-muted); }
+        .bet-row[data-rank="1"]::before { background: var(--neon-green); box-shadow: 0 0 15px var(--neon-green);}
+        .bet-row[data-rank="2"]::before { background: var(--accent-blue); }
+        .bet-row[data-rank="3"]::before { background: var(--accent-gold); }
+        
+        .bet-info { display: flex; flex-direction: column; gap: 4px; z-index: 1;}
+        .bet-market { font-size: 0.75rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; }
+        .bet-pick { font-size: 1.4rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2);}
+        
+        .bet-conf { text-align: right; z-index: 1;}
+        .conf-val { font-size: 1.5rem; font-weight: 900; }
+        .conf-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold;}
+        
+        .conf-green { color: var(--neon-green); }
+        .conf-blue { color: var(--accent-blue); }
+        .conf-gold { color: var(--accent-gold); }
+        .conf-gray { color: var(--text-muted); }
 
         .ai-analysis { background: var(--bg-panel); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
         .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: 900; font-size: 1.1rem; color: var(--accent-gold);}
@@ -93,28 +106,25 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v11">V11 POPULARITY CORE</span></div>
-        <div class="api-status">
-            <div class="api-dot"></div>
-            SOFASCORE DATA
-        </div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v12">V12 PRO TIPSTER</span></div>
+        <div class="api-status"><div class="api-dot"></div> SOFASCORE DATA</div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
             <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Viking">
+            <input type="text" id="input-home" class="search-input" placeholder="Es. Atalanta">
         </div>
         <div class="search-box">
             <span class="search-lbl">Squadra Ospite</span>
-            <input type="text" id="input-away" class="search-input" placeholder="Es. Bayern Monaco">
+            <input type="text" id="input-away" class="search-input" placeholder="Es. Roma">
         </div>
-        <button class="btn-scout" onclick="runScoutingEngine()">Analizza ELO</button>
+        <button class="btn-scout" onclick="runScoutingEngine()">Elabora Quote</button>
     </div>
 
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Isolamento Squadra Principale...</div>
+        <div class="loader-text" id="loader-log">Generazione Matrice ELO...</div>
     </div>
 
     <div class="dashboard" id="dashboard">
@@ -166,12 +176,10 @@
             </div>
         </div>
 
-        <div class="golden-bet-container">
-            <div class="gb-badge">LA SENTENZA (CORRETTA ELO)</div>
-            <div class="gb-prediction" id="ui-prediction">-</div>
-            <div class="gb-confidence">
-                <div class="conf-circle" id="ui-conf-circle"></div>
-                <div class="conf-text" id="ui-conf-text">Fiducia: 0%</div>
+        <div class="top-bets-container">
+            <div class="tb-header">🔥 Top 5 Value Bets</div>
+            <div id="ui-top-bets">
+                <!-- BET ROWS GENERATE DA JS -->
             </div>
         </div>
 
@@ -220,6 +228,13 @@
 
         function setLog(text) { document.getElementById('loader-log').textContent = text; }
 
+        // DISTRIBUZIONE DI POISSON (Per calcolo Risultato Esatto e Gol)
+        function poisson(k, lambda) {
+            let p = Math.exp(-lambda);
+            for(let i=1; i<=k; i++) p *= (lambda/i);
+            return p;
+        }
+
         async function fetchAPI(url) {
             let res = await fetch(url, apiOptions);
             let text = await res.text(); 
@@ -248,19 +263,14 @@
             else if (Array.isArray(searchData.results)) teamsList = searchData.results;
             else if (Array.isArray(searchData.teams)) teamsList = searchData.teams;
             else {
-                for (let key in searchData) {
-                    if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; }
-                }
+                for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } }
             }
             
             let footballTeams = teamsList.filter(t => !t.sport || (t.sport && t.sport.name === 'Football'));
             if(footballTeams.length === 0) throw new Error(`Nessuna squadra trovata per "${teamName}".`);
 
-            // LA MAGIA: Ordina SEMPRE le squadre per numero di follower decrescenti.
-            // La prima sarà SEMPRE la squadra reale globale e non un'amatoriale.
             footballTeams.sort((a, b) => (b.userCount || 0) - (a.userCount || 0));
-            
-            let teamObj = footballTeams[0]; // Prende in automatico la regina assoluta della ricerca
+            let teamObj = footballTeams[0]; 
             
             let teamId = teamObj.id || teamObj.entity?.id;
             let actualName = teamObj.name || teamObj.entity?.name;
@@ -272,7 +282,6 @@
 
             let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
             let events = matchData.events?.filter(e => e.status.type === 'finished').slice(0, 5);
-            
             if(!events || events.length === 0) throw new Error(`Nessun match ufficiale recente per ${actualName}.`);
 
             let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
@@ -281,7 +290,6 @@
                 let isHome = ev.homeTeam.id === teamId;
                 let scored = isHome ? ev.homeScore.current : ev.awayScore.current;
                 let conceded = isHome ? ev.awayScore.current : ev.homeScore.current;
-                
                 goalsScored += scored; goalsConceded += conceded;
                 if (scored > conceded) { form.push('W'); points += 3; }
                 else if (scored === conceded) { form.push('D'); points += 1; }
@@ -293,11 +301,7 @@
             let rawAvgConceded = goalsConceded / events.length;
             let rawRating = 6.4 + (winRatio * 1.2) + (rawAvgScored * 0.2);
 
-            return {
-                team: { name: actualName, country: country, tier: tierData.tier, label: tierData.label },
-                pregameForm: { avgRating: rawRating, form: form },
-                stats: { rawScored: rawAvgScored, rawConceded: rawAvgConceded }
-            };
+            return { team: { name: actualName, country: country, tier: tierData.tier, label: tierData.label }, pregameForm: { avgRating: rawRating, form: form }, stats: { rawScored: rawAvgScored, rawConceded: rawAvgConceded } };
         }
 
         const ScoutingEngine = {
@@ -305,6 +309,84 @@
                 let pts = 0;
                 formArray.forEach((res, index) => { let w = 1 + (index * 0.15); if(res === 'W') pts += 3 * w; if(res === 'D') pts += 1 * w; });
                 return (pts / 18) * 100; 
+            },
+
+            generateTopBets: function(hPower, aPower, xgHome, xgAway) {
+                let bets = [];
+                let diff = hPower - aPower;
+                let totalXg = xgHome + xgAway;
+                
+                // 1. Mercato 1X2 & Doppie Chance (Base ELO)
+                if (diff > 18) bets.push({ market: "Esito Finale", pick: "1 Fisso", conf: Math.min(96, 70 + diff) });
+                if (diff > 8 && diff <= 18) bets.push({ market: "Doppia Chance", pick: "1X", conf: 85 + (diff/2) });
+                if (diff < -18) bets.push({ market: "Esito Finale", pick: "2 Fisso", conf: Math.min(96, 70 + Math.abs(diff)) });
+                if (diff < -8 && diff >= -18) bets.push({ market: "Doppia Chance", pick: "X2", conf: 85 + (Math.abs(diff)/2) });
+                
+                // 2. Handicap (Sbilanciamenti Estremi)
+                if (diff > 30) bets.push({ market: "Handicap Europeo", pick: "1 (H -1)", conf: 75 + (diff - 30) });
+                if (diff < -30) bets.push({ market: "Handicap Europeo", pick: "2 (H -1)", conf: 75 + (Math.abs(diff) - 30) });
+
+                // 3. Goal / No Goal
+                let bttsProb = (1 - poisson(0, xgHome)) * (1 - poisson(0, xgAway)) * 100;
+                if (bttsProb > 65) bets.push({ market: "Entrambe Segnano", pick: "GOAL", conf: bttsProb });
+                if (bttsProb < 40) bets.push({ market: "Entrambe Segnano", pick: "NO GOAL", conf: 100 - bttsProb });
+
+                // 4. Over / Under (Match)
+                let over25Prob = (1 - (poisson(0, totalXg) + poisson(1, totalXg) + poisson(2, totalXg))) * 100;
+                if (over25Prob > 60) bets.push({ market: "Goal Totali", pick: "OVER 2.5", conf: over25Prob + 5 });
+                if (totalXg > 3.5) bets.push({ market: "Goal Totali", pick: "OVER 3.5", conf: over25Prob - 15 });
+                if (over25Prob < 40) bets.push({ market: "Goal Totali", pick: "UNDER 2.5", conf: 100 - over25Prob });
+                if (totalXg < 2.0) bets.push({ market: "Goal Totali", pick: "UNDER 3.5", conf: 85 });
+
+                // 5. Over Squadra Singola
+                if (xgHome > 1.8) bets.push({ market: "Goal Squadra Casa", pick: "OVER 1.5 CASA", conf: 70 + (xgHome * 10) });
+                if (xgAway > 1.8) bets.push({ market: "Goal Squadra Ospite", pick: "OVER 1.5 OSPITE", conf: 70 + (xgAway * 10) });
+
+                // 6. Multigoal
+                if (totalXg >= 2.0 && totalXg <= 3.5) bets.push({ market: "Multigoal Match", pick: "2-4 GOAL", conf: 82 });
+                if (totalXg >= 1.5 && totalXg <= 2.5) bets.push({ market: "Multigoal Match", pick: "1-3 GOAL", conf: 80 });
+
+                // 7. Combo (Mix di Valore)
+                if (diff > 12 && over25Prob > 55) bets.push({ market: "Combo Match", pick: "1 + OVER 1.5", conf: Math.min(90, 60 + diff + (over25Prob/4)) });
+                if (diff < -12 && over25Prob > 55) bets.push({ market: "Combo Match", pick: "2 + OVER 1.5", conf: Math.min(90, 60 + Math.abs(diff) + (over25Prob/4)) });
+                if (diff > 8 && bttsProb < 45) bets.push({ market: "Combo Match", pick: "1X + NO GOAL", conf: 75 });
+                if (diff > -5 && diff < 5 && bttsProb > 60) bets.push({ market: "Combo Match", pick: "X o GOAL", conf: 80 });
+
+                // 8. Stima Corner e Tempi (Matematica Derivata)
+                let estCorners = 8 + (totalXg * 0.6) + (Math.abs(diff) / 12);
+                if (estCorners > 10.5) bets.push({ market: "Calci d'Angolo", pick: "OVER 8.5 CORNER", conf: 78 });
+                if (Math.abs(diff) > 20 && totalXg > 2.8) bets.push({ market: "Goal 1° Tempo", pick: "OVER 0.5 HT", conf: 88 });
+
+                // 9. Cluster Risultato Esatto (Calcolo probabilità combinata Poisson)
+                let scores = [];
+                for(let h=0; h<=3; h++) {
+                    for(let a=0; a<=3; a++) {
+                        let p = (poisson(h, xgHome) * poisson(a, xgAway)) * 100;
+                        scores.push({ score: `${h}-${a}`, prob: p });
+                    }
+                }
+                scores.sort((a,b) => b.prob - a.prob);
+                let cluster = `${scores[0].score} / ${scores[1].score} / ${scores[2].score}`;
+                let clusterConf = scores[0].prob + scores[1].prob + scores[2].prob;
+                bets.push({ market: "Cluster Risultato Esatto", pick: cluster, conf: Math.min(85, clusterConf * 1.5) }); // Moltiplicatore visivo per renderlo comparabile
+
+                // Ordina per confidenza decrescente e rimuove duplicati simili (es. 1 Fisso e 1X)
+                bets.sort((a, b) => b.conf - a.conf);
+                
+                let finalBets = [];
+                let seenMarkets = new Set();
+                
+                for(let b of bets) {
+                    if(finalBets.length >= 5) break;
+                    // Evita di suggerire sia "1 Fisso" che "1X" per dare varietà alla Top 5
+                    if(b.market === "Doppia Chance" && seenMarkets.has("Esito Finale")) continue;
+                    if(b.market === "Goal Totali" && seenMarkets.has("Goal Totali")) continue; 
+                    
+                    finalBets.push(b);
+                    seenMarkets.add(b.market);
+                }
+
+                return finalBets;
             },
 
             analyze: function(home, away) {
@@ -322,7 +404,7 @@
 
                 if (tierDiff > 0) {
                     hMalus = tierDiff * 15; hPower -= hMalus;
-                    reasons.push({ text: `🚨 PENALITÀ ELO: Il ${home.team.name} subisce un Malus di -${hMalus} punti (Lega inferiore).`, type: 'alert'});
+                    reasons.push({ text: `🚨 PENALITÀ ELO: Il ${home.team.name} gioca in un campionato minore. Subisce un Malus di -${hMalus} punti.`, type: 'alert'});
                 } else if (tierDiff < 0) {
                     aMalus = Math.abs(tierDiff) * 15; aPower -= aMalus;
                     reasons.push({ text: `🚨 PENALITÀ ELO: L'${away.team.name} subisce un Malus di -${aMalus} punti per dislivello di campionato.`, type: 'alert'});
@@ -342,26 +424,23 @@
                 const expGoalsAway = (aWeightedScored + hWeightedConceded) / 2;
                 const totalExpGoals = expGoalsHome + expGoalsAway;
 
+                // Generazione della Top 5 Bets
+                let topBets = this.generateTopBets(hPower, aPower, expGoalsHome, expGoalsAway);
+
+                reasons.push({ text: `La simulazione di Poisson prevede ${expGoalsHome.toFixed(2)} xG per la squadra di casa e ${expGoalsAway.toFixed(2)} xG per gli ospiti.`, type: 'normal' });
+                if(Math.abs(hPower - aPower) > 20) reasons.push({ text: `Rilevato forte sbilanciamento di Potenza ELO: generati mercati Handicap e Combo ad alto valore.`, type: 'normal' });
+
                 const radarData = {
                     labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio Totale'],
                     home: [ hPower, Math.min(100, (expGoalsHome / 2.5) * 100), Math.max(0, 100 - (hWeightedConceded / 2.5) * 100), Math.max(0, hFormScore - hMalus), hPower ],
                     away: [ aPower, Math.min(100, (expGoalsAway / 2.5) * 100), Math.max(0, 100 - (aWeightedConceded / 2.5) * 100), Math.max(0, aFormScore - aMalus), aPower ]
                 };
 
-                let prediction = ""; let confidence = 0; let diff = hPower - aPower;
-
-                if (diff > 15) { prediction = "1"; confidence = 75 + (diff / 2); reasons.push({ text: `Dominio ELO del ${home.team.name} (PI: ${hPower.toFixed(1)} vs ${aPower.toFixed(1)}).`, type: 'normal' }); } 
-                else if (diff < -15) { prediction = "2"; confidence = 75 + (Math.abs(diff) / 2); reasons.push({ text: `L'${away.team.name} domina il match calcolando i veri valori delle leghe (PI: ${aPower.toFixed(1)} vs ${hPower.toFixed(1)}).`, type: 'normal' }); } 
-                else { prediction = diff > 0 ? "1X" : "X2"; confidence = 78 - Math.abs(diff); reasons.push({ text: `Forze equivalenti. Si consiglia vivamente la doppia chance.`, type: 'normal' }); }
-
-                if (totalExpGoals > 2.8) { prediction += " + OVER 1.5"; confidence += 5; reasons.push({ text: `xG Sintetico (Corretto ELO) indica attesi ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' }); } 
-                else if (totalExpGoals < 2.0) { prediction += " + UNDER 3.5"; confidence += 5; reasons.push({ text: `Blocco tattico. Projection matematica di soli ${totalExpGoals.toFixed(2)} gol.`, type: 'normal' }); }
-
                 return {
                     hPower, aPower, hMalus, aMalus, expGoalsHome, expGoalsAway, totalExpGoals, hWeightedScored, aWeightedScored,
                     hDefensiveScore: Math.max(10, 100 - (hWeightedConceded / 2.5) * 100),
                     aDefensiveScore: Math.max(10, 100 - (aWeightedConceded / 2.5) * 100),
-                    radarData: radarData, prediction: prediction, confidence: Math.min(95, Math.max(50, confidence)), reasons: reasons
+                    radarData: radarData, topBets: topBets, reasons: reasons
                 };
             }
         };
@@ -378,7 +457,7 @@
                 let homeData = await fetchTeamStats(hInput);
                 await delay(1000); 
                 let awayData = await fetchTeamStats(aInput);
-                setLog("Calcolo Penalità ELO in corso...");
+                setLog("Simulazione Quote in corso...");
                 await delay(600); 
 
                 let analysis = ScoutingEngine.analyze(homeData, awayData);
@@ -421,13 +500,26 @@
             setH2HRow('h2h-gf-h', 'h2h-gf-a', analysis.hWeightedScored, analysis.aWeightedScored);
             setH2HRow('h2h-gs-h', 'h2h-gs-a', analysis.hDefensiveScore, analysis.aDefensiveScore, true); 
 
-            document.getElementById('ui-prediction').textContent = analysis.prediction;
-            document.getElementById('ui-conf-text').textContent = `Fiducia Motore: ${analysis.confidence.toFixed(1)}%`;
-            
-            let circle = document.getElementById('ui-conf-circle'); circle.className = 'conf-circle';
-            if(analysis.confidence >= 75) circle.classList.add('conf-high');
-            else if(analysis.confidence >= 60) circle.classList.add('conf-med');
-            else circle.classList.add('conf-low');
+            // RENDER TOP 5 BETS
+            let betsHtml = '';
+            analysis.topBets.forEach((bet, index) => {
+                let rank = index + 1;
+                let confClass = bet.conf >= 80 ? 'conf-green' : (bet.conf >= 70 ? 'conf-blue' : 'conf-gold');
+                let confText = Math.min(99, bet.conf).toFixed(1);
+                
+                betsHtml += `
+                <div class="bet-row" data-rank="${rank}">
+                    <div class="bet-info">
+                        <div class="bet-market">${rank} - ${bet.market}</div>
+                        <div class="bet-pick">${bet.pick}</div>
+                    </div>
+                    <div class="bet-conf">
+                        <div class="conf-val ${confClass}">${confText}%</div>
+                        <div class="conf-lbl">Fiducia</div>
+                    </div>
+                </div>`;
+            });
+            document.getElementById('ui-top-bets').innerHTML = betsHtml;
 
             let reasonsHtml = '';
             analysis.reasons.forEach(r => { let cls = r.type === 'alert' ? 'ai-alert' : ''; reasonsHtml += `<li class="${cls}">${r.text}</li>`; });
