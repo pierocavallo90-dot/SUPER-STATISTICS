@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V15 - Dual Tipster Zone</title>
+    <title>BETBAR | Tipster ELO Engine V15.1 - Fair Odds</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -87,7 +87,7 @@
         .tb-header { text-align: center; font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .safe-txt { color: var(--neon-green); }
         .value-txt { color: var(--accent-gold); }
-        .tb-sub { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px;}
+        .tb-sub { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;}
         
         .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; gap: 10px;}
         @media (max-width: 500px) { .bet-row { flex-wrap: wrap; } .bet-conf { border-left: none; padding-left: 0; } }
@@ -126,7 +126,7 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v15">V15 DUAL TIPSTER</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v15">V15.1 FAIR ODDS</span></div>
         <div class="api-status"><div class="api-dot"></div> SOFASCORE DATA</div>
     </div>
 
@@ -201,14 +201,14 @@
             <!-- CASSEFORTI (SAFE BETS) -->
             <div class="bets-container bets-safe">
                 <div class="tb-header safe-txt">🛡️ Le Casseforti (Safe Bets)</div>
-                <div class="tb-sub">Le 5 giocate più probabili in assoluto. Ottime per Multiple.</div>
+                <div class="tb-sub">Le 5 giocate con la probabilità matematica più alta. Ottime per Multiple.</div>
                 <div id="ui-safe-bets"></div>
             </div>
 
             <!-- ZONA VALORE (TIPSTER VALUE) -->
             <div class="bets-container bets-value">
                 <div class="tb-header value-txt">🔥 La Zona Valore (Tipster Bets)</div>
-                <div class="tb-sub">Quote eque calcolate tra 1.40 e 2.00. Il vero "Sweet Spot".</div>
+                <div class="tb-sub">La "Quota Equa" (Fair Odd) è il prezzo calcolato dal Motore. <br>Se il tuo Bookmaker offre una quota <strong>MAGGIORE</strong>, hai trovato una Value Bet!</div>
                 <div id="ui-value-bets"></div>
             </div>
         </div>
@@ -448,7 +448,7 @@
                 let safeSeen = new Set();
                 let valueSeen = new Set();
 
-                // 1. SAFE BETS (Le 5 più probabili in assoluto)
+                // 1. SAFE BETS
                 for(let b of validBets) {
                     if(safeBets.length >= 5) break;
                     if(b.market === "Doppia Chance" && safeSeen.has("Esito Finale")) continue;
@@ -457,7 +457,7 @@
                     safeSeen.add(b.market);
                 }
 
-                // 2. VALUE BETS (Quote tra 1.40 e 2.00)
+                // 2. VALUE BETS
                 let valueCandidates = validBets.filter(b => parseFloat(b.fairOdd) >= 1.40 && parseFloat(b.fairOdd) <= 2.00);
                 for(let b of valueCandidates) {
                     if(valueBets.length >= 5) break;
@@ -508,7 +508,6 @@
                 let betZones = this.generateBets(hPower, aPower, expGoalsHome, expGoalsAway);
 
                 reasons.push({ text: `La simulazione di Poisson prevede ${expGoalsHome.toFixed(2)} xG per la squadra in casa e ${expGoalsAway.toFixed(2)} xG per gli ospiti.`, type: 'normal' });
-                reasons.push({ text: `La "Zona Valore" ha scartato in automatico le quote irrisorie e isolato le ${betZones.value.length} scommesse ad alta resa/rischio equilibrato.`, type: 'normal' });
 
                 const radarData = {
                     labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio Totale'],
@@ -543,7 +542,7 @@
                 await delay(1000); 
                 let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name);
                 
-                setLog("Separazione quote eque in corso...");
+                setLog("Calcolo quote matematiche in corso...");
                 await delay(600); 
 
                 let analysis = ScoutingEngine.analyze(homeData, awayData);
@@ -555,7 +554,7 @@
 
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                alert(`⚠️ RADAR ERROR:\n\n${error.message}`);
+                alert(`⚠️ ERRORE RADAR:\n\n${error.message}`);
             }
         }
 
@@ -572,7 +571,7 @@
         function renderBetRows(bets, containerId) {
             let container = document.getElementById(containerId);
             if(bets.length === 0) {
-                container.innerHTML = `<div class="no-bets-msg">Nessuna giocata trovata in questo range di quote. Il match è troppo sbilanciato.</div>`;
+                container.innerHTML = `<div class="no-bets-msg">Nessuna giocata trovata in questo range. Match troppo sbilanciato.</div>`;
                 return;
             }
 
