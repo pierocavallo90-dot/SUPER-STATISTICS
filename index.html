@@ -262,13 +262,15 @@
         const API_HOST = "sofascore.p.rapidapi.com";
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
-        let currentMatchContext = null; // Salva i dati del match cercato per poterli inviare alla memoria
+        function setLog(text) { document.getElementById('loader-log').textContent = text; }
+
+        let currentMatchContext = null; 
 
         // ----------------------------------------------------
-        // SISTEMA DI MEMORIA (IL CERVELLO 2 E IL PASSAPORTO)
+        // SISTEMA DI MEMORIA E AI ADATTIVA
         // ----------------------------------------------------
         const MemorySystem = {
-            data: [], // Array di giocate salvate
+            data: [], 
             
             init: function() {
                 let saved = localStorage.getItem('betbar_memory_v16');
@@ -286,7 +288,6 @@
             addBet: function(market, pick, conf, fairOdd) {
                 if(!currentMatchContext) return;
                 
-                // Evita duplicati dello stesso pick nella stessa partita
                 let exists = this.data.find(b => b.matchId === currentMatchContext.id && b.pick === pick);
                 if(exists) return false;
 
@@ -299,9 +300,9 @@
                     pick: pick,
                     conf: conf,
                     odd: fairOdd,
-                    status: 'pending' // 'pending', 'win', 'lose'
+                    status: 'pending' 
                 };
-                this.data.unshift(newBet); // Aggiunge in cima
+                this.data.unshift(newBet);
                 this.save();
                 return true;
             },
@@ -337,26 +338,21 @@
                 }
             },
 
-            // CALCOLO DEI MODIFICATORI (L'Apprendimento Morbido)
+            // L'Apprendimento Morbido
             getMarketModifier: function(market) {
-                // Prende solo i match risolti per questo specifico mercato (es. "Goal Totali")
                 let resolved = this.data.filter(b => b.market === market && b.status !== 'pending');
-                if(resolved.length < 5) return 0; // Quarantena: Servono almeno 5 match su questo mercato per attivare l'AI
+                if(resolved.length < 5) return 0; // Quarantena: Servono almeno 5 match
                 
                 let wins = resolved.filter(b => b.status === 'win').length;
                 let winRate = wins / resolved.length;
                 
-                // Matematica Soft-Tuning: 
-                // Se WinRate > 0.60 -> Bonus (Max +10%)
-                // Se WinRate < 0.45 -> Malus (Max -10%)
                 let modifier = 0;
                 if(winRate > 0.60) {
-                    modifier = (winRate - 0.60) * 20; // Es. 0.70 -> +2%
+                    modifier = (winRate - 0.60) * 20; 
                 } else if (winRate < 0.45) {
-                    modifier = (winRate - 0.45) * 20; // Es. 0.30 -> -3%
+                    modifier = (winRate - 0.45) * 20; 
                 }
                 
-                // Limite strutturale per evitare overfitting
                 return Math.max(-10, Math.min(10, modifier)); 
             },
 
@@ -384,7 +380,6 @@
                     listEl.innerHTML = html;
                 }
 
-                // Stats
                 let total = this.data.filter(b => b.status !== 'pending').length;
                 let won = this.data.filter(b => b.status === 'win').length;
                 document.getElementById('stat-total').textContent = this.data.length;
@@ -402,12 +397,8 @@
             }
         };
 
-        // Inizializza memoria al caricamento
         MemorySystem.init();
 
-        // ----------------------------------------------------
-        // UI INTERACTION (TABS)
-        // ----------------------------------------------------
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
@@ -425,7 +416,7 @@
         }
 
         // ----------------------------------------------------
-        // MOTORE DI SCOUTING BASE
+        // MOTORE DI SCOUTING
         // ----------------------------------------------------
         const TeamAliasMap = { "bayern": "FC Bayern München", "milan": "AC Milan", "inter": "Inter", "juve": "Juventus", "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta", "real madrid": "Real Madrid" };
         const blacklist = ['U19', 'U18', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'WOMEN', 'WFC'];
@@ -434,6 +425,13 @@
             if(!teamName) return true;
             let upName = teamName.toUpperCase();
             return blacklist.some(bad => upName.includes(bad) || upName.endsWith(' B') || upName.endsWith(' II'));
+        }
+
+        function getTierData(country) {
+            const LeagueTiers = { "England": 1, "Spain": 1, "Germany": 1, "Italy": 1, "Europe": 1, "France": 2, "Netherlands": 2, "Portugal": 2, "Turkey": 3 };
+            let t = LeagueTiers[country] || 4;
+            let label = t===1 ? `⭐ Elite (${country})` : t===2 ? `🛡️ Premium (${country})` : t===3 ? `⚔️ Standard (${country})` : `📉 Minor (${country})`;
+            return { tier: t, label: label };
         }
 
         function poisson(k, lambda) {
@@ -510,6 +508,7 @@
                 
                 let bttsProb = (1 - poisson(0, xgHome)) * (1 - poisson(0, xgAway)) * 100;
                 bets.push({ market: "Entrambe Segnano", pick: "GOAL", baseConf: bttsProb });
+                bets.push({ market: "Entrambe Segnano", pick: "NO GOAL", baseConf: 100 - bttsProb });
                 
                 let over25Prob = (1 - (poisson(0, totalXg) + poisson(1, totalXg) + poisson(2, totalXg))) * 100;
                 bets.push({ market: "Goal Totali", pick: "OVER 2.5", baseConf: over25Prob + 5 });
@@ -518,11 +517,11 @@
                 bets.push({ market: "Goal Squadra Casa", pick: "OVER 1.5", baseConf: 100 - (poisson(0, xgHome) + poisson(1, xgHome))*100 });
                 bets.push({ market: "Multigoal Match", pick: "2-4 GOAL", baseConf: (poisson(2, totalXg)+poisson(3, totalXg)+poisson(4, totalXg))*100 });
 
-                // FASE DOPPIO CERVELLO: Applicazione dell'AI Modificatore dalla Memoria
+                // FASE DOPPIO CERVELLO
                 bets.forEach(b => {
                     let modifier = MemorySystem.getMarketModifier(b.market);
                     b.aiMod = modifier;
-                    b.conf = Math.min(98, Math.max(2, b.baseConf + modifier)); // Limita tra 2 e 98
+                    b.conf = Math.min(98, Math.max(2, b.baseConf + modifier)); 
                     b.fairOdd = (100 / b.conf).toFixed(2);
                 });
 
@@ -596,7 +595,6 @@
             bets.forEach((bet, index) => {
                 let confClass = bet.conf >= 80 ? 'conf-green' : (bet.conf >= 60 ? 'conf-blue' : 'conf-gold');
                 
-                // Genera l'etichetta dell'AI se c'è stata una modifica
                 let aiTag = '';
                 if(bet.aiMod > 0) aiTag = `<span class="ai-badge pos" title="L'AI ha aumentato la fiducia in base alle tue giocate vincenti passate">AI +${bet.aiMod.toFixed(1)}%</span>`;
                 else if (bet.aiMod < 0) aiTag = `<span class="ai-badge neg" title="L'AI ha abbassato la fiducia in base alle tue giocate perse passate">AI ${bet.aiMod.toFixed(1)}%</span>`;
