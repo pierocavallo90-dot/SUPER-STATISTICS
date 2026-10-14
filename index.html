@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Tipster ELO Engine V15.1 - Fair Odds</title>
+    <title>BETBAR | Scouting Engine V16 - Memoria AI & Doppio Cervello</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -13,20 +13,30 @@
             --text-main: #f8fafc; --text-muted: #94a3b8;
             --accent-blue: #00f0ff; --accent-red: #ff3366;  
             --accent-gold: #fbbf24; --neon-green: #22c55e; --neon-red: #ef4444;
+            --ai-purple: #a855f7;
         }
 
         * { box-sizing: border-box; font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
         body { margin: 0; padding: 0; background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
 
-        .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v15 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v16 { font-size: 0.8rem; background: var(--ai-purple); color: #fff; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top; font-weight: bold;}
+        
+        .tab-menu { display: flex; gap: 10px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 8px;}
+        .tab-btn { background: transparent; border: none; color: var(--text-muted); font-weight: bold; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: 0.2s;}
+        .tab-btn.active { background: var(--accent-gold); color: #000; }
+        
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 20px; border-radius: 12px; margin: 20px auto; max-width: 800px; width: 95%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); align-items: flex-end;}
+        /* VIEW CONTAINERS */
+        .view-section { display: none; width: 100%; max-width: 1100px; margin: 0 auto; padding: 20px 15px 40px 15px; animation: fadeIn 0.4s ease-out; }
+        .view-section.active { display: block; }
+
+        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 20px; border-radius: 12px; margin: 0 auto 20px auto; max-width: 800px; width: 100%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); align-items: flex-end;}
         .search-box { flex: 1; display: flex; flex-direction: column; gap: 8px; }
         .search-lbl { font-size: 0.85rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
         .search-input { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 6px; font-size: 1.2rem; font-weight: bold; outline: none;}
@@ -37,11 +47,10 @@
         @media (max-width: 600px) { .search-container { flex-direction: column; align-items: stretch;} .btn-scout { height: auto; } }
 
         .loader-container { display: none; text-align: center; padding: 50px; flex-direction: column; align-items: center; gap: 15px;}
-        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--ai-purple); border-radius: 50%; animation: spin 1s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .loader-text { color: var(--accent-gold); font-family: monospace; font-weight: bold; font-size: 0.9rem;}
+        .loader-text { color: var(--ai-purple); font-family: monospace; font-weight: bold; font-size: 0.9rem;}
 
-        .dashboard { display: none; max-width: 1100px; margin: 0 auto; padding: 0 15px 40px 15px; width: 100%; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .match-header { text-align: center; background: var(--bg-darker); padding: 10px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.9rem; font-weight: bold; margin-bottom: 20px;}
@@ -56,8 +65,7 @@
         .away-color { color: var(--accent-red); text-shadow: 0 0 15px rgba(255,51,102,0.3);}
         
         .tc-tier { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; color: var(--accent-gold); z-index: 2;}
-        .tc-malus { position: absolute; top: 10px; right: 10px; font-size: 0.8rem; background: rgba(239, 68, 68, 0.2); color: var(--neon-red); font-weight: bold; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--neon-red); display: none; z-index: 2;}
-
+        
         .form-track { display: flex; gap: 5px; justify-content: center; margin-top: 10px; z-index: 2;}
         .form-badge { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.8rem; font-weight: bold; color: #fff;}
         .form-w { background: var(--neon-green); }
@@ -73,10 +81,6 @@
         .val-win { color: var(--neon-green); text-shadow: 0 0 10px rgba(34,197,94,0.4);}
         .val-lose { color: var(--text-muted); opacity: 0.5; }
 
-        .radar-container { background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; justify-content: center; align-items: center;}
-        .chart-wrapper { position: relative; width: 100%; max-width: 500px; height: 350px; }
-
-        /* DUAL TIPSTER ZONE */
         .tipster-zones { display: flex; gap: 20px; margin-bottom: 20px;}
         @media (max-width: 850px) { .tipster-zones { flex-direction: column; } }
 
@@ -90,181 +94,347 @@
         .tb-sub { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;}
         
         .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; gap: 10px;}
-        @media (max-width: 500px) { .bet-row { flex-wrap: wrap; } .bet-conf { border-left: none; padding-left: 0; } }
+        @media (max-width: 500px) { .bet-row { flex-wrap: wrap; } .bet-conf, .bet-save { border-left: none; padding-left: 0; } }
         
         .bet-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--text-muted); }
         .bet-row[data-rank="1"]::before { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green);}
-        .bet-row[data-rank="2"]::before { background: var(--accent-blue); }
-        .bet-row[data-rank="3"]::before { background: var(--accent-gold); }
         
         .bet-info { display: flex; flex-direction: column; gap: 2px; z-index: 1; flex: 2;}
         .bet-market { font-size: 0.7rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; }
         .bet-pick { font-size: 1.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2);}
         
-        .bet-conf, .bet-odd { text-align: right; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;}
+        .bet-conf, .bet-odd, .bet-save { text-align: right; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;}
         .bet-odd { border-left: 1px dashed rgba(255,255,255,0.1); padding-left: 10px; }
+        .bet-save { border-left: 1px dashed rgba(255,255,255,0.1); padding-left: 10px; }
         
-        .conf-val { font-size: 1.1rem; font-weight: 900; }
+        .conf-val { font-size: 1.1rem; font-weight: 900; display:flex; align-items:center; gap:5px;}
         .odd-val { font-size: 1.1rem; font-weight: 900; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;}
         .conf-lbl { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-top: 2px;}
         
-        .conf-green { color: var(--neon-green); }
-        .conf-blue { color: var(--accent-blue); }
-        .conf-gold { color: var(--accent-gold); }
+        .ai-badge { font-size: 0.6rem; background: var(--ai-purple); color: #fff; padding: 2px 4px; border-radius: 3px; font-weight: bold;}
+        .ai-badge.pos { background: var(--neon-green); }
+        .ai-badge.neg { background: var(--neon-red); }
+
+        .btn-save-bet { background: #334155; color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .btn-save-bet:hover { background: var(--ai-purple); border-color: var(--ai-purple);}
+        .btn-save-bet.saved { background: var(--neon-green); border-color: var(--neon-green); cursor: default; }
 
         .no-bets-msg { text-align: center; padding: 20px; font-size: 0.9rem; color: var(--text-muted); font-style: italic; }
 
-        .ai-analysis { background: var(--bg-panel); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
-        .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: 900; font-size: 1.1rem; color: var(--accent-gold);}
-        .ai-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;}
-        .ai-list li { display: flex; gap: 15px; background: var(--bg-darker); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent-gold); font-size: 0.95rem; line-height: 1.4;}
-        .ai-list li.ai-alert { border-left-color: var(--neon-red); background: rgba(239, 68, 68, 0.05); }
-        .ai-list li::before { content: '🤖'; font-size: 1.2rem; }
-        .ai-list li.ai-alert::before { content: '🚨'; }
+        /* AI CONSOLE STYLES */
+        .ai-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px;}
+        @media (max-width: 800px) { .ai-grid { grid-template-columns: 1fr; } }
+        
+        .ai-panel { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;}
+        .ai-panel-title { font-size: 1.1rem; font-weight: 900; color: var(--ai-purple); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+        
+        .passport-area { width: 100%; height: 120px; background: var(--bg-darker); border: 1px dashed var(--ai-purple); color: var(--text-muted); font-family: monospace; padding: 10px; border-radius: 6px; margin-bottom: 10px; outline: none; font-size: 0.8rem; resize: none;}
+        .passport-area:focus { border-color: var(--accent-gold); color: #fff;}
+        .pass-btn-group { display: flex; gap: 10px; }
+        .btn-pass { flex: 1; padding: 10px; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 0.8rem;}
+        .btn-pass.export { background: var(--bg-darker); color: var(--ai-purple); border: 1px solid var(--ai-purple);}
+        .btn-pass.import { background: var(--ai-purple); color: #fff; }
+
+        .memory-list { display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; padding-right: 5px;}
+        .mem-item { background: var(--bg-darker); border-left: 3px solid var(--text-muted); padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;}
+        .mem-item.win { border-left-color: var(--neon-green); background: rgba(34,197,94,0.05);}
+        .mem-item.lose { border-left-color: var(--neon-red); background: rgba(239,68,68,0.05);}
+        
+        .mem-info { display: flex; flex-direction: column; gap: 3px;}
+        .mem-match { font-size: 0.75rem; color: var(--accent-gold); font-weight: bold;}
+        .mem-pick { font-size: 1rem; font-weight: 900; color: #fff;}
+        .mem-stats { font-size: 0.65rem; color: var(--text-muted);}
+        
+        .mem-actions { display: flex; gap: 5px;}
+        .btn-resolve { background: #334155; border: none; width: 30px; height: 30px; border-radius: 4px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 1rem;}
+        .btn-resolve:hover { filter: brightness(1.2);}
+        .mem-item.win .btn-resolve, .mem-item.lose .btn-resolve { display: none; } /* Hide buttons if resolved */
+        .res-badge { display: none; font-size: 0.8rem; font-weight: bold; padding: 4px 8px; border-radius: 4px;}
+        .mem-item.win .res-badge { display: block; background: var(--neon-green); color: #000;}
+        .mem-item.lose .res-badge { display: block; background: var(--neon-red); color: #fff;}
+
+        .ai-stats-box { background: rgba(168, 85, 247, 0.1); border: 1px solid var(--ai-purple); padding: 15px; border-radius: 8px; margin-bottom: 20px;}
+        .stat-line { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem;}
+        .stat-val { font-weight: bold; color: #fff;}
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v15">V15.1 FAIR ODDS</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v16">V16 DUAL AI</span></div>
+        <div class="tab-menu">
+            <button class="tab-btn active" onclick="switchTab('radar')">📡 Radar Live</button>
+            <button class="tab-btn" onclick="switchTab('console')">🧠 Console AI</button>
+        </div>
         <div class="api-status"><div class="api-dot"></div> SOFASCORE DATA</div>
     </div>
 
-    <div class="search-container">
-        <div class="search-box">
-            <span class="search-lbl">Radar Partite Reali (Trova il prossimo match)</span>
-            <input type="text" id="input-team" class="search-input" placeholder="Scrivi una squadra (es. Atalanta, Roma, Villarreal)...">
+    <!-- VISTA RADAR (Scanner e Quote) -->
+    <div id="view-radar" class="view-section active">
+        <div class="search-container">
+            <div class="search-box">
+                <span class="search-lbl">Ricerca Partita Reale</span>
+                <input type="text" id="input-team" class="search-input" placeholder="Squadra (es. Atalanta, Real Madrid)...">
+            </div>
+            <button class="btn-scout" onclick="runLiveScoutingEngine()">Scannerizza</button>
         </div>
-        <button class="btn-scout" onclick="runLiveScoutingEngine()">Scannerizza</button>
+
+        <div class="loader-container" id="loader">
+            <div class="spinner"></div>
+            <div class="loader-text" id="loader-log">Avvio Matrice ELO...</div>
+        </div>
+
+        <div class="dashboard" id="dashboard">
+            <div class="match-header" id="ui-match-header">
+                🏆 TROVATO MATCH UFFICIALE <span class="mh-date" id="ui-match-date">-</span>
+            </div>
+
+            <div class="match-arena">
+                <div class="team-col" id="col-home">
+                    <div class="tc-name home-color" id="ui-home-name">Team Casa</div>
+                    <div class="tc-tier" id="ui-home-tier">Tier</div>
+                    <div class="form-track" id="ui-home-form"></div>
+                </div>
+
+                <div class="h2h-col">
+                    <div class="h2h-title">📊 Statistiche ELO Incrociate</div>
+                    <div class="h2h-row"><div class="h2h-val" id="h2h-pi-h">0</div><div class="h2h-lbl">Power Index</div><div class="h2h-val" id="h2h-pi-a">0</div></div>
+                    <div class="h2h-row"><div class="h2h-val" id="h2h-xg-h">0</div><div class="h2h-lbl">xG Attesi</div><div class="h2h-val" id="h2h-xg-a">0</div></div>
+                </div>
+
+                <div class="team-col" id="col-away">
+                    <div class="tc-name away-color" id="ui-away-name">Team Trasferta</div>
+                    <div class="tc-tier" id="ui-away-tier">Tier</div>
+                    <div class="form-track" id="ui-away-form"></div>
+                </div>
+            </div>
+
+            <div class="tipster-zones">
+                <div class="bets-container bets-safe">
+                    <div class="tb-header safe-txt">🛡️ Casseforti (Safe Bets)</div>
+                    <div class="tb-sub">Le quote più probabili (Matematica ELO Pura)</div>
+                    <div id="ui-safe-bets"></div>
+                </div>
+                <div class="bets-container bets-value">
+                    <div class="tb-header value-txt">🔥 Zona Valore (Tipster)</div>
+                    <div class="tb-sub">Quote Equilibrate calcolate tra 1.40 e 2.00</div>
+                    <div id="ui-value-bets"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="loader-container" id="loader">
-        <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Connessione Radar...</div>
-    </div>
-
-    <div class="dashboard" id="dashboard">
-        
-        <div class="match-header" id="ui-match-header">
-            🏆 TROVATO MATCH UFFICIALE <span class="mh-date" id="ui-match-date">-</span>
-        </div>
-
-        <div class="match-arena">
-            <div class="team-col" id="col-home">
-                <div class="tc-malus" id="ui-home-malus">-15 Punti ELO</div>
-                <div class="tc-name home-color" id="ui-home-name">Team Casa</div>
-                <div class="tc-tier" id="ui-home-tier">Tier</div>
-                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA RECENTE</div>
-                <div class="form-track" id="ui-home-form"></div>
-            </div>
-
-            <div class="h2h-col">
-                <div class="h2h-title">📊 Statistiche ELO Incrociate</div>
-                <div class="h2h-row">
-                    <div class="h2h-val" id="h2h-pi-h">0.0</div>
-                    <div class="h2h-lbl">Power Index Reale</div>
-                    <div class="h2h-val" id="h2h-pi-a">0.0</div>
+    <!-- VISTA CONSOLE AI (Memoria e Passaporto) -->
+    <div id="view-console" class="view-section">
+        <div class="ai-grid">
+            <!-- Colonna 1: Settings & Export -->
+            <div class="ai-panel">
+                <div class="ai-panel-title">🛂 Passaporto Dati (Sync)</div>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">Usa questa casella per esportare o importare la memoria del bot tra PC e Smartphone. L'AI impara dalle tue giocate salvate.</p>
+                <textarea id="passport-box" class="passport-area" placeholder="Stringa Base64 Passaporto..."></textarea>
+                <div class="pass-btn-group">
+                    <button class="btn-pass export" onclick="MemorySystem.exportPassport()">⬇️ Esporta</button>
+                    <button class="btn-pass import" onclick="MemorySystem.importPassport()">⬆️ Importa</button>
                 </div>
-                <div class="h2h-row">
-                    <div class="h2h-val" id="h2h-xg-h">0.0</div>
-                    <div class="h2h-lbl">xG Attesi al Fischio</div>
-                    <div class="h2h-val" id="h2h-xg-a">0.0</div>
-                </div>
-                <div class="h2h-row">
-                    <div class="h2h-val" id="h2h-gf-h">0.0</div>
-                    <div class="h2h-lbl">Efficacia Offensiva</div>
-                    <div class="h2h-val" id="h2h-gf-a">0.0</div>
-                </div>
-                <div class="h2h-row">
-                    <div class="h2h-val" id="h2h-gs-h">0.0</div>
-                    <div class="h2h-lbl">Solidità Difensiva</div>
-                    <div class="h2h-val" id="h2h-gs-a">0.0</div>
+                
+                <div class="ai-stats-box" style="margin-top:20px;">
+                    <div class="ai-panel-title" style="font-size:0.9rem; margin-bottom:10px; border:none; padding:0;">📈 Statistiche Apprendimento</div>
+                    <div class="stat-line"><span>Partite in Memoria:</span> <span class="stat-val" id="stat-total">0</span></div>
+                    <div class="stat-line"><span>Vinte:</span> <span class="stat-val" id="stat-won" style="color:var(--neon-green)">0</span></div>
+                    <div class="stat-line"><span>Perse:</span> <span class="stat-val" id="stat-lost" style="color:var(--neon-red)">0</span></div>
+                    <div class="stat-line"><span>Stato AI:</span> <span class="stat-val" id="stat-status" style="color:var(--accent-gold)">In Attesa</span></div>
                 </div>
             </div>
 
-            <div class="team-col" id="col-away">
-                <div class="tc-malus" id="ui-away-malus">-15 Punti ELO</div>
-                <div class="tc-name away-color" id="ui-away-name">Team Trasferta</div>
-                <div class="tc-tier" id="ui-away-tier">Tier</div>
-                <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA RECENTE</div>
-                <div class="form-track" id="ui-away-form"></div>
+            <!-- Colonna 2: Tracker delle Giocate -->
+            <div class="ai-panel">
+                <div class="ai-panel-title">📚 Registro Giocate (Tracker)</div>
+                <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:15px;">Segna l'esito reale delle partite. Il Cervello 2 userà questi dati per correggere le quote future.</p>
+                <div class="memory-list" id="ui-memory-list">
+                    <!-- Generato da JS -->
+                </div>
             </div>
-        </div>
-
-        <div class="radar-container">
-            <div class="chart-wrapper">
-                <canvas id="radarChart"></canvas>
-            </div>
-        </div>
-
-        <div class="tipster-zones">
-            <!-- CASSEFORTI (SAFE BETS) -->
-            <div class="bets-container bets-safe">
-                <div class="tb-header safe-txt">🛡️ Le Casseforti (Safe Bets)</div>
-                <div class="tb-sub">Le 5 giocate con la probabilità matematica più alta. Ottime per Multiple.</div>
-                <div id="ui-safe-bets"></div>
-            </div>
-
-            <!-- ZONA VALORE (TIPSTER VALUE) -->
-            <div class="bets-container bets-value">
-                <div class="tb-header value-txt">🔥 La Zona Valore (Tipster Bets)</div>
-                <div class="tb-sub">La "Quota Equa" (Fair Odd) è il prezzo calcolato dal Motore. <br>Se il tuo Bookmaker offre una quota <strong>MAGGIORE</strong>, hai trovato una Value Bet!</div>
-                <div id="ui-value-bets"></div>
-            </div>
-        </div>
-
-        <div class="ai-analysis">
-            <div class="ai-header">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Console di Calcolo ELO
-            </div>
-            <ul class="ai-list" id="ui-ai-reasons"></ul>
         </div>
     </div>
 
     <script>
         const API_KEY = "768b184eb7mshaeaa81a195d2543p15a1d0jsnff4a155c9c37";
         const API_HOST = "sofascore.p.rapidapi.com";
-        const apiOptions = { method: 'GET', headers: { 'x-rapidapi-key': API_KEY, 'x-rapidapi-host': API_HOST } };
         const delay = ms => new Promise(res => setTimeout(res, ms));
-        let myRadarChart = null;
 
-        const TeamAliasMap = {
-            "viking": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
-            "bayern monaco": "FC Bayern München", "bayern": "FC Bayern München", "stella rossa": "Crvena zvezda", 
-            "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", "borussia dortmund": "Borussia Dortmund", 
-            "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", "sporting lisbona": "Sporting", 
-            "sporting cp": "Sporting", "manchester utd": "Manchester United", "man city": "Manchester City", 
-            "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", "eintracht francoforte": "Eintracht Frankfurt", 
-            "lione": "Lyon", "marsiglia": "Marseille", "lilla": "Lille", "nizza": "Nice", 
-            "siviglia": "Sevilla", "villareal": "Villarreal", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", 
-            "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", "besiktas": "Beşiktaş", "basilea": "Basel", 
-            "dinamo kiev": "Dynamo Kyiv", "atletico madrid": "Atlético Madrid", "milan": "AC Milan", "inter": "Inter", 
-            "juve": "Juventus", "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
+        let currentMatchContext = null; // Salva i dati del match cercato per poterli inviare alla memoria
+
+        // ----------------------------------------------------
+        // SISTEMA DI MEMORIA (IL CERVELLO 2 E IL PASSAPORTO)
+        // ----------------------------------------------------
+        const MemorySystem = {
+            data: [], // Array di giocate salvate
+            
+            init: function() {
+                let saved = localStorage.getItem('betbar_memory_v16');
+                if(saved) {
+                    try { this.data = JSON.parse(saved); } catch(e) { this.data = []; }
+                }
+                this.updateUI();
+            },
+
+            save: function() {
+                localStorage.setItem('betbar_memory_v16', JSON.stringify(this.data));
+                this.updateUI();
+            },
+
+            addBet: function(market, pick, conf, fairOdd) {
+                if(!currentMatchContext) return;
+                
+                // Evita duplicati dello stesso pick nella stessa partita
+                let exists = this.data.find(b => b.matchId === currentMatchContext.id && b.pick === pick);
+                if(exists) return false;
+
+                let newBet = {
+                    id: Date.now().toString(),
+                    matchId: currentMatchContext.id,
+                    matchName: currentMatchContext.name,
+                    date: new Date().toLocaleDateString('it-IT'),
+                    market: market,
+                    pick: pick,
+                    conf: conf,
+                    odd: fairOdd,
+                    status: 'pending' // 'pending', 'win', 'lose'
+                };
+                this.data.unshift(newBet); // Aggiunge in cima
+                this.save();
+                return true;
+            },
+
+            resolveBet: function(id, result) {
+                let bet = this.data.find(b => b.id === id);
+                if(bet) {
+                    bet.status = result;
+                    this.save();
+                }
+            },
+
+            exportPassport: function() {
+                if(this.data.length === 0) { alert("Memoria vuota. Salva qualche giocata prima di esportare."); return; }
+                let str = btoa(JSON.stringify(this.data));
+                document.getElementById('passport-box').value = str;
+                alert("Passaporto generato! Copia il testo e incollalo sul tuo smartphone.");
+            },
+
+            importPassport: function() {
+                let str = document.getElementById('passport-box').value.trim();
+                if(!str) return;
+                try {
+                    let parsed = JSON.parse(atob(str));
+                    if(Array.isArray(parsed)) {
+                        this.data = parsed;
+                        this.save();
+                        alert("Cervello importato con successo!");
+                        document.getElementById('passport-box').value = '';
+                    }
+                } catch(e) {
+                    alert("Errore: Stringa Passaporto non valida.");
+                }
+            },
+
+            // CALCOLO DEI MODIFICATORI (L'Apprendimento Morbido)
+            getMarketModifier: function(market) {
+                // Prende solo i match risolti per questo specifico mercato (es. "Goal Totali")
+                let resolved = this.data.filter(b => b.market === market && b.status !== 'pending');
+                if(resolved.length < 5) return 0; // Quarantena: Servono almeno 5 match su questo mercato per attivare l'AI
+                
+                let wins = resolved.filter(b => b.status === 'win').length;
+                let winRate = wins / resolved.length;
+                
+                // Matematica Soft-Tuning: 
+                // Se WinRate > 0.60 -> Bonus (Max +10%)
+                // Se WinRate < 0.45 -> Malus (Max -10%)
+                let modifier = 0;
+                if(winRate > 0.60) {
+                    modifier = (winRate - 0.60) * 20; // Es. 0.70 -> +2%
+                } else if (winRate < 0.45) {
+                    modifier = (winRate - 0.45) * 20; // Es. 0.30 -> -3%
+                }
+                
+                // Limite strutturale per evitare overfitting
+                return Math.max(-10, Math.min(10, modifier)); 
+            },
+
+            updateUI: function() {
+                let listEl = document.getElementById('ui-memory-list');
+                if(this.data.length === 0) {
+                    listEl.innerHTML = `<div class="no-bets-msg">Memoria vuota. Cerca una partita e salva le giocate.</div>`;
+                } else {
+                    let html = '';
+                    this.data.forEach(b => {
+                        let cls = b.status === 'win' ? 'win' : (b.status === 'lose' ? 'lose' : '');
+                        html += `
+                        <div class="mem-item ${cls}">
+                            <div class="mem-info">
+                                <div class="mem-match">${b.date} | ${b.matchName}</div>
+                                <div class="mem-pick">${b.market}: ${b.pick} (Quota ${b.odd})</div>
+                            </div>
+                            <div class="mem-actions">
+                                <button class="btn-resolve" onclick="MemorySystem.resolveBet('${b.id}', 'win')" title="Segna Vinta">✅</button>
+                                <button class="btn-resolve" onclick="MemorySystem.resolveBet('${b.id}', 'lose')" title="Segna Persa">❌</button>
+                                <div class="res-badge">${b.status === 'win' ? 'VINTA' : 'PERSA'}</div>
+                            </div>
+                        </div>`;
+                    });
+                    listEl.innerHTML = html;
+                }
+
+                // Stats
+                let total = this.data.filter(b => b.status !== 'pending').length;
+                let won = this.data.filter(b => b.status === 'win').length;
+                document.getElementById('stat-total').textContent = this.data.length;
+                document.getElementById('stat-won').textContent = won;
+                document.getElementById('stat-lost').textContent = this.data.filter(b => b.status === 'lose').length;
+                
+                let statusEl = document.getElementById('stat-status');
+                if(total < 5) {
+                    statusEl.textContent = `In Attesa (Mancano ${5 - total} esiti)`;
+                    statusEl.style.color = 'var(--text-muted)';
+                } else {
+                    statusEl.textContent = '🧠 AI ATTIVA';
+                    statusEl.style.color = 'var(--neon-green)';
+                }
+            }
         };
 
-        const LeagueTiers = {
-            "England": 1, "Spain": 1, "Germany": 1, "Italy": 1, "Europe": 1,
-            "France": 2, "Netherlands": 2, "Portugal": 2, "Belgium": 2, "Brazil": 2, "Argentina": 2,
-            "Turkey": 3, "Scotland": 3, "Switzerland": 3, "Austria": 3, "Greece": 3, "USA": 3,
-            "Norway": 4, "Sweden": 4, "Denmark": 4, "Croatia": 4, "Serbia": 4, "Czech Republic": 4, "Poland": 4, "Ukraine": 4
-        };
+        // Inizializza memoria al caricamento
+        MemorySystem.init();
 
-        const blacklist = ['U19', 'U18', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'YOUTH', 'WOMEN', 'WFC', 'LADIES', 'AMATEURS'];
+        // ----------------------------------------------------
+        // UI INTERACTION (TABS)
+        // ----------------------------------------------------
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`view-${tabId}`).classList.add('active');
+        }
+
+        function handleSaveBet(btn, market, pick, conf, odd) {
+            let success = MemorySystem.addBet(market, pick, conf, odd);
+            if(success) {
+                btn.textContent = "✔️ Salvata";
+                btn.classList.add("saved");
+            }
+        }
+
+        // ----------------------------------------------------
+        // MOTORE DI SCOUTING BASE
+        // ----------------------------------------------------
+        const TeamAliasMap = { "bayern": "FC Bayern München", "milan": "AC Milan", "inter": "Inter", "juve": "Juventus", "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta", "real madrid": "Real Madrid" };
+        const blacklist = ['U19', 'U18', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'WOMEN', 'WFC'];
         
         function isInvalidTeam(teamName) {
             if(!teamName) return true;
             let upName = teamName.toUpperCase();
             return blacklist.some(bad => upName.includes(bad) || upName.endsWith(' B') || upName.endsWith(' II'));
         }
-
-        function getTierData(country) {
-            let t = LeagueTiers[country] || 4;
-            let label = t===1 ? `⭐ Elite (${country})` : t===2 ? `🛡️ Premium (${country})` : t===3 ? `⚔️ Standard (${country})` : `📉 Minor (${country})`;
-            return { tier: t, label: label };
-        }
-
-        function setLog(text) { document.getElementById('loader-log').textContent = text; }
 
         function poisson(k, lambda) {
             let p = Math.exp(-lambda);
@@ -273,327 +443,180 @@
         }
 
         async function fetchAPI(url) {
-            let res = await fetch(url, apiOptions);
+            let res = await fetch(url, { method: 'GET', headers: { 'x-rapidapi-key': API_KEY, 'x-rapidapi-host': API_HOST } });
             let text = await res.text(); 
-            if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto.");
-            if (!res.ok) throw new Error(`Errore Server (${res.status}). Endpoint: ${url}`);
-            if (!text || text.trim() === "") throw new Error(`Nessun dato dal server.`);
-            try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta JSON non valida.`); }
+            if (!res.ok) throw new Error(`Errore Server (${res.status}).`);
+            return JSON.parse(text);
         }
 
         async function getNextLiveMatch(teamInput) {
             let cleanInput = teamInput.trim().toLowerCase();
             let queryName = TeamAliasMap[cleanInput] || teamInput.trim();
-            setLog(`Radar attivo: ricerca di ${queryName}...`);
+            setLog(`Ricerca di ${queryName}...`);
             
-            let searchUrl = `https://${API_HOST}/teams/search?name=${encodeURIComponent(queryName)}`;
-            let searchData = await fetchAPI(searchUrl);
-
+            let searchData = await fetchAPI(`https://${API_HOST}/teams/search?name=${encodeURIComponent(queryName)}`);
             let teamsList = searchData.data || searchData.results || searchData.teams || [];
-            if(teamsList.length === 0) {
-                for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } }
-            }
-            
-            let validTeams = teamsList.filter(t => 
-                (!t.sport || (t.sport && t.sport.name === 'Football')) && 
-                (!t.gender || t.gender === 'M') && 
-                !isInvalidTeam(t.name || t.entity?.name)
-            );
-            
-            if(validTeams.length === 0) throw new Error(`Nessuna squadra principale trovata per "${teamInput}". Riprova.`);
+            let validTeams = teamsList.filter(t => (!t.gender || t.gender === 'M') && !isInvalidTeam(t.name));
+            if(validTeams.length === 0) throw new Error(`Nessuna squadra principale trovata.`);
 
             validTeams.sort((a, b) => (b.userCount || 0) - (a.userCount || 0));
-            let mainTeamId = validTeams[0].id || validTeams[0].entity?.id;
-            let mainTeamName = validTeams[0].name || validTeams[0].entity?.name;
+            let mainTeamId = validTeams[0].id;
+            let mainTeamName = validTeams[0].name;
 
-            setLog(`Trovato ${mainTeamName}! Estrazione calendario...`);
-            await delay(800);
-
-            let nextMatchesUrl = `https://${API_HOST}/teams/get-next-matches?teamId=${mainTeamId}&page=0`;
-            let nextData = await fetchAPI(nextMatchesUrl);
+            await delay(600);
+            let nextData = await fetchAPI(`https://${API_HOST}/teams/get-next-matches?teamId=${mainTeamId}&page=0`);
+            if(!nextData.events || nextData.events.length === 0) throw new Error(`${mainTeamName} non ha partite in programma.`);
             
-            let upcomingEvents = nextData.events || [];
-            if(upcomingEvents.length === 0) throw new Error(`${mainTeamName} non ha partite in programma a breve termine.`);
-            
-            let nextMatch = upcomingEvents[0];
-            
-            let matchId = nextMatch.id || "000";
-            let tournament = (nextMatch.tournament && nextMatch.tournament.name) ? nextMatch.tournament.name : "Competizione Ufficiale";
-            let timestamp = nextMatch.startTimestamp || Math.floor(Date.now() / 1000);
-            
-            let homeId = (nextMatch.homeTeam && nextMatch.homeTeam.id) ? nextMatch.homeTeam.id : mainTeamId;
-            let homeName = (nextMatch.homeTeam && nextMatch.homeTeam.name) ? nextMatch.homeTeam.name : "Squadra Casa";
-            
-            let awayId = (nextMatch.awayTeam && nextMatch.awayTeam.id) ? nextMatch.awayTeam.id : "000";
-            let awayName = (nextMatch.awayTeam && nextMatch.awayTeam.name) ? nextMatch.awayTeam.name : "Squadra Trasferta";
-
-            return { matchId, tournament, timestamp, home: { id: homeId, name: homeName }, away: { id: awayId, name: awayName } };
+            let nextMatch = nextData.events[0];
+            return { 
+                id: nextMatch.id || "000", 
+                tournament: nextMatch.tournament?.name || "Competizione", 
+                timestamp: nextMatch.startTimestamp || (Date.now()/1000), 
+                home: { id: nextMatch.homeTeam.id, name: nextMatch.homeTeam.name }, 
+                away: { id: nextMatch.awayTeam.id, name: nextMatch.awayTeam.name } 
+            };
         }
 
         async function fetchStatsById(teamId, actualName) {
-            setLog(`Scarico database ELO per ${actualName}...`);
-            
-            let teamUrl = `https://${API_HOST}/teams/get-details?teamId=${teamId}`;
-            let country = "Unknown";
-            let tierData = getTierData(country);
-            
-            try {
-                let teamData = await fetchAPI(teamUrl);
-                country = teamData.team?.country?.name || teamData.team?.category?.name || "Unknown";
-                tierData = getTierData(country);
-            } catch(e) { console.warn("Dettagli team non trovati, uso fallback."); }
-
-            await delay(600);
-
             let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
-            
-            let allFinishedEvents = matchData.events?.filter(e => e.status?.type === 'finished') || [];
-            allFinishedEvents.sort((a, b) => (b.startTimestamp || 0) - (a.startTimestamp || 0));
-            let events = allFinishedEvents.slice(0, 5);
-            
-            if(events.length === 0) throw new Error(`Dati di forma recenti non disponibili per ${actualName}.`);
+            let events = (matchData.events?.filter(e => e.status?.type === 'finished') || []).sort((a, b) => b.startTimestamp - a.startTimestamp).slice(0, 5);
+            if(events.length === 0) throw new Error(`Dati di forma non disponibili per ${actualName}.`);
 
             let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
-            let chronologicalEvents = [...events].reverse();
-
-            chronologicalEvents.forEach(ev => {
-                let isHome = (ev.homeTeam && ev.homeTeam.id === teamId);
+            [...events].reverse().forEach(ev => {
+                let isHome = (ev.homeTeam.id === teamId);
                 let scored = isHome ? (ev.homeScore?.current || 0) : (ev.awayScore?.current || 0);
                 let conceded = isHome ? (ev.awayScore?.current || 0) : (ev.homeScore?.current || 0);
-                
                 goalsScored += scored; goalsConceded += conceded;
                 if (scored > conceded) { form.push('W'); points += 3; }
                 else if (scored === conceded) { form.push('D'); points += 1; }
                 else { form.push('L'); }
             });
-
-            let winRatio = points / 15; 
-            let rawAvgScored = goalsScored / events.length;
-            let rawAvgConceded = goalsConceded / events.length;
-            let rawRating = 6.4 + (winRatio * 1.2) + (rawAvgScored * 0.2);
-
-            return { team: { name: actualName, country: country, tier: tierData.tier, label: tierData.label }, pregameForm: { avgRating: rawRating, form: form }, stats: { rawScored: rawAvgScored, rawConceded: rawAvgConceded } };
+            let rawRating = 6.4 + ((points/15) * 1.2) + ((goalsScored/events.length) * 0.2);
+            return { team: { name: actualName, label: "Generico" }, pregameForm: { avgRating: rawRating, form: form }, stats: { rawScored: goalsScored/5, rawConceded: goalsConceded/5 } };
         }
 
         const ScoutingEngine = {
             calcMomentum: function(formArray) {
-                let pts = 0;
-                formArray.forEach((res, index) => { let w = 1 + (index * 0.15); if(res === 'W') pts += 3 * w; if(res === 'D') pts += 1 * w; });
-                return (pts / 18) * 100; 
+                let pts = 0; formArray.forEach((res, i) => { if(res === 'W') pts += 3*(1+i*0.15); if(res === 'D') pts += 1*(1+i*0.15); }); return (pts / 18) * 100; 
             },
 
             generateBets: function(hPower, aPower, xgHome, xgAway) {
                 let bets = [];
-                let diff = hPower - aPower;
-                let totalXg = xgHome + xgAway;
+                let diff = hPower - aPower; let totalXg = xgHome + xgAway;
                 
-                if (diff > 18) bets.push({ market: "Esito Finale", pick: "1 Fisso", conf: Math.min(96, 70 + diff) });
-                if (diff > 8 && diff <= 18) bets.push({ market: "Doppia Chance", pick: "1X", conf: 85 + (diff/2) });
-                if (diff < -18) bets.push({ market: "Esito Finale", pick: "2 Fisso", conf: Math.min(96, 70 + Math.abs(diff)) });
-                if (diff < -8 && diff >= -18) bets.push({ market: "Doppia Chance", pick: "X2", conf: 85 + (Math.abs(diff)/2) });
+                if (diff > 18) bets.push({ market: "Esito Finale", pick: "1 Fisso", baseConf: Math.min(96, 70 + diff) });
+                if (diff < -18) bets.push({ market: "Esito Finale", pick: "2 Fisso", baseConf: Math.min(96, 70 + Math.abs(diff)) });
                 
-                if (diff > 30) bets.push({ market: "Handicap Europeo", pick: "1 (H -1)", conf: 75 + (diff - 30) });
-                if (diff < -30) bets.push({ market: "Handicap Europeo", pick: "2 (H -1)", conf: 75 + (Math.abs(diff) - 30) });
-
                 let bttsProb = (1 - poisson(0, xgHome)) * (1 - poisson(0, xgAway)) * 100;
-                bets.push({ market: "Entrambe Segnano", pick: "GOAL", conf: bttsProb });
-                bets.push({ market: "Entrambe Segnano", pick: "NO GOAL", conf: 100 - bttsProb });
-
+                bets.push({ market: "Entrambe Segnano", pick: "GOAL", baseConf: bttsProb });
+                
                 let over25Prob = (1 - (poisson(0, totalXg) + poisson(1, totalXg) + poisson(2, totalXg))) * 100;
-                bets.push({ market: "Goal Totali", pick: "OVER 2.5", conf: over25Prob + 5 });
-                bets.push({ market: "Goal Totali", pick: "OVER 3.5", conf: over25Prob - 15 });
-                bets.push({ market: "Goal Totali", pick: "UNDER 2.5", conf: 100 - over25Prob });
-                bets.push({ market: "Goal Totali", pick: "UNDER 3.5", conf: 100 - (over25Prob - 15) });
+                bets.push({ market: "Goal Totali", pick: "OVER 2.5", baseConf: over25Prob + 5 });
+                bets.push({ market: "Goal Totali", pick: "UNDER 2.5", baseConf: 100 - over25Prob });
+                
+                bets.push({ market: "Goal Squadra Casa", pick: "OVER 1.5", baseConf: 100 - (poisson(0, xgHome) + poisson(1, xgHome))*100 });
+                bets.push({ market: "Multigoal Match", pick: "2-4 GOAL", baseConf: (poisson(2, totalXg)+poisson(3, totalXg)+poisson(4, totalXg))*100 });
 
-                bets.push({ market: "Goal Squadra Casa", pick: "OVER 1.5 CASA", conf: 100 - (poisson(0, xgHome) + poisson(1, xgHome))*100 });
-                bets.push({ market: "Goal Squadra Ospite", pick: "OVER 1.5 OSPITE", conf: 100 - (poisson(0, xgAway) + poisson(1, xgAway))*100 });
-
-                let mg24Prob = (poisson(2, totalXg) + poisson(3, totalXg) + poisson(4, totalXg)) * 100;
-                let mg13Prob = (poisson(1, totalXg) + poisson(2, totalXg) + poisson(3, totalXg)) * 100;
-                bets.push({ market: "Multigoal Match", pick: "2-4 GOAL", conf: mg24Prob });
-                bets.push({ market: "Multigoal Match", pick: "1-3 GOAL", conf: mg13Prob });
-
-                if (diff > 5) bets.push({ market: "Combo Match", pick: "1 + OVER 1.5", conf: Math.min(90, 60 + diff + (over25Prob/4)) });
-                if (diff < -5) bets.push({ market: "Combo Match", pick: "2 + OVER 1.5", conf: Math.min(90, 60 + Math.abs(diff) + (over25Prob/4)) });
-                if (diff > 8) bets.push({ market: "Combo Match", pick: "1X + NO GOAL", conf: 50 + diff });
-                if (diff > -8 && diff < 8) bets.push({ market: "Combo Match", pick: "X o GOAL", conf: 60 + bttsProb/2 });
-
-                let estCorners = 8 + (totalXg * 0.6) + (Math.abs(diff) / 12);
-                bets.push({ market: "Calci d'Angolo", pick: "OVER 8.5 CORNER", conf: (estCorners/10.5)*78 });
-                bets.push({ market: "Goal 1° Tempo", pick: "OVER 0.5 HT", conf: (totalXg/2.5)*80 });
-
-                let scores = [];
-                for(let h=0; h<=3; h++) {
-                    for(let a=0; a<=3; a++) {
-                        let p = (poisson(h, xgHome) * poisson(a, xgAway)) * 100;
-                        scores.push({ score: `${h}-${a}`, prob: p });
-                    }
-                }
-                scores.sort((a,b) => b.prob - a.prob);
-                let cluster = `${scores[0].score} / ${scores[1].score} / ${scores[2].score}`;
-                let clusterConf = scores[0].prob + scores[1].prob + scores[2].prob;
-                bets.push({ market: "Cluster Risultato Esatto", pick: cluster, conf: Math.min(85, clusterConf * 1.5) }); 
-
-                let validBets = [];
+                // FASE DOPPIO CERVELLO: Applicazione dell'AI Modificatore dalla Memoria
                 bets.forEach(b => {
-                    let cappedConf = Math.min(98, Math.max(2, b.conf)); 
-                    b.fairOdd = (100 / cappedConf).toFixed(2);
-                    if(b.conf > 30) validBets.push(b); 
+                    let modifier = MemorySystem.getMarketModifier(b.market);
+                    b.aiMod = modifier;
+                    b.conf = Math.min(98, Math.max(2, b.baseConf + modifier)); // Limita tra 2 e 98
+                    b.fairOdd = (100 / b.conf).toFixed(2);
                 });
 
-                validBets.sort((a, b) => b.conf - a.conf);
+                let validBets = bets.filter(b => b.conf > 30).sort((a, b) => b.conf - a.conf);
 
-                let safeBets = [];
-                let valueBets = [];
-                let safeSeen = new Set();
-                let valueSeen = new Set();
+                let safeBets = []; let valueBets = [];
+                let safeSeen = new Set(); let valueSeen = new Set();
 
-                // 1. SAFE BETS
                 for(let b of validBets) {
                     if(safeBets.length >= 5) break;
-                    if(b.market === "Doppia Chance" && safeSeen.has("Esito Finale")) continue;
-                    if(b.market === "Goal Totali" && safeSeen.has("Goal Totali")) continue;
-                    safeBets.push(b);
-                    safeSeen.add(b.market);
+                    if(safeSeen.has(b.market)) continue;
+                    safeBets.push(b); safeSeen.add(b.market);
                 }
 
-                // 2. VALUE BETS
                 let valueCandidates = validBets.filter(b => parseFloat(b.fairOdd) >= 1.40 && parseFloat(b.fairOdd) <= 2.00);
                 for(let b of valueCandidates) {
                     if(valueBets.length >= 5) break;
-                    if(b.market === "Doppia Chance" && valueSeen.has("Esito Finale")) continue;
-                    if(b.market === "Goal Totali" && valueSeen.has("Goal Totali")) continue;
-                    valueBets.push(b);
-                    valueSeen.add(b.market);
+                    if(valueSeen.has(b.market)) continue;
+                    valueBets.push(b); valueSeen.add(b.market);
                 }
 
                 return { safe: safeBets, value: valueBets };
             },
 
             analyze: function(home, away) {
-                let reasons = [];
-                let hFormScore = this.calcMomentum(home.pregameForm.form);
-                let aFormScore = this.calcMomentum(away.pregameForm.form);
-                let hRate = home.pregameForm.avgRating;
-                let aRate = away.pregameForm.avgRating;
+                let hFormScore = this.calcMomentum(home.pregameForm.form); let aFormScore = this.calcMomentum(away.pregameForm.form);
+                let hPower = ((home.pregameForm.avgRating * 10) * 0.55) + (hFormScore * 0.45);
+                let aPower = ((away.pregameForm.avgRating * 10) * 0.55) + (aFormScore * 0.45);
+                
+                const expGoalsHome = (home.stats.rawScored + away.stats.rawConceded) / 2;
+                const expGoalsAway = (away.stats.rawScored + home.stats.rawConceded) / 2;
 
-                let hPower = ((hRate * 10) * 0.55) + (hFormScore * 0.45);
-                let aPower = ((aRate * 10) * 0.55) + (aFormScore * 0.45);
-
-                let tierDiff = home.team.tier - away.team.tier; 
-                let hMalus = 0; let aMalus = 0;
-
-                if (tierDiff > 0) {
-                    hMalus = tierDiff * 15; hPower -= hMalus;
-                    reasons.push({ text: `🚨 PENALITÀ ELO: Il ${home.team.name} gioca in un campionato minore. Subisce un Malus di -${hMalus} punti.`, type: 'alert'});
-                } else if (tierDiff < 0) {
-                    aMalus = Math.abs(tierDiff) * 15; aPower -= aMalus;
-                    reasons.push({ text: `🚨 PENALITÀ ELO: L'${away.team.name} subisce un Malus di -${aMalus} punti per dislivello di campionato.`, type: 'alert'});
-                }
-
-                hPower = Math.max(10, hPower); aPower = Math.max(10, aPower);
-
-                let hGoalMult = Math.max(0.3, Math.min(2.0, 1 - (tierDiff * 0.2))); 
-                let aGoalMult = Math.max(0.3, Math.min(2.0, 1 + (tierDiff * 0.2)));
-
-                const hWeightedScored = home.stats.rawScored * hGoalMult;
-                const aWeightedScored = away.stats.rawScored * aGoalMult;
-                const hWeightedConceded = home.stats.rawConceded / hGoalMult;
-                const aWeightedConceded = away.stats.rawConceded / aGoalMult;
-
-                const expGoalsHome = (hWeightedScored + aWeightedConceded) / 2;
-                const expGoalsAway = (aWeightedScored + hWeightedConceded) / 2;
-                const totalExpGoals = expGoalsHome + expGoalsAway;
-
-                let betZones = this.generateBets(hPower, aPower, expGoalsHome, expGoalsAway);
-
-                reasons.push({ text: `La simulazione di Poisson prevede ${expGoalsHome.toFixed(2)} xG per la squadra in casa e ${expGoalsAway.toFixed(2)} xG per gli ospiti.`, type: 'normal' });
-
-                const radarData = {
-                    labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio Totale'],
-                    home: [ hPower, Math.min(100, (expGoalsHome / 2.5) * 100), Math.max(0, 100 - (hWeightedConceded / 2.5) * 100), Math.max(0, hFormScore - hMalus), hPower ],
-                    away: [ aPower, Math.min(100, (expGoalsAway / 2.5) * 100), Math.max(0, 100 - (aWeightedConceded / 2.5) * 100), Math.max(0, aFormScore - aMalus), aPower ]
-                };
-
-                return {
-                    hPower, aPower, hMalus, aMalus, expGoalsHome, expGoalsAway, totalExpGoals, hWeightedScored, aWeightedScored,
-                    hDefensiveScore: Math.max(10, 100 - (hWeightedConceded / 2.5) * 100),
-                    aDefensiveScore: Math.max(10, 100 - (aWeightedConceded / 2.5) * 100),
-                    radarData: radarData, betZones: betZones, reasons: reasons
-                };
+                return { hPower, aPower, expGoalsHome, expGoalsAway, betZones: this.generateBets(hPower, aPower, expGoalsHome, expGoalsAway) };
             }
         };
 
         async function runLiveScoutingEngine() {
             let tInput = document.getElementById('input-team').value;
-            if(!tInput) { alert("Inserisci il nome di una squadra!"); return; }
+            if(!tInput) { alert("Inserisci una squadra!"); return; }
 
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loader').style.display = 'flex';
             
             try {
                 let liveMatch = await getNextLiveMatch(tInput);
+                currentMatchContext = { id: liveMatch.matchId, name: `${liveMatch.home.name} vs ${liveMatch.away.name}` };
                 
-                let matchDate = new Date(liveMatch.timestamp * 1000).toLocaleString('it-IT', {weekday: 'long', day: '2-digit', month: 'long', hour: '2-digit', minute:'2-digit'});
+                let matchDate = new Date(liveMatch.timestamp * 1000).toLocaleString('it-IT', {day: '2-digit', month: 'long', hour: '2-digit', minute:'2-digit'});
                 document.getElementById('ui-match-date').textContent = `${matchDate} (${liveMatch.tournament})`;
 
-                await delay(1000); 
                 let homeData = await fetchStatsById(liveMatch.home.id, liveMatch.home.name);
-                await delay(1000); 
+                await delay(600); 
                 let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name);
                 
-                setLog("Calcolo quote matematiche in corso...");
-                await delay(600); 
-
                 let analysis = ScoutingEngine.analyze(homeData, awayData);
-                
                 renderDashboard(homeData, awayData, analysis);
+                
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
-                drawRadarChart(homeData.team.name, awayData.team.name, analysis.radarData);
-
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                alert(`⚠️ ERRORE RADAR:\n\n${error.message}`);
+                alert(`⚠️ ERRORE RADAR: ${error.message}`);
             }
-        }
-
-        function setH2HRow(idH, idA, valH, valA, isPercentage = false) {
-            let elH = document.getElementById(idH); let elA = document.getElementById(idA);
-            elH.textContent = isPercentage ? valH.toFixed(0) + '%' : valH.toFixed(2); 
-            elA.textContent = isPercentage ? valA.toFixed(0) + '%' : valA.toFixed(2);
-            elH.className = 'h2h-val'; elA.className = 'h2h-val';
-            if (valH === valA) { /* draw */ }
-            else if (valH > valA) { elH.classList.add('val-win'); elA.classList.add('val-lose'); }
-            else { elA.classList.add('val-win'); elH.classList.add('val-lose'); }
         }
 
         function renderBetRows(bets, containerId) {
             let container = document.getElementById(containerId);
-            if(bets.length === 0) {
-                container.innerHTML = `<div class="no-bets-msg">Nessuna giocata trovata in questo range. Match troppo sbilanciato.</div>`;
-                return;
-            }
+            if(bets.length === 0) { container.innerHTML = `<div class="no-bets-msg">Nessuna giocata trovata.</div>`; return; }
 
             let html = '';
             bets.forEach((bet, index) => {
-                let rank = index + 1;
                 let confClass = bet.conf >= 80 ? 'conf-green' : (bet.conf >= 60 ? 'conf-blue' : 'conf-gold');
-                let confText = Math.min(99, bet.conf).toFixed(1);
                 
+                // Genera l'etichetta dell'AI se c'è stata una modifica
+                let aiTag = '';
+                if(bet.aiMod > 0) aiTag = `<span class="ai-badge pos" title="L'AI ha aumentato la fiducia in base alle tue giocate vincenti passate">AI +${bet.aiMod.toFixed(1)}%</span>`;
+                else if (bet.aiMod < 0) aiTag = `<span class="ai-badge neg" title="L'AI ha abbassato la fiducia in base alle tue giocate perse passate">AI ${bet.aiMod.toFixed(1)}%</span>`;
+
                 html += `
-                <div class="bet-row" data-rank="${rank}">
+                <div class="bet-row" data-rank="${index+1}">
                     <div class="bet-info">
-                        <div class="bet-market">${rank} - ${bet.market}</div>
+                        <div class="bet-market">${bet.market}</div>
                         <div class="bet-pick">${bet.pick}</div>
                     </div>
                     <div class="bet-conf">
-                        <div class="conf-val ${confClass}">${confText}%</div>
-                        <div class="conf-lbl">Fiducia AI</div>
+                        <div class="conf-val ${confClass}">${bet.conf.toFixed(1)}% ${aiTag}</div>
+                        <div class="conf-lbl">Fiducia Reale</div>
                     </div>
                     <div class="bet-odd">
                         <div class="odd-val">@ ${bet.fairOdd}</div>
                         <div class="conf-lbl">Quota Equa</div>
+                    </div>
+                    <div class="bet-save">
+                        <button class="btn-save-bet" onclick="handleSaveBet(this, '${bet.market}', '${bet.pick}', ${bet.conf.toFixed(1)}, ${bet.fairOdd})">💾 Salva</button>
                     </div>
                 </div>`;
             });
@@ -602,47 +625,24 @@
 
         function renderDashboard(hData, aData, analysis) {
             document.getElementById('ui-home-name').textContent = hData.team.name;
-            document.getElementById('ui-home-tier').textContent = hData.team.label;
             document.getElementById('ui-away-name').textContent = aData.team.name;
-            document.getElementById('ui-away-tier').textContent = aData.team.label;
-            renderFormTrack('ui-home-form', hData.pregameForm.form);
-            renderFormTrack('ui-away-form', aData.pregameForm.form);
+            
+            document.getElementById('h2h-pi-h').textContent = analysis.hPower.toFixed(1);
+            document.getElementById('h2h-pi-a').textContent = analysis.aPower.toFixed(1);
+            document.getElementById('h2h-xg-h').textContent = analysis.expGoalsHome.toFixed(2);
+            document.getElementById('h2h-xg-a').textContent = analysis.expGoalsAway.toFixed(2);
 
-            let hMalusEl = document.getElementById('ui-home-malus');
-            if(analysis.hMalus > 0) { hMalusEl.style.display = 'block'; hMalusEl.textContent = `-${analysis.hMalus} Punti ELO`; } else { hMalusEl.style.display = 'none'; }
-            let aMalusEl = document.getElementById('ui-away-malus');
-            if(analysis.aMalus > 0) { aMalusEl.style.display = 'block'; aMalusEl.textContent = `-${analysis.aMalus} Punti ELO`; } else { aMalusEl.style.display = 'none'; }
-
-            setH2HRow('h2h-pi-h', 'h2h-pi-a', analysis.hPower, analysis.aPower);
-            setH2HRow('h2h-xg-h', 'h2h-xg-a', analysis.expGoalsHome, analysis.expGoalsAway);
-            setH2HRow('h2h-gf-h', 'h2h-gf-a', analysis.hWeightedScored, analysis.aWeightedScored);
-            setH2HRow('h2h-gs-h', 'h2h-gs-a', analysis.hDefensiveScore, analysis.aDefensiveScore, true); 
+            let renderForm = (id, arr) => {
+                document.getElementById(id).innerHTML = arr.map(res => {
+                    let cls = res === 'W' ? 'form-w' : (res === 'D' ? 'form-d' : 'form-l');
+                    return `<div class="form-badge ${cls}">${res}</div>`;
+                }).join('');
+            };
+            renderForm('ui-home-form', hData.pregameForm.form);
+            renderForm('ui-away-form', aData.pregameForm.form);
 
             renderBetRows(analysis.betZones.safe, 'ui-safe-bets');
             renderBetRows(analysis.betZones.value, 'ui-value-bets');
-
-            let reasonsHtml = '';
-            analysis.reasons.forEach(r => { let cls = r.type === 'alert' ? 'ai-alert' : ''; reasonsHtml += `<li class="${cls}">${r.text}</li>`; });
-            document.getElementById('ui-ai-reasons').innerHTML = reasonsHtml;
-        }
-
-        function renderFormTrack(containerId, formArray) {
-            let html = ''; formArray.forEach(res => { let cls = res === 'W' ? 'form-w' : (res === 'D' ? 'form-d' : 'form-l'); html += `<div class="form-badge ${cls}">${res}</div>`; });
-            document.getElementById(containerId).innerHTML = html;
-        }
-
-        function drawRadarChart(homeName, awayName, radarData) {
-            const ctx = document.getElementById('radarChart').getContext('2d');
-            if (myRadarChart) myRadarChart.destroy();
-            Chart.defaults.color = '#94a3b8'; Chart.defaults.font.family = 'Inter';
-
-            myRadarChart = new Chart(ctx, {
-                type: 'radar', data: { labels: radarData.labels, datasets: [
-                        { label: homeName.toUpperCase(), data: radarData.home, backgroundColor: 'rgba(0, 240, 255, 0.2)', borderColor: '#00f0ff', pointBackgroundColor: '#00f0ff', pointBorderColor: '#fff', borderWidth: 2 },
-                        { label: awayName.toUpperCase(), data: radarData.away, backgroundColor: 'rgba(255, 51, 102, 0.2)', borderColor: '#ff3366', pointBackgroundColor: '#ff3366', pointBorderColor: '#fff', borderWidth: 2 }
-                    ]},
-                options: { responsive: true, maintainAspectRatio: false, scales: { r: { angleLines: { color: 'rgba(255, 255, 255, 0.1)' }, grid: { color: 'rgba(255, 255, 255, 0.1)' }, pointLabels: { font: { size: 12, weight: 'bold' }, color: '#f8fafc' }, ticks: { display: false, min: 0, max: 100 } } }, plugins: { legend: { position: 'top', labels: { color: '#f8fafc', font: { weight: 'bold', size: 14 } } }, tooltip: { backgroundColor: '#1e293b', titleColor: '#fbbf24', bodyFont: { size: 14 } } } }
-            });
         }
     </script>
 </body>
