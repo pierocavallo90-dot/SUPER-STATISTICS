@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V14 - Live Match Scanner</title>
+    <title>BETBAR | Scouting Engine V14.1 - Live Match Scanner</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -76,7 +76,6 @@
         .radar-container { background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; justify-content: center; align-items: center;}
         .chart-wrapper { position: relative; width: 100%; max-width: 500px; height: 350px; }
 
-        /* TOP 5 BETS & VALUE ODDS */
         .top-bets-container { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; }
         .tb-header { text-align: center; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
         .tb-sub { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;}
@@ -116,7 +115,7 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v14">V14 REAL MATCH</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v14">V14.1 LIVE RADAR</span></div>
         <div class="api-status"><div class="api-dot"></div> SOFASCORE DATA</div>
     </div>
 
@@ -189,7 +188,7 @@
 
         <div class="top-bets-container">
             <div class="tb-header">🔥 Top 5 Value Bets</div>
-            <div class="tb-sub">Le "Quote Eque" sono generate dall'AI. Se il tuo Bookmaker offre una quota più alta, è una giocata di valore!</div>
+            <div class="tb-sub">Le "Quote Valore" sono generate dall'AI (Metodo Fair Odd). Se il tuo Bookmaker offre una quota maggiore, è una scommessa profittevole!</div>
             <div id="ui-top-bets">
                 <!-- BET ROWS GENERATE DA JS -->
             </div>
@@ -232,10 +231,11 @@
             "Norway": 4, "Sweden": 4, "Denmark": 4, "Croatia": 4, "Serbia": 4, "Czech Republic": 4, "Poland": 4, "Ukraine": 4
         };
 
-        // LA BLACKLIST ANTI-SCORIE (Via i ragazzini e le seconde squadre)
-        const blacklist = ['U19', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'YOUTH', 'WOMEN', 'WFC', 'LADIES', 'AMATEURS'];
+        // BLACKLIST RAFFORZATA
+        const blacklist = ['U19', 'U18', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'YOUTH', 'WOMEN', 'WFC', 'LADIES', 'AMATEURS'];
         
         function isInvalidTeam(teamName) {
+            if(!teamName) return true;
             let upName = teamName.toUpperCase();
             return blacklist.some(bad => upName.includes(bad) || upName.endsWith(' B') || upName.endsWith(' II'));
         }
@@ -258,12 +258,12 @@
             let res = await fetch(url, apiOptions);
             let text = await res.text(); 
             if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto.");
-            if (!res.ok) throw new Error(`Errore Server (${res.status}).`);
+            if (!res.ok) throw new Error(`Errore Server (${res.status}). Endpoint: ${url}`);
             if (!text || text.trim() === "") throw new Error(`Nessun dato dal server.`);
             try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta JSON non valida.`); }
         }
 
-        // STEP 1: CERCA IL TEAM E IL PROSSIMO MATCH REALE
+        // STEP 1: RADAR (Trova il match reale) - Con Try/Catch Anti-Crash
         async function getNextLiveMatch(teamInput) {
             let cleanInput = teamInput.trim().toLowerCase();
             let queryName = TeamAliasMap[cleanInput] || teamInput.trim();
@@ -277,7 +277,6 @@
                 for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } }
             }
             
-            // FILTRO ESTREMO: Solo calcio maschile, no blacklist
             let validTeams = teamsList.filter(t => 
                 (!t.sport || (t.sport && t.sport.name === 'Football')) && 
                 (!t.gender || t.gender === 'M') && 
@@ -301,43 +300,58 @@
             if(upcomingEvents.length === 0) throw new Error(`${mainTeamName} non ha partite in programma a breve termine.`);
             
             let nextMatch = upcomingEvents[0];
+            
+            // Estrazione sicura dei dati (Evita il crash se mancano pezzi)
+            let matchId = nextMatch.id || "000";
+            let tournament = (nextMatch.tournament && nextMatch.tournament.name) ? nextMatch.tournament.name : "Competizione Ufficiale";
+            let timestamp = nextMatch.startTimestamp || Math.floor(Date.now() / 1000);
+            
+            let homeId = (nextMatch.homeTeam && nextMatch.homeTeam.id) ? nextMatch.homeTeam.id : mainTeamId;
+            let homeName = (nextMatch.homeTeam && nextMatch.homeTeam.name) ? nextMatch.homeTeam.name : "Squadra Casa";
+            
+            let awayId = (nextMatch.awayTeam && nextMatch.awayTeam.id) ? nextMatch.awayTeam.id : "000";
+            let awayName = (nextMatch.awayTeam && nextMatch.awayTeam.name) ? nextMatch.awayTeam.name : "Squadra Trasferta";
+
             return {
-                matchId: nextMatch.id,
-                tournament: nextMatch.tournament?.name || "Competizione",
-                timestamp: nextMatch.startTimestamp,
-                home: { id: nextMatch.homeTeam.id, name: nextMatch.homeTeam.name },
-                away: { id: nextMatch.awayTeam.id, name: nextMatch.awayTeam.name }
+                matchId: matchId,
+                tournament: tournament,
+                timestamp: timestamp,
+                home: { id: homeId, name: homeName },
+                away: { id: awayId, name: awayName }
             };
         }
 
-        // STEP 2: ESTRAZIONE DATI DI FORMA PER TEAM ID (Usando il Time-Sync V13)
+        // STEP 2: ESTRAZIONE FORMA (Time-Sync)
         async function fetchStatsById(teamId, actualName) {
             setLog(`Scarico database ELO per ${actualName}...`);
             
-            // Fetch team details per country
             let teamUrl = `https://${API_HOST}/teams/get-details?teamId=${teamId}`;
-            let teamData = await fetchAPI(teamUrl);
-            let country = teamData.team?.country?.name || teamData.team?.category?.name || "Unknown";
+            let country = "Unknown";
             let tierData = getTierData(country);
+            
+            try {
+                let teamData = await fetchAPI(teamUrl);
+                country = teamData.team?.country?.name || teamData.team?.category?.name || "Unknown";
+                tierData = getTierData(country);
+            } catch(e) { console.warn("Dettagli team non trovati, uso fallback."); }
 
             await delay(600);
 
-            // Fetch matches
             let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
             
-            let allFinishedEvents = matchData.events?.filter(e => e.status.type === 'finished') || [];
-            allFinishedEvents.sort((a, b) => b.startTimestamp - a.startTimestamp);
+            let allFinishedEvents = matchData.events?.filter(e => e.status?.type === 'finished') || [];
+            allFinishedEvents.sort((a, b) => (b.startTimestamp || 0) - (a.startTimestamp || 0));
             let events = allFinishedEvents.slice(0, 5);
             
-            if(events.length === 0) throw new Error(`Dati di forma insufficienti per ${actualName}.`);
+            if(events.length === 0) throw new Error(`Dati di forma recenti non disponibili per ${actualName}.`);
 
             let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
             let chronologicalEvents = [...events].reverse();
 
             chronologicalEvents.forEach(ev => {
-                let isHome = ev.homeTeam.id === teamId;
-                let scored = isHome ? ev.homeScore.current : ev.awayScore.current;
-                let conceded = isHome ? ev.awayScore.current : ev.homeScore.current;
+                let isHome = (ev.homeTeam && ev.homeTeam.id === teamId);
+                let scored = isHome ? (ev.homeScore?.current || 0) : (ev.awayScore?.current || 0);
+                let conceded = isHome ? (ev.awayScore?.current || 0) : (ev.homeScore?.current || 0);
                 
                 goalsScored += scored; goalsConceded += conceded;
                 if (scored > conceded) { form.push('W'); points += 3; }
@@ -365,7 +379,6 @@
                 let diff = hPower - aPower;
                 let totalXg = xgHome + xgAway;
                 
-                // Quote Generatore Base
                 if (diff > 18) bets.push({ market: "Esito Finale", pick: "1 Fisso", conf: Math.min(96, 70 + diff) });
                 if (diff > 8 && diff <= 18) bets.push({ market: "Doppia Chance", pick: "1X", conf: 85 + (diff/2) });
                 if (diff < -18) bets.push({ market: "Esito Finale", pick: "2 Fisso", conf: Math.min(96, 70 + Math.abs(diff)) });
@@ -411,7 +424,6 @@
                 let clusterConf = scores[0].prob + scores[1].prob + scores[2].prob;
                 bets.push({ market: "Cluster Risultato Esatto", pick: cluster, conf: Math.min(85, clusterConf * 1.5) }); 
 
-                // Ordina e filtra le prime 5
                 bets.sort((a, b) => b.conf - a.conf);
                 
                 let finalBets = [];
@@ -422,8 +434,8 @@
                     if(b.market === "Doppia Chance" && seenMarkets.has("Esito Finale")) continue;
                     if(b.market === "Goal Totali" && seenMarkets.has("Goal Totali")) continue; 
                     
-                    // CALCOLO QUOTA EQUA (Fair Odd)
-                    let cappedConf = Math.min(98, b.conf); // Previene quote irrealistiche (es. 1.00)
+                    // CALCOLO QUOTA EQUA 
+                    let cappedConf = Math.min(98, b.conf); 
                     b.fairOdd = (100 / cappedConf).toFixed(2);
                     
                     finalBets.push(b);
