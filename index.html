@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V13 - Time-Sync Core</title>
+    <title>BETBAR | Scouting Engine V14 - Live Match Scanner</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -21,18 +21,20 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v13 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
+        .logo-v14 { font-size: 0.8rem; background: var(--accent-gold); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px; vertical-align: top;}
         .api-status { font-size: 0.8rem; color: var(--neon-green); font-weight: bold; display: flex; align-items: center; gap: 8px;}
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 15px; border-radius: 12px; margin: 20px auto; max-width: 1000px; width: 95%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .search-box { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-        .search-lbl { font-size: 0.75rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase;}
-        .search-input { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 6px; font-size: 1.1rem; font-weight: bold; outline: none;}
+        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 20px; border-radius: 12px; margin: 20px auto; max-width: 800px; width: 95%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); align-items: flex-end;}
+        .search-box { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .search-lbl { font-size: 0.85rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+        .search-input { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 6px; font-size: 1.2rem; font-weight: bold; outline: none;}
         .search-input:focus { border-color: var(--accent-gold); }
-        .btn-scout { background: linear-gradient(90deg, var(--accent-gold), #eab308); color: #000; border: none; padding: 0 30px; border-radius: 6px; font-weight: 900; font-size: 1rem; text-transform: uppercase; cursor: pointer; transition: 0.2s;}
+        .btn-scout { background: linear-gradient(90deg, var(--accent-gold), #eab308); color: #000; border: none; padding: 15px 40px; border-radius: 6px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; transition: 0.2s; height: 53px;}
         .btn-scout:hover { filter: brightness(1.1); transform: translateY(-1px);}
+
+        @media (max-width: 600px) { .search-container { flex-direction: column; align-items: stretch;} .btn-scout { height: auto; } }
 
         .loader-container { display: none; text-align: center; padding: 50px; flex-direction: column; align-items: center; gap: 15px;}
         .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent-gold); border-radius: 50%; animation: spin 1s linear infinite; }
@@ -41,6 +43,9 @@
 
         .dashboard { display: none; max-width: 1100px; margin: 0 auto; padding: 0 15px 40px 15px; width: 100%; animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .match-header { text-align: center; background: var(--bg-darker); padding: 10px; border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.9rem; font-weight: bold; margin-bottom: 20px;}
+        .mh-date { color: var(--accent-gold); margin-left: 10px;}
 
         .match-arena { display: flex; gap: 15px; margin-bottom: 20px; align-items: stretch;}
         @media (max-width: 850px) { .match-arena { flex-direction: column; } }
@@ -71,27 +76,33 @@
         .radar-container { background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; display: flex; justify-content: center; align-items: center;}
         .chart-wrapper { position: relative; width: 100%; max-width: 500px; height: 350px; }
 
+        /* TOP 5 BETS & VALUE ODDS */
         .top-bets-container { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); border-radius: 16px; padding: 25px; box-shadow: 0 10px 40px rgba(251, 191, 36, 0.15); margin-bottom: 20px; }
-        .tb-header { text-align: center; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .tb-header { text-align: center; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+        .tb-sub { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;}
         
-        .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden;}
+        .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 10px; padding: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; position: relative; overflow: hidden; gap: 10px;}
+        @media (max-width: 500px) { .bet-row { flex-wrap: wrap; } .bet-conf { border-left: none; padding-left: 0; } }
+        
         .bet-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--text-muted); }
         .bet-row[data-rank="1"]::before { background: var(--neon-green); box-shadow: 0 0 15px var(--neon-green);}
         .bet-row[data-rank="2"]::before { background: var(--accent-blue); }
         .bet-row[data-rank="3"]::before { background: var(--accent-gold); }
         
-        .bet-info { display: flex; flex-direction: column; gap: 4px; z-index: 1;}
+        .bet-info { display: flex; flex-direction: column; gap: 4px; z-index: 1; flex: 2;}
         .bet-market { font-size: 0.75rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; }
         .bet-pick { font-size: 1.4rem; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2);}
         
-        .bet-conf { text-align: right; z-index: 1;}
-        .conf-val { font-size: 1.5rem; font-weight: 900; }
-        .conf-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold;}
+        .bet-conf, .bet-odd { text-align: right; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;}
+        .bet-odd { border-left: 1px dashed rgba(255,255,255,0.1); padding-left: 15px; }
+        
+        .conf-val { font-size: 1.3rem; font-weight: 900; }
+        .odd-val { font-size: 1.3rem; font-weight: 900; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;}
+        .conf-lbl { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-top: 2px;}
         
         .conf-green { color: var(--neon-green); }
         .conf-blue { color: var(--accent-blue); }
         .conf-gold { color: var(--accent-gold); }
-        .conf-gray { color: var(--text-muted); }
 
         .ai-analysis { background: var(--bg-panel); border-radius: 12px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
         .ai-header { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-weight: 900; font-size: 1.1rem; color: var(--accent-gold);}
@@ -105,39 +116,40 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v13">V13 TIME-SYNC</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v14">V14 REAL MATCH</span></div>
         <div class="api-status"><div class="api-dot"></div> SOFASCORE DATA</div>
     </div>
 
     <div class="search-container">
         <div class="search-box">
-            <span class="search-lbl">Squadra Casa</span>
-            <input type="text" id="input-home" class="search-input" placeholder="Es. Atletico Madrid">
+            <span class="search-lbl">Radar Partite Reali (Trova il prossimo match)</span>
+            <input type="text" id="input-team" class="search-input" placeholder="Scrivi una squadra (es. Atalanta, Roma, Villarreal)...">
         </div>
-        <div class="search-box">
-            <span class="search-lbl">Squadra Ospite</span>
-            <input type="text" id="input-away" class="search-input" placeholder="Es. Manchester United">
-        </div>
-        <button class="btn-scout" onclick="runScoutingEngine()">Elabora Quote</button>
+        <button class="btn-scout" onclick="runLiveScoutingEngine()">Scannerizza</button>
     </div>
 
     <div class="loader-container" id="loader">
         <div class="spinner"></div>
-        <div class="loader-text" id="loader-log">Allineamento Temporale Dati...</div>
+        <div class="loader-text" id="loader-log">Connessione Radar...</div>
     </div>
 
     <div class="dashboard" id="dashboard">
+        
+        <div class="match-header" id="ui-match-header">
+            🏆 TROVATO MATCH UFFICIALE <span class="mh-date" id="ui-match-date">-</span>
+        </div>
+
         <div class="match-arena">
             <div class="team-col" id="col-home">
                 <div class="tc-malus" id="ui-home-malus">-15 Punti ELO</div>
-                <div class="tc-name home-color" id="ui-home-name">Team A</div>
+                <div class="tc-name home-color" id="ui-home-name">Team Casa</div>
                 <div class="tc-tier" id="ui-home-tier">Tier</div>
                 <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA RECENTE</div>
                 <div class="form-track" id="ui-home-form"></div>
             </div>
 
             <div class="h2h-col">
-                <div class="h2h-title">📊 Statistiche Pesate ELO</div>
+                <div class="h2h-title">📊 Statistiche ELO Incrociate</div>
                 <div class="h2h-row">
                     <div class="h2h-val" id="h2h-pi-h">0.0</div>
                     <div class="h2h-lbl">Power Index Reale</div>
@@ -145,7 +157,7 @@
                 </div>
                 <div class="h2h-row">
                     <div class="h2h-val" id="h2h-xg-h">0.0</div>
-                    <div class="h2h-lbl">xG Atteso (Valore)</div>
+                    <div class="h2h-lbl">xG Attesi al Fischio</div>
                     <div class="h2h-val" id="h2h-xg-a">0.0</div>
                 </div>
                 <div class="h2h-row">
@@ -162,7 +174,7 @@
 
             <div class="team-col" id="col-away">
                 <div class="tc-malus" id="ui-away-malus">-15 Punti ELO</div>
-                <div class="tc-name away-color" id="ui-away-name">Team B</div>
+                <div class="tc-name away-color" id="ui-away-name">Team Trasferta</div>
                 <div class="tc-tier" id="ui-away-tier">Tier</div>
                 <div style="font-size:0.7rem; color:var(--text-muted); font-weight:bold;">FORMA RECENTE</div>
                 <div class="form-track" id="ui-away-form"></div>
@@ -177,6 +189,7 @@
 
         <div class="top-bets-container">
             <div class="tb-header">🔥 Top 5 Value Bets</div>
+            <div class="tb-sub">Le "Quote Eque" sono generate dall'AI. Se il tuo Bookmaker offre una quota più alta, è una giocata di valore!</div>
             <div id="ui-top-bets">
                 <!-- BET ROWS GENERATE DA JS -->
             </div>
@@ -199,14 +212,14 @@
         let myRadarChart = null;
 
         const TeamAliasMap = {
-            "viking": "Viking FK", "viking fk": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
+            "viking": "Viking FK", "bodo": "Bodø/Glimt", "bodo glimt": "Bodø/Glimt",
             "bayern monaco": "FC Bayern München", "bayern": "FC Bayern München", "stella rossa": "Crvena zvezda", 
             "lipsia": "RB Leipzig", "rb lipsia": "RB Leipzig", "borussia dortmund": "Borussia Dortmund", 
             "psg": "Paris Saint-Germain", "paris saint germain": "Paris Saint-Germain", "sporting lisbona": "Sporting", 
             "sporting cp": "Sporting", "manchester utd": "Manchester United", "man city": "Manchester City", 
             "bayer leverkusen": "Bayer Leverkusen", "stoccarda": "VfB Stuttgart", "eintracht francoforte": "Eintracht Frankfurt", 
-            "lione": "Lyon", "olympique lione": "Lyon", "marsiglia": "Marseille", "olympique marsiglia": "Marseille", 
-            "lilla": "Lille", "nizza": "Nice", "siviglia": "Sevilla", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", 
+            "lione": "Lyon", "marsiglia": "Marseille", "lilla": "Lille", "nizza": "Nice", 
+            "siviglia": "Sevilla", "villareal": "Villarreal", "bruges": "Club Brugge", "shakhtar": "Shakhtar Donetsk", 
             "galatasaray": "Galatasaray", "fenerbahce": "Fenerbahçe", "besiktas": "Beşiktaş", "basilea": "Basel", 
             "dinamo kiev": "Dynamo Kyiv", "atletico madrid": "Atlético Madrid", "milan": "AC Milan", "inter": "Inter", 
             "juve": "Juventus", "roma": "Roma", "lazio": "Lazio", "napoli": "Napoli", "atalanta": "Atalanta"
@@ -218,6 +231,14 @@
             "Turkey": 3, "Scotland": 3, "Switzerland": 3, "Austria": 3, "Greece": 3, "USA": 3,
             "Norway": 4, "Sweden": 4, "Denmark": 4, "Croatia": 4, "Serbia": 4, "Czech Republic": 4, "Poland": 4, "Ukraine": 4
         };
+
+        // LA BLACKLIST ANTI-SCORIE (Via i ragazzini e le seconde squadre)
+        const blacklist = ['U19', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'YOUTH', 'WOMEN', 'WFC', 'LADIES', 'AMATEURS'];
+        
+        function isInvalidTeam(teamName) {
+            let upName = teamName.toUpperCase();
+            return blacklist.some(bad => upName.includes(bad) || upName.endsWith(' B') || upName.endsWith(' II'));
+        }
 
         function getTierData(country) {
             let t = LeagueTiers[country] || 4;
@@ -238,61 +259,79 @@
             let text = await res.text(); 
             if (res.status === 403 || res.status === 401) throw new Error("API Key Bloccata o Limite Raggiunto.");
             if (!res.ok) throw new Error(`Errore Server (${res.status}).`);
-            if (!text || text.trim() === "") throw new Error(`Il server ha restituito una pagina vuota.`);
-            try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta non valida dal server.`); }
+            if (!text || text.trim() === "") throw new Error(`Nessun dato dal server.`);
+            try { return JSON.parse(text); } catch (e) { throw new Error(`Risposta JSON non valida.`); }
         }
 
-        async function fetchTeamStats(teamName) {
-            let cleanInput = teamName.trim().toLowerCase();
-            let queryName = TeamAliasMap[cleanInput] || teamName.trim();
-            setLog(`Ricerca globale per: ${queryName}...`);
+        // STEP 1: CERCA IL TEAM E IL PROSSIMO MATCH REALE
+        async function getNextLiveMatch(teamInput) {
+            let cleanInput = teamInput.trim().toLowerCase();
+            let queryName = TeamAliasMap[cleanInput] || teamInput.trim();
+            setLog(`Radar attivo: ricerca di ${queryName}...`);
             
             let searchUrl = `https://${API_HOST}/teams/search?name=${encodeURIComponent(queryName)}`;
-            let searchData;
-            
-            try { searchData = await fetchAPI(searchUrl); } 
-            catch (err) { throw new Error(`Connessione all'archivio fallita: ${err.message}`); }
+            let searchData = await fetchAPI(searchUrl);
 
-            let teamsList = [];
-            if (Array.isArray(searchData.data)) teamsList = searchData.data;
-            else if (Array.isArray(searchData.results)) teamsList = searchData.results;
-            else if (Array.isArray(searchData.teams)) teamsList = searchData.teams;
-            else { for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } } }
+            let teamsList = searchData.data || searchData.results || searchData.teams || [];
+            if(teamsList.length === 0) {
+                for (let key in searchData) { if (Array.isArray(searchData[key])) { teamsList = searchData[key]; break; } }
+            }
             
-            // LUCCHETTO GENERE: Assicura di prendere solo team Maschili se il dato è presente (ignora le donne "F")
-            let footballTeams = teamsList.filter(t => 
+            // FILTRO ESTREMO: Solo calcio maschile, no blacklist
+            let validTeams = teamsList.filter(t => 
                 (!t.sport || (t.sport && t.sport.name === 'Football')) && 
-                (!t.gender || t.gender === 'M')
+                (!t.gender || t.gender === 'M') && 
+                !isInvalidTeam(t.name || t.entity?.name)
             );
-            if(footballTeams.length === 0) throw new Error(`Nessuna squadra maschile trovata per "${teamName}".`);
-
-            footballTeams.sort((a, b) => (b.userCount || 0) - (a.userCount || 0));
-            let teamObj = footballTeams[0]; 
             
-            let teamId = teamObj.id || teamObj.entity?.id;
-            let actualName = teamObj.name || teamObj.entity?.name;
-            let country = teamObj.country?.name || teamObj.category?.name || "Unknown";
+            if(validTeams.length === 0) throw new Error(`Nessuna squadra principale trovata per "${teamInput}". Riprova.`);
+
+            validTeams.sort((a, b) => (b.userCount || 0) - (a.userCount || 0));
+            let mainTeamId = validTeams[0].id || validTeams[0].entity?.id;
+            let mainTeamName = validTeams[0].name || validTeams[0].entity?.name;
+
+            setLog(`Trovato ${mainTeamName}! Estrazione calendario...`);
+            await delay(800);
+
+            // Fetch Next Matches
+            let nextMatchesUrl = `https://${API_HOST}/teams/get-next-matches?teamId=${mainTeamId}&page=0`;
+            let nextData = await fetchAPI(nextMatchesUrl);
+            
+            let upcomingEvents = nextData.events || [];
+            if(upcomingEvents.length === 0) throw new Error(`${mainTeamName} non ha partite in programma a breve termine.`);
+            
+            let nextMatch = upcomingEvents[0];
+            return {
+                matchId: nextMatch.id,
+                tournament: nextMatch.tournament?.name || "Competizione",
+                timestamp: nextMatch.startTimestamp,
+                home: { id: nextMatch.homeTeam.id, name: nextMatch.homeTeam.name },
+                away: { id: nextMatch.awayTeam.id, name: nextMatch.awayTeam.name }
+            };
+        }
+
+        // STEP 2: ESTRAZIONE DATI DI FORMA PER TEAM ID (Usando il Time-Sync V13)
+        async function fetchStatsById(teamId, actualName) {
+            setLog(`Scarico database ELO per ${actualName}...`);
+            
+            // Fetch team details per country
+            let teamUrl = `https://${API_HOST}/teams/get-details?teamId=${teamId}`;
+            let teamData = await fetchAPI(teamUrl);
+            let country = teamData.team?.country?.name || teamData.team?.category?.name || "Unknown";
             let tierData = getTierData(country);
 
-            await delay(800);
-            setLog(`Calcolo sincronizzato forma per ${actualName}...`);
+            await delay(600);
 
+            // Fetch matches
             let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
             
-            // TIMESTAMPS SORTER: Filtra i match finiti e li ordina dal PIÙ RECENTE al più vecchio
             let allFinishedEvents = matchData.events?.filter(e => e.status.type === 'finished') || [];
             allFinishedEvents.sort((a, b) => b.startTimestamp - a.startTimestamp);
-            
-            // Estrae solo gli ultimi 5 in ordine temporale reale
             let events = allFinishedEvents.slice(0, 5);
             
-            if(!events || events.length === 0) throw new Error(`Nessun match ufficiale recente per ${actualName}.`);
+            if(events.length === 0) throw new Error(`Dati di forma insufficienti per ${actualName}.`);
 
             let form = []; let goalsScored = 0; let goalsConceded = 0; let points = 0;
-
-            // Dato che 'events' è ordinato dal più recente (index 0) al più vecchio (index 4)
-            // e noi vogliamo renderizzarli da sinistra (più vecchio) a destra (più recente),
-            // inverto l'array prima di processarlo per l'estetica della UI
             let chronologicalEvents = [...events].reverse();
 
             chronologicalEvents.forEach(ev => {
@@ -326,6 +365,7 @@
                 let diff = hPower - aPower;
                 let totalXg = xgHome + xgAway;
                 
+                // Quote Generatore Base
                 if (diff > 18) bets.push({ market: "Esito Finale", pick: "1 Fisso", conf: Math.min(96, 70 + diff) });
                 if (diff > 8 && diff <= 18) bets.push({ market: "Doppia Chance", pick: "1X", conf: 85 + (diff/2) });
                 if (diff < -18) bets.push({ market: "Esito Finale", pick: "2 Fisso", conf: Math.min(96, 70 + Math.abs(diff)) });
@@ -371,6 +411,7 @@
                 let clusterConf = scores[0].prob + scores[1].prob + scores[2].prob;
                 bets.push({ market: "Cluster Risultato Esatto", pick: cluster, conf: Math.min(85, clusterConf * 1.5) }); 
 
+                // Ordina e filtra le prime 5
                 bets.sort((a, b) => b.conf - a.conf);
                 
                 let finalBets = [];
@@ -380,6 +421,10 @@
                     if(finalBets.length >= 5) break;
                     if(b.market === "Doppia Chance" && seenMarkets.has("Esito Finale")) continue;
                     if(b.market === "Goal Totali" && seenMarkets.has("Goal Totali")) continue; 
+                    
+                    // CALCOLO QUOTA EQUA (Fair Odd)
+                    let cappedConf = Math.min(98, b.conf); // Previene quote irrealistiche (es. 1.00)
+                    b.fairOdd = (100 / cappedConf).toFixed(2);
                     
                     finalBets.push(b);
                     seenMarkets.add(b.market);
@@ -425,8 +470,8 @@
 
                 let topBets = this.generateTopBets(hPower, aPower, expGoalsHome, expGoalsAway);
 
-                reasons.push({ text: `La simulazione di Poisson prevede ${expGoalsHome.toFixed(2)} xG per la squadra di casa e ${expGoalsAway.toFixed(2)} xG per gli ospiti.`, type: 'normal' });
-                if(Math.abs(hPower - aPower) > 20) reasons.push({ text: `Rilevato forte sbilanciamento di Potenza ELO: generati mercati Handicap e Combo ad alto valore.`, type: 'normal' });
+                reasons.push({ text: `La simulazione di Poisson prevede ${expGoalsHome.toFixed(2)} xG per la squadra in casa e ${expGoalsAway.toFixed(2)} xG per gli ospiti.`, type: 'normal' });
+                reasons.push({ text: `Le "Quote Valore" mostrate derivano dalla probabilità pura. Giocale solo se il bookmaker ti offre una quota MAGGIORE di quella indicata!`, type: 'normal' });
 
                 const radarData = {
                     labels: ['Potenza ELO', 'Attacco Efficace', 'Solidità ELO', 'Forma Ponderata', 'Dominio Totale'],
@@ -443,22 +488,34 @@
             }
         };
 
-        async function runScoutingEngine() {
-            let hInput = document.getElementById('input-home').value;
-            let aInput = document.getElementById('input-away').value;
-            if(!hInput || !aInput) { alert("Inserisci entrambe le squadre."); return; }
+        async function runLiveScoutingEngine() {
+            let tInput = document.getElementById('input-team').value;
+            if(!tInput) { alert("Inserisci il nome di una squadra!"); return; }
 
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loader').style.display = 'flex';
             
             try {
-                let homeData = await fetchTeamStats(hInput);
+                // 1. Trova il match reale
+                let liveMatch = await getNextLiveMatch(tInput);
+                
+                // Formatta la data
+                let matchDate = new Date(liveMatch.timestamp * 1000).toLocaleString('it-IT', {weekday: 'long', day: '2-digit', month: 'long', hour: '2-digit', minute:'2-digit'});
+                document.getElementById('ui-match-date').textContent = `${matchDate} (${liveMatch.tournament})`;
+
+                // 2. Scarica i dati storici delle due squadre trovate
                 await delay(1000); 
-                let awayData = await fetchTeamStats(aInput);
-                setLog("Simulazione Quote in corso...");
+                let homeData = await fetchStatsById(liveMatch.home.id, liveMatch.home.name);
+                await delay(1000); 
+                let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name);
+                
+                setLog("Calcolo Quote Valore in corso...");
                 await delay(600); 
 
+                // 3. Esegue ELO
                 let analysis = ScoutingEngine.analyze(homeData, awayData);
+                
+                // 4. Render
                 renderDashboard(homeData, awayData, analysis);
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
@@ -466,7 +523,7 @@
 
             } catch (error) {
                 document.getElementById('loader').style.display = 'none';
-                alert(`⚠️ ERRORE MOTORE:\n\n${error.message}`);
+                alert(`⚠️ RADAR ERROR:\n\n${error.message}`);
             }
         }
 
@@ -512,7 +569,11 @@
                     </div>
                     <div class="bet-conf">
                         <div class="conf-val ${confClass}">${confText}%</div>
-                        <div class="conf-lbl">Fiducia</div>
+                        <div class="conf-lbl">Fiducia AI</div>
+                    </div>
+                    <div class="bet-odd">
+                        <div class="odd-val">@ ${bet.fairOdd}</div>
+                        <div class="conf-lbl">Quota Valore (Minima)</div>
                     </div>
                 </div>`;
             });
