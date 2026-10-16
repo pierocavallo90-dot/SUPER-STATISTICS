@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V17.1 - Gold Master</title>
+    <title>BETBAR | Scouting Engine V19 - 11/10 Singularity Edition</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -22,7 +22,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v17 { font-size: 0.75rem; background: linear-gradient(90deg, var(--accent-gold), #f59e0b); color: #000; padding: 3px 8px; border-radius: 4px; margin-left: 6px; vertical-align: top; font-weight: 900;}
+        .logo-v19 { font-size: 0.75rem; background: linear-gradient(90deg, var(--neon-green), var(--accent-blue)); color: #000; padding: 3px 8px; border-radius: 4px; margin-left: 6px; vertical-align: top; font-weight: 900;}
         
         .tab-menu { display: flex; gap: 10px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 8px;}
         .tab-btn { background: transparent; border: none; color: var(--text-muted); font-weight: bold; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: 0.2s;}
@@ -74,8 +74,11 @@
         .home-color { color: var(--accent-blue); text-shadow: 0 0 15px rgba(0,240,255,0.3);}
         .away-color { color: var(--accent-red); text-shadow: 0 0 15px rgba(255,51,102,0.3);}
         
-        .tc-tier { font-size: 0.75rem; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px; margin-bottom: 12px; font-weight: bold; color: var(--accent-gold); z-index: 2;}
-        .tc-malus { position: absolute; top: 10px; right: 10px; font-size: 0.72rem; background: rgba(239, 68, 68, 0.2); color: var(--neon-red); font-weight: bold; padding: 3px 7px; border-radius: 4px; border: 1px solid var(--neon-red); display: none; z-index: 2;}
+        .tc-badges-row { display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; z-index: 2;}
+        .tc-tier { font-size: 0.72rem; background: rgba(255,255,255,0.1); padding: 4px 9px; border-radius: 6px; font-weight: bold; color: var(--accent-gold);}
+        .tc-rest { font-size: 0.7rem; background: rgba(0, 240, 255, 0.12); padding: 4px 8px; border-radius: 6px; font-weight: bold; color: var(--accent-blue); border: 1px solid rgba(0, 240, 255, 0.25);}
+        .tc-rest.fatigue { background: rgba(239, 68, 68, 0.18); color: var(--neon-red); border-color: var(--neon-red);}
+        .tc-malus { position: absolute; top: 10px; right: 10px; font-size: 0.7rem; background: rgba(239, 68, 68, 0.2); color: var(--neon-red); font-weight: bold; padding: 3px 7px; border-radius: 4px; border: 1px solid var(--neon-red); display: none; z-index: 2;}
 
         .form-lbl { font-size: 0.65rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; margin-top: 8px; letter-spacing: 0.5px;}
         .form-track { display: flex; gap: 5px; justify-content: center; margin-top: 5px; z-index: 2;}
@@ -110,7 +113,7 @@
         .value-txt { color: var(--accent-gold); }
         .tb-sub { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;}
         
-        .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; position: relative; overflow: hidden;}
+        .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 7px; position: relative; overflow: hidden;}
         .bet-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--text-muted); }
         .bet-row[data-rank="1"]::before { background: var(--neon-green); box-shadow: 0 0 10px var(--neon-green);}
         .bet-row[data-rank="2"]::before { background: var(--accent-blue); }
@@ -137,10 +140,15 @@
         .ai-badge.pos { background: var(--neon-green); color: #000; }
         .ai-badge.neg { background: var(--neon-red); color: #fff; }
 
+        /* COMPARATIVO CERVELLO 1 VS CERVELLO 2 */
+        .brain-compare-line { display: flex; justify-content: space-between; align-items: center; font-size: 0.68rem; color: var(--text-muted); background: rgba(15, 23, 42, 0.55); padding: 4px 8px; border-radius: 4px; border-left: 2px solid var(--ai-purple); flex-wrap: wrap; gap: 6px;}
+        .brain-c1 { color: #cbd5e1; }
+        .brain-c2 { color: var(--ai-purple); font-weight: bold; }
+
         /* VALUE & KELLY BAR */
         .bet-bottom-line { display: flex; justify-content: space-between; align-items: center; gap: 8px; background: rgba(0,0,0,0.25); padding: 6px 10px; border-radius: 6px; flex-wrap: wrap;}
         .book-input-wrap { display: flex; align-items: center; gap: 6px; }
-        .book-input { width: 78px; background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.18); color: var(--accent-gold); padding: 4px 7px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; outline: none; text-align: center;}
+        .book-input { width: 82px; background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.18); color: var(--accent-gold); padding: 4px 7px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; outline: none; text-align: center;}
         .book-input:focus { border-color: var(--accent-gold); }
         .edge-feedback { font-size: 0.72rem; font-weight: 800; flex: 1; text-align: center;}
         .edge-pos { color: var(--neon-green); }
@@ -163,13 +171,13 @@
         .ai-list li.ai-alert::before { content: '🚨'; }
 
         /* MEMORY VIEW STYLES */
-        .ai-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 20px;}
-        @media (max-width: 850px) { .ai-grid { grid-template-columns: 1fr; } }
+        .ai-grid { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px;}
+        @media (max-width: 880px) { .ai-grid { grid-template-columns: 1fr; } }
         
         .ai-panel { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;}
         .ai-panel-title { font-size: 1rem; font-weight: 900; color: var(--ai-purple); text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;}
         
-        .passport-area { width: 100%; height: 105px; background: var(--bg-darker); border: 1px dashed var(--ai-purple); color: var(--text-muted); font-family: monospace; padding: 10px; border-radius: 6px; margin-bottom: 10px; outline: none; font-size: 0.78rem; resize: none;}
+        .passport-area { width: 100%; height: 95px; background: var(--bg-darker); border: 1px dashed var(--ai-purple); color: var(--text-muted); font-family: monospace; padding: 10px; border-radius: 6px; margin-bottom: 10px; outline: none; font-size: 0.78rem; resize: none;}
         .passport-area:focus { border-color: var(--accent-gold); color: #fff;}
         .pass-btn-group { display: flex; gap: 10px; }
         .btn-pass { flex: 1; padding: 10px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; text-transform: uppercase; font-size: 0.78rem; transition: 0.2s;}
@@ -177,7 +185,7 @@
         .btn-pass.import { background: var(--ai-purple); color: #fff; }
         .btn-autoverify { background: linear-gradient(90deg, var(--accent-blue), #3b82f6); color: #000; border: none; padding: 7px 12px; border-radius: 5px; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase;}
 
-        .memory-list { display: flex; flex-direction: column; gap: 10px; max-height: 560px; overflow-y: auto; padding-right: 5px;}
+        .memory-list { display: flex; flex-direction: column; gap: 10px; max-height: 620px; overflow-y: auto; padding-right: 5px;}
         .mem-item { background: var(--bg-darker); border-left: 4px solid var(--text-muted); padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;}
         .mem-item.win { border-left-color: var(--neon-green); background: rgba(34,197,94,0.06);}
         .mem-item.lose { border-left-color: var(--neon-red); background: rgba(239,68,68,0.06);}
@@ -195,27 +203,33 @@
         .badge-lose { background: var(--neon-red); color: #fff;}
         .badge-pend { background: rgba(255,255,255,0.1); color: var(--text-muted);}
 
-        .ai-stats-box { background: rgba(168, 85, 247, 0.08); border: 1px solid var(--ai-purple); padding: 15px; border-radius: 8px; margin-top: 18px;}
-        .stat-line { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.85rem;}
+        .ai-stats-box { background: rgba(168, 85, 247, 0.08); border: 1px solid var(--ai-purple); padding: 15px; border-radius: 8px; margin-top: 16px;}
+        .stat-line { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.84rem;}
         .stat-val { font-weight: 900; color: #fff;}
+
+        .family-weights-box { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; margin-top: 16px;}
+        .fw-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); gap: 6px;}
+        .fw-row:last-child { border-bottom: none; }
+        .fw-name { color: var(--text-main); font-weight: bold; }
+        .fw-meta { color: var(--text-muted); font-family: monospace; text-align: right;}
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v17">V17.1 GOLD MASTER</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v19">V19 SINGULARITY 11/10</span></div>
         <div class="tab-menu">
             <button class="tab-btn active" id="tab-btn-radar" onclick="switchTab('radar')">📡 Radar Live</button>
             <button class="tab-btn" id="tab-btn-console" onclick="switchTab('console')">🧠 Console AI & ROI</button>
         </div>
-        <div class="api-status"><div class="api-dot"></div> FAST API (-40% CALLS)</div>
+        <div class="api-status"><div class="api-dot"></div> EWMA + BRIER AI + RIPOSO</div>
     </div>
 
     <!-- VISTA RADAR -->
     <div id="view-radar" class="view-section active">
         <div class="search-container">
             <div class="search-box">
-                <span class="search-lbl">Radar Partite Ufficiali (Filtro Anti-Amichevoli e Anti-Giovanili)</span>
+                <span class="search-lbl">Radar Partite Ufficiali (EWMA, Fattore Stanchezza & Coerenza Safe↔Value)</span>
                 <input type="text" id="input-team" class="search-input" placeholder="Scrivi una squadra (es. Atalanta, Villarreal, Inter, Arsenal)..." onkeydown="if(event.key==='Enter') runLiveScoutingEngine()">
             </div>
             <button class="btn-scout" onclick="runLiveScoutingEngine()">Scannerizza</button>
@@ -241,29 +255,32 @@
                 <div class="team-col" id="col-home">
                     <div class="tc-malus" id="ui-home-malus">-15 Punti ELO</div>
                     <div class="tc-name home-color" id="ui-home-name">Team Casa</div>
-                    <div class="tc-tier" id="ui-home-tier">Tier</div>
+                    <div class="tc-badges-row">
+                        <div class="tc-tier" id="ui-home-tier">Tier</div>
+                        <div class="tc-rest" id="ui-home-rest">⏱️ Riposo: -</div>
+                    </div>
                     <div class="form-lbl">ULTIME 5 UFFICIALI</div>
                     <div class="form-track" id="ui-home-form"></div>
                     <div class="form-lbl">ULTIME 5 IN CASA</div>
                     <div class="form-track" id="ui-home-venue-form"></div>
-                    <div class="split-summary" id="ui-home-split-txt">Media Casa: 0.0 GF / 0.0 GS</div>
+                    <div class="split-summary" id="ui-home-split-txt">Media Casa EWMA: 0.0 GF / 0.0 GS</div>
                 </div>
 
                 <div class="h2h-col">
-                    <div class="h2h-title">📊 Confronto ELO & Split Casa/Fuori</div>
+                    <div class="h2h-title">📊 Confronto ELO, EWMA & Recupero</div>
                     <div class="h2h-row">
                         <div class="h2h-val" id="h2h-pi-h">0.0</div>
-                        <div class="h2h-lbl">Power Index Reale (Calibrato)</div>
+                        <div class="h2h-lbl">Power Index Reale (con Fatica)</div>
                         <div class="h2h-val" id="h2h-pi-a">0.0</div>
                     </div>
                     <div class="h2h-row">
                         <div class="h2h-val" id="h2h-xg-h">0.00</div>
-                        <div class="h2h-lbl">Expected Goals (xG Bilanciati)</div>
+                        <div class="h2h-lbl">Expected Goals (EWMA + Cap 3.5)</div>
                         <div class="h2h-val" id="h2h-xg-a">0.00</div>
                     </div>
                     <div class="h2h-row">
                         <div class="h2h-val" id="h2h-gf-h">0.00</div>
-                        <div class="h2h-lbl">Potenziale Offensivo (Split 50/50)</div>
+                        <div class="h2h-lbl">Potenziale Offensivo Pesato</div>
                         <div class="h2h-val" id="h2h-gf-a">0.00</div>
                     </div>
                     <div class="h2h-row">
@@ -281,12 +298,15 @@
                 <div class="team-col" id="col-away">
                     <div class="tc-malus" id="ui-away-malus">-15 Punti ELO</div>
                     <div class="tc-name away-color" id="ui-away-name">Team Trasferta</div>
-                    <div class="tc-tier" id="ui-away-tier">Tier</div>
+                    <div class="tc-badges-row">
+                        <div class="tc-tier" id="ui-away-tier">Tier</div>
+                        <div class="tc-rest" id="ui-away-rest">⏱️ Riposo: -</div>
+                    </div>
                     <div class="form-lbl">ULTIME 5 UFFICIALI</div>
                     <div class="form-track" id="ui-away-form"></div>
                     <div class="form-lbl">ULTIME 5 IN TRASFERTA</div>
                     <div class="form-track" id="ui-away-venue-form"></div>
-                    <div class="split-summary" id="ui-away-split-txt">Media Fuori: 0.0 GF / 0.0 GS</div>
+                    <div class="split-summary" id="ui-away-split-txt">Media Fuori EWMA: 0.0 GF / 0.0 GS</div>
                 </div>
             </div>
 
@@ -299,12 +319,12 @@
             <div class="tipster-zones">
                 <div class="bets-container bets-safe">
                     <div class="tb-header safe-txt">🛡️ Le Casseforti (Top 5 Safe)</div>
-                    <div class="tb-sub">Le 5 selezioni a più alta probabilità matematica (senza doppioni correlati 1 / 1X). Inserisci la quota bookmaker per Value & Stake.</div>
+                    <div class="tb-sub">Le 5 selezioni a più alta probabilità matematica che dettano la Tesi Dominante del match.</div>
                     <div id="ui-safe-bets"></div>
                 </div>
                 <div class="bets-container bets-value">
                     <div class="tb-header value-txt">🔥 La Zona Valore (Sweet Spot 1.40 - 2.00)</div>
-                    <div class="tb-sub">Le 5 migliori giocate da Singola o Raddoppio derivate dalla matrice di Dixon-Coles e modulate per Famiglia Tattica.</div>
+                    <div class="tb-sub">Le 5 migliori giocate da Singola/Raddoppio allineate orizzontalmente alla tesi delle Casseforti.</div>
                     <div id="ui-value-bets"></div>
                 </div>
             </div>
@@ -321,7 +341,7 @@
         <div class="ai-grid">
             <div class="ai-panel">
                 <div class="ai-panel-title">🛂 Passaporto Dati (UTF-8 Safe)</div>
-                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:12px;">Esporta o importa la tua memoria tra PC e Smartphone. Codifica protetta contro accenti e caratteri internazionali.</p>
+                <p style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px;">Esporta o importa il Cervello AI tra PC e Smartphone. Codifica protetta per caratteri internazionali.</p>
                 <textarea id="passport-box" class="passport-area" placeholder="Incolla qui il codice Passaporto o premi Esporta..."></textarea>
                 <div class="pass-btn-group">
                     <button class="btn-pass export" onclick="MemorySystem.exportPassport()">⬇️ Esporta</button>
@@ -329,22 +349,27 @@
                 </div>
                 
                 <div class="ai-stats-box">
-                    <div class="ai-panel-title" style="font-size:0.88rem; margin-bottom:10px; border:none; padding:0;">📈 Rendimento & Apprendimento AI</div>
+                    <div class="ai-panel-title" style="font-size:0.86rem; margin-bottom:10px; border:none; padding:0;">📈 Rendimento Globale & ROI</div>
                     <div class="stat-line"><span>Giocate Registrate:</span> <span class="stat-val" id="stat-total">0</span></div>
-                    <div class="stat-line"><span>Vinte / Perse:</span> <span class="stat-val"><span id="stat-won" style="color:var(--neon-green)">0</span>W - <span id="stat-lost" style="color:var(--neon-red)">0</span>L</span></div>
-                    <div class="stat-line"><span>Win Rate Globale:</span> <span class="stat-val" id="stat-winrate">0.0%</span></div>
+                    <div class="stat-line"><span>Esiti Risolti:</span> <span class="stat-val"><span id="stat-won" style="color:var(--neon-green)">0</span>W - <span id="stat-lost" style="color:var(--neon-red)">0</span>L</span></div>
+                    <div class="stat-line"><span>Win Rate Reale vs Atteso:</span> <span class="stat-val" id="stat-winrate">0.0%</span></div>
                     <div class="stat-line"><span>Profitto Netto (Unità):</span> <span class="stat-val" id="stat-profit">0.00 u</span></div>
                     <div class="stat-line"><span>Yield / ROI Reale:</span> <span class="stat-val" id="stat-roi">0.0%</span></div>
                     <div class="stat-line"><span>Stato Cervello 2:</span> <span class="stat-val" id="stat-status" style="color:var(--accent-gold)">In Quarantena</span></div>
+                </div>
+
+                <div class="family-weights-box">
+                    <div style="font-size:0.78rem; font-weight:900; color:var(--accent-blue); text-transform:uppercase; margin-bottom:8px;">⚙️ Calibrazione Brier per Famiglia (WR vs Atteso)</div>
+                    <div id="ui-family-weights"></div>
                 </div>
             </div>
 
             <div class="ai-panel">
                 <div class="ai-panel-title">
-                    <span>📚 Registro Scommesse & Auto-Training (Famiglie Tattiche)</span>
+                    <span>📚 Registro Scommesse & Auto-Training</span>
                     <button class="btn-autoverify" id="btn-autoverify" onclick="MemorySystem.autoVerifyPendingBets()">🔄 Auto-Verifica Risultati (API)</button>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:15px;">Il Cervello 2 impara separando le 9 Famiglie Tattiche (Over, Under, Casa, Ospite, Goal, NoGoal, Multigol): vincere sugli Over non gonfierà mai gli Under.</p>
+                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:15px;">Il Cervello 2 confronta il tuo Win Rate Reale con la Probabilità Media Attesa delle giocate salvate in ogni famiglia tattica.</p>
                 <div class="memory-list" id="ui-memory-list"></div>
             </div>
         </div>
@@ -358,6 +383,7 @@
         
         let myRadarChart = null;
         let upcomingMatchesCache = [];
+        let apiMatchesCache = {}; // Cache di sessione per evitare chiamate duplicate
         let currentMatchContext = null;
         let lastReportData = null;
 
@@ -387,10 +413,12 @@
         };
 
         const LeagueTiers = {
-            "England": 1, "Spain": 1, "Germany": 1, "Italy": 1, "Europe": 1,
+            "England": 1, "Spain": 1, "Germany": 1, "Italy": 1,
             "France": 2, "Netherlands": 2, "Portugal": 2, "Belgium": 2, "Brazil": 2, "Argentina": 2,
-            "Turkey": 3, "Scotland": 3, "Switzerland": 3, "Austria": 3, "Greece": 3, "USA": 3, "Russia": 3, "Mexico": 3, "Denmark": 3,
-            "Norway": 4, "Sweden": 4, "Croatia": 4, "Serbia": 4, "Czech Republic": 4, "Poland": 4, "Ukraine": 4, "Romania": 4, "Cyprus": 4
+            "Turkey": 3, "Scotland": 3, "Switzerland": 3, "Austria": 3, "Greece": 3, "USA": 3, "Russia": 3, "Mexico": 3, 
+            "Denmark": 3, "Czech Republic": 3, "Croatia": 3, "Norway": 3, "Poland": 3, "Ukraine": 3, "Serbia": 3, "Japan": 3, "Saudi Arabia": 3,
+            "Sweden": 4, "Romania": 4, "Cyprus": 4, "Hungary": 4, "Israel": 4, "Slovakia": 4, "Slovenia": 4, "Bulgaria": 4, 
+            "Azerbaijan": 4, "Kazakhstan": 4, "Finland": 4, "Ireland": 4, "Bosnia & Herzegovina": 4, "Moldova": 4, "Kosovo": 4
         };
 
         const blacklist = ['U19', 'U18', 'U17', 'U20', 'U21', 'U23', ' II', ' B ', 'RESERVES', 'YOUTH', 'WOMEN', 'WFC', 'LADIES', 'FEMMINILE', 'PRIMAVERA', 'AMATEURS', 'FUTSAL'];
@@ -408,28 +436,42 @@
             return friendlyKeywords.some(k => tName.includes(k) || uName.includes(k));
         }
 
-        // FIX FALSO TIER 4: Se la nazione non è decodificabile, applica Tier 2 Neutro anziché Tier 4!
         function getTierData(country) {
-            if (!country || country === "Unknown" || country === "International" || country === "World") {
+            if (!country || ["Unknown", "International", "World", "Europe", "South America"].includes(country)) {
                 return { tier: 2, label: `🛡️ Standard UEFA` };
             }
-            let t = LeagueTiers[country] || 3;
+            let t = LeagueTiers[country] || 4;
             let label = t === 1 ? `⭐ Elite (${country})` : t === 2 ? `🛡️ Premium (${country})` : t === 3 ? `⚔️ Standard (${country})` : `📉 Minor (${country})`;
             return { tier: t, label: label };
         }
 
-        // Deduzione intelligente della Famiglia Tattica per separare Over da Under, Casa da Ospite, ecc.
-        function inferTacticalFamily(market, pick) {
-            let p = (pick || "").toUpperCase();
-            let m = (market || "").toUpperCase();
-            if (p === "GOAL") return "BTTS_YES";
-            if (p === "NO GOAL" || p.includes("NO GOAL")) return "BTTS_NO";
+        const TacticalFamiliesMeta = {
+            "HOME_WIN": "Esito Casa (1 / 1X / H-1)",
+            "AWAY_WIN": "Esito Ospite (2 / X2 / H-1)",
+            "DRAW_X": "Pareggio (X Fisso)",
+            "TEAM_HOME_GOALS": "Gol Squadra Casa",
+            "TEAM_AWAY_GOALS": "Gol Squadra Ospite",
+            "GOALS_OVER": "Trend Over Match / HT",
+            "GOALS_UNDER": "Trend Under Match",
+            "BTTS_YES": "Entrambe Segnano (Goal)",
+            "BTTS_NO": "Porta Inviolata (No Goal)",
+            "MULTIGOAL": "Fascia Multigol",
+            "SPECIALS": "Speciali (Corner / Cluster)"
+        };
+
+        function getTacticalFamily(market, pick) {
+            let p = (pick || "").trim().toUpperCase();
+            let m = (market || "").trim().toUpperCase();
+            if (p === "OVER 0.5 CASA" || p === "OVER 1.5 CASA" || m.includes("SQUADRA CASA")) return "TEAM_HOME_GOALS";
+            if (p === "OVER 0.5 OSPITE" || p === "OVER 1.5 OSPITE" || m.includes("SQUADRA OSPITE")) return "TEAM_AWAY_GOALS";
+            if (p === "GOAL" || p === "X O GOAL") return "BTTS_YES";
+            if (p === "NO GOAL" || p === "1X + NO GOAL") return "BTTS_NO";
             if (m.includes("MULTIGOAL")) return "MULTIGOAL";
             if (p.includes("UNDER")) return "GOALS_UNDER";
-            if (p.startsWith("OVER") || p === "OVER 0.5 HT") return "GOALS_OVER";
-            if (p.startsWith("1") || p.includes("CASA")) return "HOME_WIN";
-            if (p.startsWith("2") || p.includes("OSPITE") || p.startsWith("X2")) return "AWAY_WIN";
-            if (p.startsWith("X") || p === "12") return "DRAW_X";
+            if (p === "OVER 1.5" || p === "OVER 2.5" || p === "OVER 3.5" || p === "1X + OVER 1.5" || p === "X2 + OVER 1.5" || p === "OVER 0.5 HT") return "GOALS_OVER";
+            if (p === "1 FISSO" || p === "1X" || p === "1 (H -1)" || p === "1 + OVER 1.5") return "HOME_WIN";
+            if (p === "2 FISSO" || p === "X2" || p === "2 (H -1)" || p === "2 + OVER 1.5") return "AWAY_WIN";
+            if (p === "X FISSO") return "DRAW_X";
             return "SPECIALS";
         }
 
@@ -441,19 +483,19 @@
         }
 
         // ----------------------------------------------------
-        // SISTEMA DI MEMORIA E AI ADATTIVA (V17.1 - TACTICAL FAMILIES)
+        // SISTEMA DI MEMORIA E AI ADATTIVA (V19 - BRIER RESIDUAL)
         // ----------------------------------------------------
         const MemorySystem = {
             data: [],
 
             init: function() {
-                let saved = localStorage.getItem('betbar_memory_v17') || localStorage.getItem('betbar_memory_v16');
+                let saved = localStorage.getItem('betbar_memory_v19') || localStorage.getItem('betbar_memory_v18') || localStorage.getItem('betbar_memory_v17') || localStorage.getItem('betbar_memory_v16');
                 if (saved) {
                     try {
                         this.data = JSON.parse(saved);
-                        // Migrazione automatica vecchie giocate: aggiunge tacticalFamily se assente
                         this.data.forEach(b => {
-                            if (!b.tacticalFamily) b.tacticalFamily = inferTacticalFamily(b.market, b.pick);
+                            b.tacticalFamily = getTacticalFamily(b.market, b.pick);
+                            if (!b.pureConf) b.pureConf = b.conf || 60;
                         });
                     } catch(e) { this.data = []; }
                 }
@@ -461,17 +503,41 @@
             },
 
             save: function() {
-                localStorage.setItem('betbar_memory_v17', JSON.stringify(this.data));
+                localStorage.setItem('betbar_memory_v19', JSON.stringify(this.data));
                 this.updateUI();
+                // Sincronizzazione Bidirezionale: aggiorna anche le righe del Radar se visibili
+                if (lastReportData) {
+                    renderBetRows(lastReportData.analysis.betZones.safe, 'ui-safe-bets', 'safe');
+                    renderBetRows(lastReportData.analysis.betZones.value, 'ui-value-bets', 'val');
+                }
             },
 
-            addBet: function(market, pick, tacticalFamily, conf, fairOdd, bookOdd, stake) {
-                if (!currentMatchContext) return false;
-                let exists = this.data.find(b => String(b.matchId) === String(currentMatchContext.id) && b.pick === pick);
-                if (exists) return false;
+            getSavedBet: function(matchId, pick) {
+                if (!matchId) return null;
+                return this.data.find(b => String(b.matchId) === String(matchId) && b.pick === pick) || null;
+            },
 
-                let usedOdd = (bookOdd && !isNaN(bookOdd) && bookOdd > 1.01) ? parseFloat(bookOdd) : parseFloat(fairOdd);
+            isBetSaved: function(matchId, pick) {
+                return !!this.getSavedBet(matchId, pick);
+            },
+
+            addBet: function(market, pick, tacticalFamily, pureConf, conf, fairOdd, bookOdd, stake) {
+                if (!currentMatchContext) return false;
+                let existing = this.getSavedBet(currentMatchContext.id, pick);
+                let hasCustomBook = (bookOdd && !isNaN(bookOdd) && bookOdd > 1.01);
+                let usedOdd = hasCustomBook ? parseFloat(bookOdd) : parseFloat(fairOdd);
                 let usedStake = (stake && !isNaN(stake) && stake > 0) ? parseInt(stake) : 2;
+
+                // Se esiste già, aggiorna eventuale nuova Quota Book inserita dall'utente
+                if (existing) {
+                    if (hasCustomBook) {
+                        existing.odd = usedOdd.toFixed(2);
+                        existing.bookOddInput = usedOdd.toFixed(2);
+                        existing.stake = usedStake;
+                        this.save();
+                    }
+                    return true;
+                }
 
                 let newBet = {
                     id: Date.now().toString() + Math.floor(Math.random()*1000),
@@ -482,10 +548,12 @@
                     date: currentMatchContext.dateStr || new Date().toLocaleDateString('it-IT'),
                     market: market,
                     pick: pick,
-                    tacticalFamily: tacticalFamily || inferTacticalFamily(market, pick),
+                    tacticalFamily: getTacticalFamily(market, pick),
+                    pureConf: parseFloat(pureConf || conf),
                     conf: parseFloat(conf),
                     fairOdd: parseFloat(fairOdd).toFixed(2),
                     odd: usedOdd.toFixed(2),
+                    bookOddInput: hasCustomBook ? usedOdd.toFixed(2) : "",
                     stake: usedStake,
                     status: 'pending',
                     finalScore: null
@@ -525,7 +593,8 @@
                     let parsed = JSON.parse(jsonStr);
                     if (Array.isArray(parsed)) {
                         parsed.forEach(b => {
-                            if (!b.tacticalFamily) b.tacticalFamily = inferTacticalFamily(b.market, b.pick);
+                            b.tacticalFamily = getTacticalFamily(b.market, b.pick);
+                            if (!b.pureConf) b.pureConf = b.conf || 60;
                         });
                         this.data = parsed;
                         this.save();
@@ -537,19 +606,33 @@
                 }
             },
 
-            // FIX PARADOSSO AI: Calcola il modificatore sulla Famiglia Tattica specifica (non sul nome generico del mercato!)
-            getFamilyModifier: function(tacticalFamily) {
-                let resolved = this.data.filter(b => (b.tacticalFamily || inferTacticalFamily(b.market, b.pick)) === tacticalFamily && (b.status === 'win' || b.status === 'lose'));
-                if (resolved.length < 5) return 0; // Quarantena: almeno 5 esiti in quella specifica famiglia tattica
+            // CALIBRAZIONE SCIENTIFICA BRIER RESIDUAL: Confronta il Win Rate reale con la Probabilità Media Attesa!
+            getFamilyStats: function(tacticalFamily) {
+                let resolved = this.data.filter(b => getTacticalFamily(b.market, b.pick) === tacticalFamily && (b.status === 'win' || b.status === 'lose'));
+                let count = resolved.length;
+                if (count === 0) return { count: 0, wins: 0, winRate: 0, expRate: 0, modifier: 0, active: false };
                 
                 let wins = resolved.filter(b => b.status === 'win').length;
-                let winRate = wins / resolved.length;
-                
+                let winRate = wins / count;
+                let sumExp = resolved.reduce((acc, b) => acc + (parseFloat(b.pureConf || b.conf || 60) / 100), 0);
+                let expRate = sumExp / count;
+
+                if (count < 5) return { count, wins, winRate, expRate, modifier: 0, active: false };
+
+                // Residuo tra Vittorie Reali e Probabilità Attesa (con zona neutra ±2.5% anti-rumore)
+                let residual = winRate - expRate;
                 let modifier = 0;
-                if (winRate > 0.58) { modifier = (winRate - 0.58) * 22; } 
-                else if (winRate < 0.45) { modifier = (winRate - 0.45) * 22; }
-                
-                return Math.max(-10, Math.min(10, modifier));
+                if (residual > 0.025) {
+                    modifier = (residual - 0.025) * 26;
+                } else if (residual < -0.025) {
+                    modifier = (residual + 0.025) * 26;
+                }
+                modifier = Math.max(-10, Math.min(10, modifier));
+                return { count, wins, winRate, expRate, modifier, active: true };
+            },
+
+            getFamilyModifier: function(tacticalFamily) {
+                return this.getFamilyStats(tacticalFamily).modifier;
             },
 
             evaluatePickOutcome: function(pick, h, a, htH, htA) {
@@ -610,7 +693,8 @@
 
                 for (let teamId of uniqueTeams) {
                     try {
-                        let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
+                        let matchData = apiMatchesCache[teamId] || await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
+                        apiMatchesCache[teamId] = matchData;
                         let finishedEvents = matchData.events?.filter(e => e.status?.type === 'finished') || [];
                         
                         pending.filter(b => b.homeTeamId === teamId).forEach(bet => {
@@ -628,7 +712,7 @@
                                 }
                             }
                         });
-                        await delay(600);
+                        await delay(500);
                     } catch(e) { console.warn("Errore auto-verifica team:", teamId, e); }
                 }
 
@@ -654,13 +738,14 @@
                                 ? `<span class="res-badge badge-lose">PERSA ${b.finalScore ? '('+b.finalScore+')' : ''}</span>`
                                 : `<span class="res-badge badge-pend">IN ATTESA</span>`);
                         let stakeVal = b.stake || 2;
-                        let fam = b.tacticalFamily || inferTacticalFamily(b.market, b.pick);
+                        let fam = getTacticalFamily(b.market, b.pick);
+                        let expTxt = parseFloat(b.pureConf || b.conf || 60).toFixed(0);
                         html += `
                         <div class="mem-item ${cls}">
                             <div class="mem-info">
                                 <div class="mem-match">${b.date} | ${b.matchName} <span style="color:var(--ai-purple)">[${fam}]</span></div>
                                 <div class="mem-pick">${b.market}: ${b.pick}</div>
-                                <div class="mem-sub">Quota Giocata: <strong>@${b.odd}</strong> (Equa: @${b.fairOdd || b.odd}) | Stake: <strong>${stakeVal}/10</strong></div>
+                                <div class="mem-sub">Quota: <strong>@${b.odd}</strong> (Equa: @${b.fairOdd || b.odd} | Atteso: ${expTxt}%) | Stake: <strong>${stakeVal}/10</strong></div>
                             </div>
                             <div class="mem-actions">
                                 ${badgeHtml}
@@ -678,6 +763,9 @@
                 let won = resolved.filter(b => b.status === 'win').length;
                 let lost = resolved.filter(b => b.status === 'lose').length;
                 let winRate = resolved.length > 0 ? ((won / resolved.length) * 100).toFixed(1) : "0.0";
+                let avgExpGlobal = resolved.length > 0 
+                    ? (resolved.reduce((acc, b) => acc + parseFloat(b.pureConf || b.conf || 60), 0) / resolved.length).toFixed(1)
+                    : "0.0";
 
                 let totalStaked = 0;
                 let netProfit = 0;
@@ -693,7 +781,7 @@
                 document.getElementById('stat-total').textContent = this.data.length;
                 document.getElementById('stat-won').textContent = won;
                 document.getElementById('stat-lost').textContent = lost;
-                document.getElementById('stat-winrate').textContent = `${winRate}%`;
+                document.getElementById('stat-winrate').textContent = `${winRate}% (Att: ${avgExpGlobal}%)`;
                 
                 let profitEl = document.getElementById('stat-profit');
                 profitEl.textContent = `${netProfit >= 0 ? '+' : ''}${netProfit.toFixed(2)} u`;
@@ -703,12 +791,29 @@
                 roiEl.textContent = `${netProfit >= 0 ? '+' : ''}${roi}%`;
                 roiEl.style.color = netProfit >= 0 ? 'var(--neon-green)' : 'var(--neon-red)';
 
+                let fwHtml = '';
+                let anyActiveFamily = false;
+                Object.keys(TacticalFamiliesMeta).forEach(famKey => {
+                    let st = this.getFamilyStats(famKey);
+                    if (st.active) anyActiveFamily = true;
+                    let modTxt = !st.active 
+                        ? `<span style="color:var(--text-muted)">Quarantena (${st.count}/5)</span>`
+                        : (st.modifier > 0 
+                            ? `<span style="color:var(--neon-green); font-weight:bold;">+${st.modifier.toFixed(1)}% (WR ${(st.winRate*100).toFixed(0)}% vs ${(st.expRate*100).toFixed(0)}%)</span>`
+                            : (st.modifier < 0 
+                                ? `<span style="color:var(--neon-red); font-weight:bold;">${st.modifier.toFixed(1)}% (WR ${(st.winRate*100).toFixed(0)}% vs ${(st.expRate*100).toFixed(0)}%)</span>`
+                                : `<span style="color:var(--accent-gold)">0.0% (WR ${(st.winRate*100).toFixed(0)}% vs ${(st.expRate*100).toFixed(0)}%)</span>`));
+                    fwHtml += `<div class="fw-row"><span class="fw-name">${TacticalFamiliesMeta[famKey]}</span><span class="fw-meta">${modTxt}</span></div>`;
+                });
+                let fwContainer = document.getElementById('ui-family-weights');
+                if (fwContainer) fwContainer.innerHTML = fwHtml;
+
                 let statusEl = document.getElementById('stat-status');
-                if (resolved.length < 5) {
-                    statusEl.textContent = `Quarantena (${resolved.length}/5 esiti)`;
+                if (!anyActiveFamily) {
+                    statusEl.textContent = `Quarantena (Min. 5 esiti/famiglia)`;
                     statusEl.style.color = 'var(--accent-gold)';
                 } else {
-                    statusEl.textContent = '🧠 AI TATTICA ATTIVA';
+                    statusEl.textContent = '🧠 AI BRIER ATTIVA';
                     statusEl.style.color = 'var(--neon-green)';
                 }
             }
@@ -748,21 +853,19 @@
             }
         }
 
-        function handleSaveBet(btn, market, pick, tacticalFamily, conf, fairOdd, inputId) {
+        function handleSaveBet(btn, market, pick, tacticalFamily, pureConf, conf, fairOdd, inputId) {
             let inputEl = document.getElementById(inputId);
             let bookOdd = inputEl ? parseFloat(inputEl.value) : null;
             let stake = inputEl && inputEl.dataset.stake ? parseInt(inputEl.dataset.stake) : 2;
-            let success = MemorySystem.addBet(market, pick, tacticalFamily, conf, fairOdd, bookOdd, stake);
+            let success = MemorySystem.addBet(market, pick, tacticalFamily, pureConf, conf, fairOdd, bookOdd, stake);
             if (success) {
                 btn.textContent = "✔️ Salvata";
                 btn.classList.add("saved");
-            } else {
-                alert("Questa giocata è già salvata in memoria per questo match.");
             }
         }
 
         // ----------------------------------------------------
-        // CHIAMATE API VELOCI (-40% CHIAMATE, ZERO FALSO TIER 4)
+        // CHIAMATE API CON CACHE DI SESSIONE, EWMA E FATTORE RIPOSO
         // ----------------------------------------------------
         async function fetchAPI(url) {
             let res = await fetch(url, apiOptions);
@@ -796,7 +899,7 @@
             let mainTeamName = validTeams[0].name || validTeams[0].entity?.name;
 
             setLog(`Trovato ${mainTeamName}! Scarico le prossime partite ufficiali...`);
-            await delay(500);
+            await delay(450);
 
             let nextData = await fetchAPI(`https://${API_HOST}/teams/get-next-matches?teamId=${mainTeamId}&page=0`);
             let upcomingEvents = (nextData.events || []).filter(ev => 
@@ -823,21 +926,33 @@
             }));
         }
 
-        // Estrae nazione, ultime 5 ufficiali e ultime 5 Casa/Trasferta da UNA SOLA chiamata API per squadra
-        async function fetchStatsById(teamId, actualName, isHomeVenue, knownCountry) {
-            setLog(`Scarico storico ufficiale e Split ${isHomeVenue ? 'Casa' : 'Trasferta'} per ${actualName}...`);
-            
-            let matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
+        async function fetchStatsById(teamId, actualName, isHomeVenue, knownCountry, matchTimestamp) {
+            let matchData;
+            if (apiMatchesCache[teamId]) {
+                setLog(`Caricamento istantaneo da Cache Sessione per ${actualName}...`);
+                matchData = apiMatchesCache[teamId];
+            } else {
+                setLog(`Scarico storico ufficiale e Split ${isHomeVenue ? 'Casa' : 'Trasferta'} per ${actualName}...`);
+                matchData = await fetchAPI(`https://${API_HOST}/teams/get-last-matches?teamId=${teamId}&page=0`);
+                apiMatchesCache[teamId] = matchData;
+            }
+
             let rawFinished = (matchData.events?.filter(e => e.status?.type === 'finished') || [])
                 .sort((a, b) => (b.startTimestamp || 0) - (a.startTimestamp || 0));
             
-            // Filtro Anti-Amichevoli (con fallback se una squadra avesse meno di 3 gare ufficiali)
             let officialFinished = rawFinished.filter(e => !isFriendlyMatch(e));
             let allFinished = officialFinished.length >= 3 ? officialFinished : rawFinished;
 
             if (allFinished.length === 0) throw new Error(`Dati storici non disponibili per ${actualName}.`);
 
-            // Estrazione Country direttamente dagli eventi già scaricati (Zero chiamate API extra!)
+            // CALCOLO GIORNI DI RIPOSO PRIMA DEL MATCH SELEZIONATO
+            let lastPlayedTs = allFinished[0]?.startTimestamp || 0;
+            let targetTs = matchTimestamp || Math.floor(Date.now() / 1000);
+            let restDays = 7.0;
+            if (lastPlayedTs > 0 && targetTs > lastPlayedTs) {
+                restDays = Math.max(1.5, Math.min(21.0, (targetTs - lastPlayedTs) / 86400));
+            }
+
             let detectedCountry = knownCountry || null;
             for (let ev of allFinished) {
                 if (ev.homeTeam?.id === teamId && ev.homeTeam?.country?.name) {
@@ -861,16 +976,23 @@
             let venueMatches = allFinished.filter(ev => isHomeVenue ? (ev.homeTeam?.id === teamId) : (ev.awayTeam?.id === teamId)).slice(0, 5);
             if (venueMatches.length < 2) venueMatches = overall5;
 
+            // EWMA (Media Ponderata Esponenziale) + Tetto Anti-Goleada a 3.5 Gol
             function parseMatchBatch(batch) {
-                let form = []; let gf = 0; let gs = 0; let pts = 0; let totGoalsArr = [];
-                [...batch].reverse().forEach(ev => {
+                let form = []; let weightedGf = 0; let weightedGs = 0; let totalWeight = 0; let pts = 0; let totGoalsArr = [];
+                [...batch].reverse().forEach((ev, idx) => {
                     let isH = (ev.homeTeam?.id === teamId);
-                    let scored = isH ? (ev.homeScore?.current ?? 0) : (ev.awayScore?.current ?? 0);
-                    let conceded = isH ? (ev.awayScore?.current ?? 0) : (ev.homeScore?.current ?? 0);
-                    gf += scored; gs += conceded;
-                    totGoalsArr.push(scored + conceded);
-                    if (scored > conceded) { form.push('W'); pts += 3; }
-                    else if (scored === conceded) { form.push('D'); pts += 1; }
+                    let rawScored = isH ? (ev.homeScore?.current ?? 0) : (ev.awayScore?.current ?? 0);
+                    let rawConceded = isH ? (ev.awayScore?.current ?? 0) : (ev.homeScore?.current ?? 0);
+                    
+                    // Peso cronologico EWMA: le gare più recenti pesano fino a +72% rispetto alla più vecchia
+                    let w = 1 + (idx * 0.18);
+                    weightedGf += Math.min(3.5, rawScored) * w;
+                    weightedGs += Math.min(3.5, rawConceded) * w;
+                    totalWeight += w;
+                    
+                    totGoalsArr.push(rawScored + rawConceded);
+                    if (rawScored > rawConceded) { form.push('W'); pts += 3; }
+                    else if (rawScored === rawConceded) { form.push('D'); pts += 1; }
                     else { form.push('L'); }
                 });
                 let n = batch.length;
@@ -878,8 +1000,8 @@
                 let variance = totGoalsArr.reduce((a,b) => a + Math.pow(b - meanTot, 2), 0) / n;
                 return {
                     form,
-                    avgScored: gf / n,
-                    avgConceded: gs / n,
+                    avgScored: weightedGf / totalWeight,
+                    avgConceded: weightedGs / totalWeight,
                     winRatio: pts / (n * 3),
                     stdDevGoals: Math.sqrt(variance)
                 };
@@ -901,7 +1023,8 @@
                     rawConceded: blendedConceded,
                     venueScored: vnStats.avgScored,
                     venueConceded: vnStats.avgConceded,
-                    stdDev: ovStats.stdDevGoals
+                    stdDev: ovStats.stdDevGoals,
+                    restDays: restDays
                 }
             };
         }
@@ -1010,86 +1133,102 @@
                 let estCorners = 8.2 + (totalXg * 0.65) + (Math.abs(diff) / 14);
                 let cornerProb = Math.min(86, Math.max(35, (estCorners / 10.5) * 76));
 
-                // Ogni giocata ha la sua Famiglia Tattica distinta per l'apprendimento AI
                 let rawBets = [
-                    { market: "Esito Finale", pick: "1 Fisso", tacticalFamily: "HOME_WIN", baseConf: p1 },
-                    { market: "Esito Finale", pick: "X Fisso", tacticalFamily: "DRAW_X", baseConf: px },
-                    { market: "Esito Finale", pick: "2 Fisso", tacticalFamily: "AWAY_WIN", baseConf: p2 },
-                    { market: "Doppia Chance", pick: "1X", tacticalFamily: "HOME_WIN", baseConf: p1 + px },
-                    { market: "Doppia Chance", pick: "X2", tacticalFamily: "AWAY_WIN", baseConf: p2 + px },
-                    { market: "Doppia Chance", pick: "12", tacticalFamily: "SPECIALS", baseConf: p1 + p2 },
-                    { market: "Handicap Europeo", pick: "1 (H -1)", tacticalFamily: "HOME_WIN", baseConf: hcp1 },
-                    { market: "Handicap Europeo", pick: "2 (H -1)", tacticalFamily: "AWAY_WIN", baseConf: hcp2 },
-                    { market: "Entrambe Segnano", pick: "GOAL", tacticalFamily: "BTTS_YES", baseConf: bttsYes },
-                    { market: "Entrambe Segnano", pick: "NO GOAL", tacticalFamily: "BTTS_NO", baseConf: bttsNo },
-                    { market: "Goal Totali", pick: "OVER 1.5", tacticalFamily: "GOALS_OVER", baseConf: over15 },
-                    { market: "Goal Totali", pick: "OVER 2.5", tacticalFamily: "GOALS_OVER", baseConf: over25 },
-                    { market: "Goal Totali", pick: "OVER 3.5", tacticalFamily: "GOALS_OVER", baseConf: over35 },
-                    { market: "Goal Totali", pick: "UNDER 2.5", tacticalFamily: "GOALS_UNDER", baseConf: under25 },
-                    { market: "Goal Totali", pick: "UNDER 3.5", tacticalFamily: "GOALS_UNDER", baseConf: under35 },
-                    { market: "Goal Squadra Casa", pick: "OVER 0.5 CASA", tacticalFamily: "HOME_WIN", baseConf: homeO05 },
-                    { market: "Goal Squadra Casa", pick: "OVER 1.5 CASA", tacticalFamily: "HOME_WIN", baseConf: homeO15 },
-                    { market: "Goal Squadra Ospite", pick: "OVER 0.5 OSPITE", tacticalFamily: "AWAY_WIN", baseConf: awayO05 },
-                    { market: "Goal Squadra Ospite", pick: "OVER 1.5 OSPITE", tacticalFamily: "AWAY_WIN", baseConf: awayO15 },
-                    { market: "Multigoal Match", pick: "1-3 GOAL", tacticalFamily: "MULTIGOAL", baseConf: mg13 },
-                    { market: "Multigoal Match", pick: "2-4 GOAL", tacticalFamily: "MULTIGOAL", baseConf: mg24 },
-                    { market: "Multigoal Match", pick: "2-5 GOAL", tacticalFamily: "MULTIGOAL", baseConf: mg25 },
-                    { market: "Combo Match", pick: "1 + OVER 1.5", tacticalFamily: "HOME_WIN", baseConf: c1_o15 },
-                    { market: "Combo Match", pick: "2 + OVER 1.5", tacticalFamily: "AWAY_WIN", baseConf: c2_o15 },
-                    { market: "Combo Match", pick: "1X + OVER 1.5", tacticalFamily: "GOALS_OVER", baseConf: c1x_o15 },
-                    { market: "Combo Match", pick: "X2 + OVER 1.5", tacticalFamily: "GOALS_OVER", baseConf: cx2_o15 },
-                    { market: "Combo Match", pick: "1X + UNDER 3.5", tacticalFamily: "GOALS_UNDER", baseConf: c1x_u35 },
-                    { market: "Combo Match", pick: "X2 + UNDER 3.5", tacticalFamily: "GOALS_UNDER", baseConf: cx2_u35 },
-                    { market: "Combo Match", pick: "1X + NO GOAL", tacticalFamily: "BTTS_NO", baseConf: c1x_ng },
-                    { market: "Combo Match", pick: "X o GOAL", tacticalFamily: "BTTS_YES", baseConf: cx_or_gg },
-                    { market: "Goal 1° Tempo", pick: "OVER 0.5 HT", tacticalFamily: "GOALS_OVER", baseConf: over05HT },
-                    { market: "Calci d'Angolo", pick: "OVER 8.5 CORNER", tacticalFamily: "SPECIALS", baseConf: cornerProb },
-                    { market: "Cluster Risultato Esatto", pick: clusterPick, tacticalFamily: "SPECIALS", baseConf: Math.min(82, clusterProb * 1.35) }
+                    { market: "Esito Finale", pick: "1 Fisso", baseConf: p1 },
+                    { market: "Esito Finale", pick: "X Fisso", baseConf: px },
+                    { market: "Esito Finale", pick: "2 Fisso", baseConf: p2 },
+                    { market: "Doppia Chance", pick: "1X", baseConf: p1 + px },
+                    { market: "Doppia Chance", pick: "X2", baseConf: p2 + px },
+                    { market: "Doppia Chance", pick: "12", baseConf: p1 + p2 },
+                    { market: "Handicap Europeo", pick: "1 (H -1)", baseConf: hcp1 },
+                    { market: "Handicap Europeo", pick: "2 (H -1)", baseConf: hcp2 },
+                    { market: "Entrambe Segnano", pick: "GOAL", baseConf: bttsYes },
+                    { market: "Entrambe Segnano", pick: "NO GOAL", baseConf: bttsNo },
+                    { market: "Goal Totali", pick: "OVER 1.5", baseConf: over15 },
+                    { market: "Goal Totali", pick: "OVER 2.5", baseConf: over25 },
+                    { market: "Goal Totali", pick: "OVER 3.5", baseConf: over35 },
+                    { market: "Goal Totali", pick: "UNDER 2.5", baseConf: under25 },
+                    { market: "Goal Totali", pick: "UNDER 3.5", baseConf: under35 },
+                    { market: "Goal Squadra Casa", pick: "OVER 0.5 CASA", baseConf: homeO05 },
+                    { market: "Goal Squadra Casa", pick: "OVER 1.5 CASA", baseConf: homeO15 },
+                    { market: "Goal Squadra Ospite", pick: "OVER 0.5 OSPITE", baseConf: awayO05 },
+                    { market: "Goal Squadra Ospite", pick: "OVER 1.5 OSPITE", baseConf: awayO15 },
+                    { market: "Multigoal Match", pick: "1-3 GOAL", baseConf: mg13 },
+                    { market: "Multigoal Match", pick: "2-4 GOAL", baseConf: mg24 },
+                    { market: "Multigoal Match", pick: "2-5 GOAL", baseConf: mg25 },
+                    { market: "Combo Match", pick: "1 + OVER 1.5", baseConf: c1_o15 },
+                    { market: "Combo Match", pick: "2 + OVER 1.5", baseConf: c2_o15 },
+                    { market: "Combo Match", pick: "1X + OVER 1.5", baseConf: c1x_o15 },
+                    { market: "Combo Match", pick: "X2 + OVER 1.5", baseConf: cx2_o15 },
+                    { market: "Combo Match", pick: "1X + UNDER 3.5", baseConf: c1x_u35 },
+                    { market: "Combo Match", pick: "X2 + UNDER 3.5", baseConf: cx2_u35 },
+                    { market: "Combo Match", pick: "1X + NO GOAL", baseConf: c1x_ng },
+                    { market: "Combo Match", pick: "X o GOAL", baseConf: cx_or_gg },
+                    { market: "Goal 1° Tempo", pick: "OVER 0.5 HT", baseConf: over05HT },
+                    { market: "Calci d'Angolo", pick: "OVER 8.5 CORNER", baseConf: cornerProb },
+                    { market: "Cluster Risultato Esatto", pick: clusterPick, baseConf: clusterProb }
                 ];
 
-                // Applicazione Cervello 2 (Modificatore AI sulla Famiglia Tattica specifica!)
                 rawBets.forEach(b => {
-                    let mod = MemorySystem.getFamilyModifier(b.tacticalFamily);
-                    b.aiMod = mod;
-                    b.conf = Math.min(96, Math.max(3, b.baseConf + mod));
+                    b.tacticalFamily = getTacticalFamily(b.market, b.pick);
+                    let famStats = MemorySystem.getFamilyStats(b.tacticalFamily);
+                    b.aiMod = famStats.modifier;
+                    b.famCount = famStats.count;
+                    b.famActive = famStats.active;
+                    b.pureConf = Math.min(96, Math.max(3, b.baseConf));
+                    b.pureOdd = (100 / b.pureConf).toFixed(2);
+                    b.conf = Math.min(96, Math.max(3, b.baseConf + b.aiMod));
                     b.fairOdd = (100 / b.conf).toFixed(2);
                 });
 
-                let validBets = rawBets.filter(b => b.conf >= 38).sort((a, b) => b.conf - a.conf);
+                let validBets = rawBets.filter(b => b.conf >= 36).sort((a, b) => b.conf - a.conf);
 
-                let safeBets = [];
-                let valueBets = [];
-                let safeSeen = new Set();
-                let valueSeen = new Set();
+                // CONTROLLO DI COERENZA TATTICA INTRA-COLONNA E INTER-COLONNA (SAFE <-> VALUE)
+                function hasDirectionConflict(betA, betB) {
+                    if ((betA.tacticalFamily === "GOALS_OVER" && betB.tacticalFamily === "GOALS_UNDER") ||
+                        (betA.tacticalFamily === "GOALS_UNDER" && betB.tacticalFamily === "GOALS_OVER")) return true;
+                    if ((betA.tacticalFamily === "BTTS_YES" && (betB.tacticalFamily === "BTTS_NO" || betB.pick === "UNDER 2.5")) ||
+                        (betB.tacticalFamily === "BTTS_YES" && (betA.tacticalFamily === "BTTS_NO" || betA.pick === "UNDER 2.5"))) return true;
+                    if ((betA.tacticalFamily === "HOME_WIN" && betB.tacticalFamily === "AWAY_WIN") ||
+                        (betA.tacticalFamily === "AWAY_WIN" && betB.tacticalFamily === "HOME_WIN")) return true;
+                    if ((betA.pick.startsWith("1X") && betB.pick.startsWith("X2")) ||
+                        (betA.pick.startsWith("X2") && betB.pick.startsWith("1X"))) return true;
+                    return false;
+                }
 
-                // Funzione Anti-Doppione Logico (es. impedisce 1 Fisso e 1X nella stessa lista)
-                function isRedundantOutcome(b, seenMarkets) {
-                    if (seenMarkets.has(b.market)) return true;
-                    if ((b.market === "Doppia Chance" && seenMarkets.has("Esito Finale")) ||
-                        (b.market === "Esito Finale" && seenMarkets.has("Doppia Chance"))) {
-                        return true;
+                function isTacticallyConflicting(candidate, selectedList, anchorSafeList = []) {
+                    for (let s of selectedList) {
+                        if (s.market === candidate.market) return true;
+                        if ((s.market === "Esito Finale" && candidate.market === "Doppia Chance") ||
+                            (s.market === "Doppia Chance" && candidate.market === "Esito Finale")) return true;
+                        if (hasDirectionConflict(s, candidate)) return true;
+                    }
+                    // Controllo Orizzontale contro la Tesi Dominante delle prime 2 Casseforti
+                    for (let anchor of anchorSafeList) {
+                        if (hasDirectionConflict(anchor, candidate)) return true;
                     }
                     return false;
                 }
 
-                // 1. Top 5 Safe Bets
+                let safeBets = [];
                 for (let b of validBets) {
                     if (safeBets.length >= 5) break;
-                    if (isRedundantOutcome(b, safeSeen)) continue;
+                    if (isTacticallyConflicting(b, safeBets)) continue;
                     safeBets.push(b);
-                    safeSeen.add(b.market);
                 }
 
-                // 2. Top 5 Value Bets (Quota Equa tra 1.40 e 2.00)
+                // Tesi Dominante: le prime 2 giocate più probabili delle Casseforti
+                let dominantSafeAnchors = safeBets.slice(0, 2);
+
+                let valueBets = [];
                 let valueCandidates = validBets.filter(b => {
                     let odd = parseFloat(b.fairOdd);
                     return odd >= 1.40 && odd <= 2.00;
                 });
                 for (let b of valueCandidates) {
                     if (valueBets.length >= 5) break;
-                    if (isRedundantOutcome(b, valueSeen)) continue;
+                    if (isTacticallyConflicting(b, valueBets, dominantSafeAnchors)) continue;
                     valueBets.push(b);
-                    valueSeen.add(b.market);
                 }
 
                 return { safe: safeBets, value: valueBets, probs1X2: { p1, px, p2 }, topExact: exactScores[0] };
@@ -1105,7 +1244,6 @@
                 let hFormBlended = (hFormGen * 0.65) + (hFormVenue * 0.35);
                 let aFormBlended = (aFormGen * 0.65) + (aFormVenue * 0.35);
 
-                // FIX TRIPLO CONTEGGIO: Bonus ELO Casa ridotto a +2.0 (poiché lo Split 50/50 include già il fattore campo)
                 let hPower = ((home.pregameForm.avgRating * 10) * 0.55) + (hFormBlended * 0.45) + 2.0;
                 let aPower = ((away.pregameForm.avgRating * 10) * 0.55) + (aFormBlended * 0.45);
 
@@ -1120,6 +1258,24 @@
                     reasons.push({ text: `PENALITÀ DI LEGA (TIER GAP): ${away.team.name} (${away.team.label}) affronta una squadra di fascia superiore (${home.team.label}). Applicato Malus di -${aMalus} punti ELO.`, type: 'alert'});
                 }
 
+                // FATTORE STANCHEZZA / GIORNI DI RIPOSO
+                let hRest = home.stats.restDays;
+                let aRest = away.stats.restDays;
+                let hFatigueConcededMult = 1.0;
+                let aFatigueConcededMult = 1.0;
+
+                if (hRest <= 3.6 && aRest >= 5.5) {
+                    hPower -= 3.5;
+                    hMalus += 3.5;
+                    hFatigueConcededMult = 1.06;
+                    reasons.push({ text: `FATTORE STANCHEZZA: ${home.team.name} scende in campo con soli ${hRest.toFixed(1)} giorni di recupero contro i ${aRest.toFixed(1)} giorni di ${away.team.name}. Applicato malus fatica (-3.5 ELO e +6% vulnerabilità difensiva).`, type: 'alert'});
+                } else if (aRest <= 3.6 && hRest >= 5.5) {
+                    aPower -= 3.5;
+                    aMalus += 3.5;
+                    aFatigueConcededMult = 1.06;
+                    reasons.push({ text: `FATTORE STANCHEZZA: ${away.team.name} viaggia in trasferta con soli ${aRest.toFixed(1)} giorni di riposo contro i ${hRest.toFixed(1)} giorni di ${home.team.name}. Applicato malus fatica (-3.5 ELO e +6% vulnerabilità difensiva).`, type: 'alert'});
+                }
+
                 hPower = Math.max(12, hPower);
                 aPower = Math.max(12, aPower);
 
@@ -1128,10 +1284,9 @@
 
                 const hWeightedScored = home.stats.rawScored * hGoalMult;
                 const aWeightedScored = away.stats.rawScored * aGoalMult;
-                const hWeightedConceded = home.stats.rawConceded / hGoalMult;
-                const aWeightedConceded = away.stats.rawConceded / aGoalMult;
+                const hWeightedConceded = (home.stats.rawConceded / hGoalMult) * hFatigueConcededMult;
+                const aWeightedConceded = (away.stats.rawConceded / aGoalMult) * aFatigueConcededMult;
 
-                // FIX TRIPLO CONTEGGIO: eloMod più morbido (divisore 180) e correzione campo residuale (+3% Casa / -2% Ospite)
                 let eloDiff = hPower - aPower;
                 let eloModH = Math.max(0.78, Math.min(1.24, 1 + (eloDiff / 180)));
                 let eloModA = Math.max(0.78, Math.min(1.24, 1 - (eloDiff / 180)));
@@ -1144,7 +1299,6 @@
                 let dcMatrix = this.buildDixonColesMatrix(expGoalsHome, expGoalsAway, rho);
                 let betZones = this.generateBetsFromMatrix(dcMatrix, hPower, aPower, expGoalsHome, expGoalsAway);
 
-                // Semaforo di Leggibilità (Varianza sulle sole gare ufficiali)
                 let avgStdDev = (home.stats.stdDev + away.stats.stdDev) / 2;
                 let readability = { level: 'med', text: '🟡 LEGGIBILITÀ MEDIA (Match Standard)' };
                 if (avgStdDev <= 1.15 && Math.abs(eloDiff) >= 10) {
@@ -1154,25 +1308,20 @@
                 }
 
                 reasons.push({
-                    text: `SPLIT UFFICIALE CASA/TRASFERTA: ${home.team.name} in casa registra ${home.stats.venueScored.toFixed(2)} GF e ${home.stats.venueConceded.toFixed(2)} GS; ${away.team.name} fuori casa viaggia a ${away.stats.venueScored.toFixed(2)} GF e ${away.stats.venueConceded.toFixed(2)} GS (amichevoli escluse). Gli Expected Goals bilanciati sono ${expGoalsHome.toFixed(2)} a ${expGoalsAway.toFixed(2)} (Totale: ${totalExpGoals.toFixed(2)} xG).`,
+                    text: `MEDIA GOL EWMA & SPLIT CASA/FUORI: Pesando maggiormente le gare più recenti (con cap a 3.5 gol), ${home.team.name} in casa produce ${home.stats.venueScored.toFixed(2)} GF / ${home.stats.venueConceded.toFixed(2)} GS, mentre ${away.team.name} fuori registra ${away.stats.venueScored.toFixed(2)} GF / ${away.stats.venueConceded.toFixed(2)} GS. Expected Goals finali: ${expGoalsHome.toFixed(2)} a ${expGoalsAway.toFixed(2)} (Totale: ${totalExpGoals.toFixed(2)} xG).`,
                     type: 'normal'
                 });
 
                 if (betZones.value.length > 0) {
                     let topV = betZones.value[0];
                     reasons.push({
-                        text: `SCELTA DELLA QUOTA VALORE: La giocata leader nel range 1.40–2.00 è "${topV.market}: ${topV.pick}" con fiducia ${topV.conf.toFixed(1)}% (Quota Equa @${topV.fairOdd}). Ha valore matematico se il tuo bookmaker la quota da @${(parseFloat(topV.fairOdd) + 0.08).toFixed(2)} in su.`,
+                        text: `TESI COERENTE SAFE ↔ VALUE: La selezione regina nel range 1.40–2.00 è "${topV.market}: ${topV.pick}" con fiducia finale ${topV.conf.toFixed(1)}% (Quota Equa @${topV.fairOdd} | C1 Puro: @${topV.pureOdd}). È in valore matematico da @${(parseFloat(topV.fairOdd) + 0.08).toFixed(2)} in su.`,
                         type: 'normal'
                     });
                 }
 
-                let activeAI = [...betZones.safe, ...betZones.value].some(b => b.aiMod !== 0);
-                if (activeAI) {
-                    reasons.push({ text: `CERVELLO 2 ATTIVO (FAMIGLIE TATTICHE): L'AI ha applicato correzioni mirate per singola famiglia tattica in base al tuo storico reale.`, type: 'normal' });
-                }
-
                 const radarData = {
-                    labels: ['Potenza ELO', 'Attacco Pesato', 'Solidità Difensiva', 'Momentum Split', 'Indice Dominio'],
+                    labels: ['Potenza ELO', 'Attacco EWMA', 'Solidità Difensiva', 'Momentum Split', 'Indice Dominio'],
                     home: [ hPower, Math.min(100, (expGoalsHome / 2.5) * 100), Math.max(10, 100 - (hWeightedConceded / 2.5) * 100), Math.max(10, hFormBlended - hMalus), hPower ],
                     away: [ aPower, Math.min(100, (expGoalsAway / 2.5) * 100), Math.max(10, 100 - (aWeightedConceded / 2.5) * 100), Math.max(10, aFormBlended - aMalus), aPower ]
                 };
@@ -1238,12 +1387,13 @@
                 tournament: liveMatch.tournament
             };
 
-            let homeData = await fetchStatsById(liveMatch.home.id, liveMatch.home.name, true, liveMatch.home.country);
-            await delay(500);
-            let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name, false, liveMatch.away.country);
+            let homeWasCached = !!apiMatchesCache[liveMatch.home.id];
+            let homeData = await fetchStatsById(liveMatch.home.id, liveMatch.home.name, true, liveMatch.home.country, liveMatch.timestamp);
+            if (!homeWasCached && !apiMatchesCache[liveMatch.away.id]) await delay(450);
+            let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name, false, liveMatch.away.country, liveMatch.timestamp);
 
-            setLog("Elaborazione Matrice Dixon-Coles 7x7 e Quote Valore...");
-            await delay(300);
+            setLog("Elaborazione Matrice Dixon-Coles 7x7 e Coerenza Safe↔Value...");
+            await delay(250);
 
             let analysis = ScoutingEngine.analyze(homeData, awayData);
             lastReportData = { homeData, awayData, analysis, matchContext: currentMatchContext };
@@ -1269,6 +1419,7 @@
 
         function renderBetRows(bets, containerId, prefix) {
             let container = document.getElementById(containerId);
+            if (!container) return;
             if (bets.length === 0) {
                 container.innerHTML = `<div class="no-bets-msg">Nessuna giocata trovata in questo range di quota per il match selezionato.</div>`;
                 return;
@@ -1282,8 +1433,18 @@
                 let fbId = `edge-fb-${prefix}-${index}`;
 
                 let aiTag = '';
-                if (bet.aiMod > 0) aiTag = `<span class="ai-badge pos" title="Bonus Famiglia ${bet.tacticalFamily}">AI +${bet.aiMod.toFixed(1)}%</span>`;
-                else if (bet.aiMod < 0) aiTag = `<span class="ai-badge neg" title="Malus Famiglia ${bet.tacticalFamily}">AI ${bet.aiMod.toFixed(1)}%</span>`;
+                if (bet.aiMod > 0) aiTag = `<span class="ai-badge pos">AI +${bet.aiMod.toFixed(1)}%</span>`;
+                else if (bet.aiMod < 0) aiTag = `<span class="ai-badge neg">AI ${bet.aiMod.toFixed(1)}%</span>`;
+
+                let c2StatusTxt = !bet.famActive 
+                    ? `Quarantena [${bet.tacticalFamily}: ${bet.famCount}/5]` 
+                    : `🤖 C2 (Brier AI): ${bet.conf.toFixed(1)}% (@${bet.fairOdd})`;
+
+                let savedBet = MemorySystem.getSavedBet(currentMatchContext?.id, bet.pick);
+                let alreadySaved = !!savedBet;
+                let savedBookVal = (savedBet && savedBet.bookOddInput) ? savedBet.bookOddInput : "";
+                let btnClass = alreadySaved ? 'btn-save-bet saved' : 'btn-save-bet';
+                let btnText = alreadySaved ? '✔️ Salvata' : '💾 Salva';
 
                 let safePickEscaped = bet.pick.replace(/'/g, "\\'");
                 let safeMarketEscaped = bet.market.replace(/'/g, "\\'");
@@ -1298,7 +1459,7 @@
                         <div class="bet-metrics">
                             <div class="bet-conf">
                                 <div class="conf-val ${confClass}">${bet.conf.toFixed(1)}% ${aiTag}</div>
-                                <div class="conf-lbl">Fiducia AI</div>
+                                <div class="conf-lbl">Fiducia Finale</div>
                             </div>
                             <div class="bet-odd">
                                 <div class="odd-val">@ ${bet.fairOdd}</div>
@@ -1306,16 +1467,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="brain-compare-line">
+                        <span class="brain-c1">🧠 C1 (Mat. Pura): <strong>${bet.pureConf.toFixed(1)}%</strong> (@${bet.pureOdd})</span>
+                        <span class="brain-c2">${c2StatusTxt}</span>
+                    </div>
                     <div class="bet-bottom-line">
                         <div class="book-input-wrap">
-                            <input type="number" step="0.01" min="1.01" id="${inputId}" class="book-input" placeholder="Quota Book" oninput="onBookOddInput(this, ${bet.fairOdd}, ${bet.conf.toFixed(1)}, '${fbId}')">
+                            <input type="number" step="0.01" min="1.01" id="${inputId}" value="${savedBookVal}" class="book-input" placeholder="Quota Book" oninput="onBookOddInput(this, ${bet.fairOdd}, ${bet.conf.toFixed(1)}, '${fbId}')">
                         </div>
                         <div id="${fbId}" class="edge-feedback edge-neutral">Inserisci quota book per Value & Stake</div>
-                        <button class="btn-save-bet" onclick="handleSaveBet(this, '${safeMarketEscaped}', '${safePickEscaped}', '${bet.tacticalFamily}', ${bet.conf.toFixed(1)}, ${bet.fairOdd}, '${inputId}')">💾 Salva</button>
+                        <button class="${btnClass}" onclick="handleSaveBet(this, '${safeMarketEscaped}', '${safePickEscaped}', '${bet.tacticalFamily}', ${bet.pureConf.toFixed(1)}, ${bet.conf.toFixed(1)}, ${bet.fairOdd}, '${inputId}')">${btnText}</button>
                     </div>
                 </div>`;
             });
             container.innerHTML = html;
+
+            // Ripristina il feedback Value & Stake se l'utente aveva già salvato una Quota Book
+            bets.forEach((bet, index) => {
+                let inputEl = document.getElementById(`book-odd-${prefix}-${index}`);
+                if (inputEl && inputEl.value) {
+                    onBookOddInput(inputEl, bet.fairOdd, bet.conf.toFixed(1), `edge-fb-${prefix}-${index}`);
+                }
+            });
         }
 
         function renderDashboard(hData, aData, analysis) {
@@ -1324,15 +1497,23 @@
             document.getElementById('ui-away-name').textContent = aData.team.name;
             document.getElementById('ui-away-tier').textContent = aData.team.label;
 
+            let hRestEl = document.getElementById('ui-home-rest');
+            hRestEl.textContent = `⏱️ Riposo: ${hData.stats.restDays.toFixed(1)} gg`;
+            hRestEl.className = hData.stats.restDays <= 3.6 ? 'tc-rest fatigue' : 'tc-rest';
+
+            let aRestEl = document.getElementById('ui-away-rest');
+            aRestEl.textContent = `⏱️ Riposo: ${aData.stats.restDays.toFixed(1)} gg`;
+            aRestEl.className = aData.stats.restDays <= 3.6 ? 'tc-rest fatigue' : 'tc-rest';
+
             let rb = document.getElementById('ui-readability-badge');
             rb.textContent = analysis.readability.text;
             rb.className = 'readability-badge ' + (analysis.readability.level === 'high' ? 'read-high' : (analysis.readability.level === 'low' ? 'read-low' : 'read-med'));
 
             let hMalusEl = document.getElementById('ui-home-malus');
-            if (analysis.hMalus > 0) { hMalusEl.style.display = 'block'; hMalusEl.textContent = `-${analysis.hMalus} ELO (Tier Gap)`; } else { hMalusEl.style.display = 'none'; }
+            if (analysis.hMalus > 0) { hMalusEl.style.display = 'block'; hMalusEl.textContent = `-${analysis.hMalus.toFixed(1)} ELO (Malus)`; } else { hMalusEl.style.display = 'none'; }
             
             let aMalusEl = document.getElementById('ui-away-malus');
-            if (analysis.aMalus > 0) { aMalusEl.style.display = 'block'; aMalusEl.textContent = `-${analysis.aMalus} ELO (Tier Gap)`; } else { aMalusEl.style.display = 'none'; }
+            if (analysis.aMalus > 0) { aMalusEl.style.display = 'block'; aMalusEl.textContent = `-${analysis.aMalus.toFixed(1)} ELO (Malus)`; } else { aMalusEl.style.display = 'none'; }
 
             setH2HRow('h2h-pi-h', 'h2h-pi-a', analysis.hPower.toFixed(1), analysis.aPower.toFixed(1));
             setH2HRow('h2h-xg-h', 'h2h-xg-a', analysis.expGoalsHome.toFixed(2), analysis.expGoalsAway.toFixed(2));
@@ -1341,8 +1522,8 @@
             setH2HRow('h2h-1x2-h', 'h2h-1x2-a', analysis.probs1X2.p1.toFixed(1), analysis.probs1X2.p2.toFixed(1), '%');
             document.getElementById('h2h-draw-lbl').textContent = `Matrice 1X2 (Pareggio X: ${analysis.probs1X2.px.toFixed(1)}%)`;
 
-            document.getElementById('ui-home-split-txt').textContent = `Rendimento Casa: ${hData.stats.venueScored.toFixed(2)} GF / ${hData.stats.venueConceded.toFixed(2)} GS`;
-            document.getElementById('ui-away-split-txt').textContent = `Rendimento Ospite: ${aData.stats.venueScored.toFixed(2)} GF / ${aData.stats.venueConceded.toFixed(2)} GS`;
+            document.getElementById('ui-home-split-txt').textContent = `Media Casa EWMA: ${hData.stats.venueScored.toFixed(2)} GF / ${hData.stats.venueConceded.toFixed(2)} GS`;
+            document.getElementById('ui-away-split-txt').textContent = `Media Ospite EWMA: ${aData.stats.venueScored.toFixed(2)} GF / ${aData.stats.venueConceded.toFixed(2)} GS`;
 
             let renderForm = (id, arr) => {
                 document.getElementById(id).innerHTML = arr.map(res => {
@@ -1372,19 +1553,20 @@
             let safeList = analysis.betZones.safe.slice(0, 3).map(b => `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})`).join('\n');
             let valList = analysis.betZones.value.slice(0, 3).map(b => `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})`).join('\n');
 
-            let report = `📡 *BETBAR SCOUT V17.1 — REPORT ANALISI*\n` +
+            let report = `📡 *BETBAR SCOUT V19 — REPORT ANALISI*\n` +
                 `🏆 *${matchContext.name}* (${matchContext.tournament})\n` +
                 `📅 Data: ${matchContext.dateStr}\n` +
+                `⏱️ Riposo: ${homeData.team.name} (${homeData.stats.restDays.toFixed(1)}gg) vs ${awayData.team.name} (${awayData.stats.restDays.toFixed(1)}gg)\n` +
                 `${analysis.readability.text}\n\n` +
-                `📊 *DATI ELO & DIXON-COLES:*\n` +
+                `📊 *DATI ELO, EWMA & DIXON-COLES:*\n` +
                 `• Power Index: ${homeData.team.name} ${analysis.hPower.toFixed(1)} vs ${awayData.team.name} ${analysis.aPower.toFixed(1)}\n` +
-                `• Expected Goals (xG): ${analysis.expGoalsHome.toFixed(2)} - ${analysis.expGoalsAway.toFixed(2)}\n` +
+                `• Expected Goals (EWMA): ${analysis.expGoalsHome.toFixed(2)} - ${analysis.expGoalsAway.toFixed(2)}\n` +
                 `• Probabilità 1X2: 1 (${analysis.probs1X2.p1.toFixed(1)}%) | X (${analysis.probs1X2.px.toFixed(1)}%) | 2 (${analysis.probs1X2.p2.toFixed(1)}%)\n\n` +
                 `🛡️ *TOP CASSEFORTI (SAFE):*\n${safeList || 'Nessuna'}\n\n` +
                 `🔥 *ZONA VALORE (SWEET SPOT 1.40-2.00):*\n${valList || 'Nessuna'}`;
 
             navigator.clipboard.writeText(report).then(() => {
-                alert("📋 Report copiato negli appunti! Pronto da incollare su Telegram o nelle note.");
+                alert("📋 Report V19 copiato negli appunti! Pronto da incollare su Telegram o nelle note.");
             });
         }
 
