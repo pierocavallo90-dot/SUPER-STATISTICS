@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V20 LTS - Production Freeze</title>
+    <title>BETBAR | Scouting Engine V20.1 LTS - 165+ Mercati & Lab On-Demand</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -32,10 +32,10 @@
         .api-dot { width: 8px; height: 8px; background: var(--neon-green); border-radius: 50%; box-shadow: 0 0 10px var(--neon-green); animation: pulse 2s infinite;}
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        .view-section { display: none; width: 100%; max-width: 1180px; margin: 0 auto; padding: 20px 15px 40px 15px; animation: fadeIn 0.35s ease-out; }
+        .view-section { display: none; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px 15px 40px 15px; animation: fadeIn 0.35s ease-out; }
         .view-section.active { display: block; }
 
-        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 20px; border-radius: 12px; margin: 0 auto 20px auto; max-width: 850px; width: 100%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); align-items: flex-end;}
+        .search-container { display: flex; gap: 15px; background: var(--bg-panel); padding: 20px; border-radius: 12px; margin: 0 auto 20px auto; max-width: 860px; width: 100%; border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.5); align-items: flex-end;}
         .search-box { flex: 1; display: flex; flex-direction: column; gap: 8px; }
         .search-lbl { font-size: 0.85rem; color: var(--accent-gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
         .search-input { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 15px; border-radius: 6px; font-size: 1.15rem; font-weight: bold; outline: none;}
@@ -57,16 +57,16 @@
         /* TOP BAR MATCH & CONTROLS */
         .match-top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: var(--bg-darker); padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 18px;}
         .match-selector-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-        .match-select { background: var(--bg-panel); color: var(--accent-gold); border: 1px solid rgba(251, 191, 36, 0.4); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; outline: none; cursor: pointer;}
-        .readability-badge { font-size: 0.76rem; font-weight: 900; padding: 6px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .match-select { background: var(--bg-panel); color: var(--accent-gold); border: 1px solid rgba(251, 191, 36, 0.4); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 0.82rem; outline: none; cursor: pointer;}
+        .readability-badge { font-size: 0.75rem; font-weight: 900; padding: 6px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
         .read-high { background: rgba(34, 197, 94, 0.15); color: var(--neon-green); border: 1px solid var(--neon-green);}
         .read-med { background: rgba(251, 191, 36, 0.15); color: var(--accent-gold); border: 1px solid var(--accent-gold);}
         .read-low { background: rgba(239, 68, 68, 0.15); color: var(--neon-red); border: 1px solid var(--neon-red);}
         
         .top-actions-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .btn-neutral-toggle { background: var(--bg-panel); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.18); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .btn-neutral-toggle { background: var(--bg-panel); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.18); padding: 8px 12px; border-radius: 6px; font-size: 0.76rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
         .btn-neutral-toggle.active { background: rgba(168, 85, 247, 0.2); color: #fff; border-color: var(--ai-purple); box-shadow: 0 0 10px rgba(168, 85, 247, 0.35);}
-        .btn-copy-report { background: var(--bg-panel); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .btn-copy-report { background: var(--bg-panel); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-size: 0.76rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
         .btn-copy-report:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
         .match-arena { display: flex; gap: 15px; margin-bottom: 20px; align-items: stretch;}
@@ -111,9 +111,23 @@
         .bets-safe { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--neon-green); }
         .bets-value { background: linear-gradient(145deg, #151e2e, var(--bg-darker)); border: 2px solid var(--accent-gold); }
 
+        /* LABORATORIO ON-DEMAND & LAVAGNA DI CONFRONTO */
+        .lab-container { background: linear-gradient(145deg, #17152e, var(--bg-darker)); border: 2px solid var(--ai-purple); border-radius: 16px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); }
+        .lab-controls-grid { display: grid; grid-template-columns: 1fr 1fr 2fr auto; gap: 10px; margin-bottom: 15px; align-items: center;}
+        @media (max-width: 900px) { .lab-controls-grid { grid-template-columns: 1fr; } }
+        .lab-input, .lab-select { background: var(--bg-panel); color: #fff; border: 1px solid rgba(168, 85, 247, 0.45); padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: bold; outline: none; width: 100%;}
+        .lab-input:focus, .lab-select:focus { border-color: var(--accent-gold); }
+        .lab-btn-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; justify-content: flex-end;}
+        .btn-lab-add { background: linear-gradient(90deg, var(--ai-purple), #ec4899); color: #fff; border: none; padding: 10px 18px; border-radius: 6px; font-weight: 900; font-size: 0.82rem; cursor: pointer; text-transform: uppercase; white-space: nowrap;}
+        .btn-lab-add:hover { filter: brightness(1.15); }
+        .btn-lab-preset { background: rgba(0, 240, 255, 0.12); color: var(--accent-blue); border: 1px solid var(--accent-blue); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 0.76rem; cursor: pointer;}
+        .btn-lab-clear { background: rgba(239, 68, 68, 0.15); color: var(--neon-red); border: 1px solid var(--neon-red); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 0.76rem; cursor: pointer;}
+        .btn-remove-lab { background: rgba(239, 68, 68, 0.2); color: var(--neon-red); border: 1px solid var(--neon-red); padding: 5px 9px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; cursor: pointer;}
+
         .tb-header { text-align: center; font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
         .safe-txt { color: var(--neon-green); }
         .value-txt { color: var(--accent-gold); }
+        .lab-txt { color: var(--ai-purple); }
         .tb-sub { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;}
         
         .bet-row { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 7px; position: relative; overflow: hidden;}
@@ -125,7 +139,7 @@
         .bet-top-line { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;}
         .bet-info { display: flex; flex-direction: column; gap: 2px; flex: 1.5; min-width: 140px;}
         .bet-market { font-size: 0.68rem; color: var(--text-muted); font-weight: bold; text-transform: uppercase; }
-        .bet-pick { font-size: 1.15rem; font-weight: 900; color: #fff;}
+        .bet-pick { font-size: 1.12rem; font-weight: 900; color: #fff;}
         
         .bet-metrics { display: flex; align-items: center; gap: 12px;}
         .bet-conf, .bet-odd { text-align: right; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;}
@@ -222,19 +236,19 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v20">V20 LTS FREEZE</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v20">V20.1 LTS EXPANDED</span></div>
         <div class="tab-menu">
-            <button class="tab-btn active" id="tab-btn-radar" onclick="switchTab('radar')">📡 Radar Live</button>
+            <button class="tab-btn active" id="tab-btn-radar" onclick="switchTab('radar')">📡 Radar & Lab 165+ Mercati</button>
             <button class="tab-btn" id="tab-btn-console" onclick="switchTab('console')">🧠 Console AI & Backup</button>
         </div>
-        <div class="api-status"><div class="api-dot"></div> BAYESIAN BRIER + EWMA</div>
+        <div class="api-status"><div class="api-dot"></div> TRI-MATRIX FT / HT / 2T</div>
     </div>
 
     <!-- VISTA RADAR -->
     <div id="view-radar" class="view-section active">
         <div class="search-container">
             <div class="search-box">
-                <span class="search-lbl">Radar Partite Ufficiali (Versione Stabile LTS — Test Fino a Fine Anno)</span>
+                <span class="search-lbl">Radar Partite Ufficiali (165+ Mercati FT/HT/2T + Laboratorio On-Demand)</span>
                 <input type="text" id="input-team" class="search-input" placeholder="Scrivi una squadra (es. Atalanta, Villarreal, Inter, Arsenal)..." onkeydown="if(event.key==='Enter') runLiveScoutingEngine()">
             </div>
             <button class="btn-scout" onclick="runLiveScoutingEngine()">Scannerizza</button>
@@ -249,8 +263,13 @@
             
             <div class="match-top-bar">
                 <div class="match-selector-wrap">
-                    <span style="font-size:0.8rem; font-weight:bold; color:var(--text-muted);">📅 CALENDARIO:</span>
+                    <span style="font-size:0.78rem; font-weight:bold; color:var(--text-muted);">📅 MATCH:</span>
                     <select id="ui-match-select" class="match-select" onchange="onSelectUpcomingMatch(this.value)"></select>
+                    <select id="ui-top-limit" class="match-select" onchange="onChangeTopLimit(this.value)" title="Numero di giocate automatiche da mostrare nelle colonne">
+                        <option value="5">Mostra: Top 5</option>
+                        <option value="8">Mostra: Top 8</option>
+                        <option value="12">Mostra: Top 12</option>
+                    </select>
                 </div>
                 <div id="ui-readability-badge" class="readability-badge read-med">⚖️ LEGGIBILITÀ STANDARD</div>
                 <div class="top-actions-wrap">
@@ -324,17 +343,53 @@
                 </div>
             </div>
 
+            <!-- COLONNE AUTOMATICHE SAFE & VALUE -->
             <div class="tipster-zones">
                 <div class="bets-container bets-safe">
-                    <div class="tb-header safe-txt">🛡️ Le Casseforti (Top 5 Safe)</div>
-                    <div class="tb-sub">Le 5 selezioni a più alta probabilità matematica che dettano la Tesi Dominante del match.</div>
+                    <div class="tb-header safe-txt">🛡️ Le Casseforti (Safe Bets)</div>
+                    <div class="tb-sub">Le selezioni a più alta probabilità matematica (una per categoria, senza conflitti).</div>
                     <div id="ui-safe-bets"></div>
                 </div>
                 <div class="bets-container bets-value">
                     <div class="tb-header value-txt">🔥 La Zona Valore (Sweet Spot 1.40 - 2.00)</div>
-                    <div class="tb-sub">Le 5 migliori giocate da Singola/Raddoppio allineate orizzontalmente alla tesi delle Casseforti.</div>
+                    <div class="tb-sub">Le migliori giocate da Singola/Raddoppio allineate orizzontalmente alla tesi delle Casseforti.</div>
                     <div id="ui-value-bets"></div>
                 </div>
+            </div>
+
+            <!-- LABORATORIO ON-DEMAND & LAVAGNA DI CONFRONTO (165+ MERCATI) -->
+            <div class="lab-container">
+                <div class="tb-header lab-txt">🎯 Laboratorio On-Demand & Lavagna di Confronto (165+ Mercati FT / HT / 2T)</div>
+                <div class="tb-sub">Hai in mente una giocata che non vedi sopra? Cercala tra i <strong>165+ mercati calcolati</strong> (inclusi Over/Under 1° e 2° Tempo, Combo Tempi, Multigol e Risultati Esatti) e aggiungila alla lavagna per confrontare Quota Equa, Value % e Stake.</div>
+                
+                <div class="lab-controls-grid">
+                    <select id="lab-cat-filter" class="lab-select" onchange="populateLabDropdown()">
+                        <option value="ALL">📂 Tutte le Categorie (165+ Mercati)</option>
+                        <option value="1° Tempo (HT)">⏱️ 1° Tempo (Esiti & Over/Under HT)</option>
+                        <option value="2° Tempo (2T)">⏱️ 2° Tempo (Esiti & Over/Under 2T)</option>
+                        <option value="Combo Tempi (HT/2T)">🔥 Combo Tempi & Parziale/Finale</option>
+                        <option value="Combo DC/1X2 + Multigol">🎯 Combo 1X2/DC + Multigol</option>
+                        <option value="Combo 1X2/DC + Over/Under">⚡ Combo 1X2/DC + Over/Under</option>
+                        <option value="Combo Goal & Chance Mix">💥 Combo Goal/NoGoal & Chance Mix</option>
+                        <option value="Multigoal Match">🔢 Multigol Match (10 Fasce)</option>
+                        <option value="Multigoal Squadra">🏠✈️ Multigol Casa & Ospite</option>
+                        <option value="Goal Totali">⚽ Over / Under Totale (0.5 ➔ 5.5)</option>
+                        <option value="Goal Squadra">🥅 Over / Under Casa & Ospite</option>
+                        <option value="Esiti & Doppia Chance">🏆 1X2, Doppia Chance, DNB & Handicap</option>
+                        <option value="Entrambe Segnano & Clean Sheet">🛡️ Goal/NoGoal, Clean Sheet & Vince a 0</option>
+                        <option value="Speciali & Risultati Esatti">🎲 Corner, Pari/Dispari & 25 Ris. Esatti</option>
+                    </select>
+                    <input type="text" id="lab-search-input" class="lab-input" placeholder="🔍 Filtra (es. HT, 2T, 1X, 2-4, Goal)..." oninput="populateLabDropdown()">
+                    <select id="lab-market-select" class="lab-select"></select>
+                    <button class="btn-lab-add" onclick="addSelectedToLabBoard()">➕ Aggiungi al Confronto</button>
+                </div>
+
+                <div class="lab-btn-bar">
+                    <button class="btn-lab-preset" onclick="loadBestTimeAndMgCombos()">⚡ Carica Top 5 Tempi (HT/2T) & Combo Multigol</button>
+                    <button class="btn-lab-clear" onclick="clearLabBoard()">🧹 Svuota Lavagna</button>
+                </div>
+
+                <div id="ui-lab-board"></div>
             </div>
 
             <div class="ai-analysis">
@@ -379,10 +434,10 @@
 
             <div class="ai-panel">
                 <div class="ai-panel-title">
-                    <span>📚 Registro Scommesse & Auto-Training</span>
+                    <span>📚 Registro Scommesse & Auto-Training (FT + HT + 2T)</span>
                     <button class="btn-autoverify" id="btn-autoverify" onclick="MemorySystem.autoVerifyPendingBets()">🔄 Auto-Verifica Risultati (API)</button>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:15px;">Il Cervello 2 applica uno smorzamento progressivo tra la 5ª e la 15ª giocata di ogni famiglia per proteggerti dalla varianza di breve periodo.</p>
+                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:15px;">L'Auto-Verifica controlla sia il risultato finale sia i parziali 1° e 2° Tempo su tutti i 165+ mercati.</p>
                 <div class="memory-list" id="ui-memory-list"></div>
             </div>
         </div>
@@ -400,6 +455,8 @@
         let currentMatchContext = null;
         let lastReportData = null;
         let isNeutralVenue = false;
+        let displayTopLimit = 5;
+        let labComparedPicks = []; // Contiene i mercati scelti dall'utente nel Laboratorio On-Demand
 
         function setLog(text) {
             const logEl = document.getElementById('loader-log');
@@ -460,32 +517,32 @@
         }
 
         const TacticalFamiliesMeta = {
-            "HOME_WIN": "Esito Casa (1 / 1X / H-1)",
-            "AWAY_WIN": "Esito Ospite (2 / X2 / H-1)",
-            "DRAW_X": "Pareggio (X Fisso)",
-            "TEAM_HOME_GOALS": "Gol Squadra Casa",
-            "TEAM_AWAY_GOALS": "Gol Squadra Ospite",
-            "GOALS_OVER": "Trend Over Match / HT",
-            "GOALS_UNDER": "Trend Under Match",
-            "BTTS_YES": "Entrambe Segnano (Goal)",
-            "BTTS_NO": "Porta Inviolata (No Goal)",
-            "MULTIGOAL": "Fascia Multigol",
-            "SPECIALS": "Speciali (Corner / Cluster)"
+            "HOME_WIN": "Esito Casa / Combo Casa",
+            "AWAY_WIN": "Esito Ospite / Combo Ospite",
+            "DRAW_X": "Pareggio (X / HT / 2T)",
+            "TEAM_HOME_GOALS": "Gol & Multigol Casa",
+            "TEAM_AWAY_GOALS": "Gol & Multigol Ospite",
+            "GOALS_OVER": "Trend Over (FT / HT / 2T)",
+            "GOALS_UNDER": "Trend Under (FT / HT / 2T)",
+            "BTTS_YES": "Goal (BTTS FT / HT / 2T)",
+            "BTTS_NO": "No Goal & Clean Sheet",
+            "MULTIGOAL": "Multigol & Combo MG",
+            "SPECIALS": "Speciali, Corner & Esatti"
         };
 
         function getTacticalFamily(market, pick) {
             let p = (pick || "").trim().toUpperCase();
             let m = (market || "").trim().toUpperCase();
-            if (p === "OVER 0.5 CASA" || p === "OVER 1.5 CASA" || m.includes("SQUADRA CASA")) return "TEAM_HOME_GOALS";
-            if (p === "OVER 0.5 OSPITE" || p === "OVER 1.5 OSPITE" || m.includes("SQUADRA OSPITE")) return "TEAM_AWAY_GOALS";
-            if (p === "GOAL" || p === "X O GOAL") return "BTTS_YES";
-            if (p === "NO GOAL" || p === "1X + NO GOAL") return "BTTS_NO";
-            if (m.includes("MULTIGOAL")) return "MULTIGOAL";
-            if (p.includes("UNDER")) return "GOALS_UNDER";
-            if (p === "OVER 1.5" || p === "OVER 2.5" || p === "OVER 3.5" || p === "1X + OVER 1.5" || p === "X2 + OVER 1.5" || p === "OVER 0.5 HT") return "GOALS_OVER";
-            if (p === "1 FISSO" || p === "1X" || p === "1 (H -1)" || p === "1 + OVER 1.5") return "HOME_WIN";
-            if (p === "2 FISSO" || p === "X2" || p === "2 (H -1)" || p === "2 + OVER 1.5") return "AWAY_WIN";
-            if (p === "X FISSO") return "DRAW_X";
+            if (p.includes("MULTIGOL CASA") || p.includes("CASA IN ENTRAMBI") || (p.includes("CASA") && (p.includes("OVER") || p.includes("UNDER")))) return "TEAM_HOME_GOALS";
+            if (p.includes("MULTIGOL OSPITE") || p.includes("OSPITE IN ENTRAMBI") || (p.includes("OSPITE") && (p.includes("OVER") || p.includes("UNDER")))) return "TEAM_AWAY_GOALS";
+            if (p.includes("CLEAN SHEET") || p.includes("NO GOAL")) return "BTTS_NO";
+            if (p.includes("GOAL") && !p.includes("MULTIGOL") && !p.includes("NO GOAL") && !p.includes("-")) return "BTTS_YES";
+            if (p.includes("MULTIGOL") || m.includes("MULTIGOAL")) return "MULTIGOAL";
+            if (p.includes("UNDER") && !p.includes("OVER")) return "GOALS_UNDER";
+            if (p.startsWith("OVER") || p.includes("GOL IN ENTRAMBI I TEMPI") || p.includes("OVER 0.5 HT + OVER") || p.includes("UNDER 0.5 HT + OVER")) return "GOALS_OVER";
+            if (p.startsWith("1") || p.includes("PARZIALE/FINALE: 1") || p.includes("PARZIALE/FINALE: X / 1")) return "HOME_WIN";
+            if (p.startsWith("2") || p.startsWith("X2") || p.includes("PARZIALE/FINALE: 2") || p.includes("PARZIALE/FINALE: X / 2")) return "AWAY_WIN";
+            if (p.startsWith("X") || p.includes("PAREGGIO") || p.includes("PARZIALE/FINALE: X / X")) return "DRAW_X";
             return "SPECIALS";
         }
 
@@ -497,7 +554,7 @@
         }
 
         // ----------------------------------------------------
-        // SISTEMA DI MEMORIA E AI ADATTIVA (V20 LTS - BAYESIAN BRIER)
+        // SISTEMA DI MEMORIA E AI ADATTIVA (V20.1 LTS)
         // ----------------------------------------------------
         const MemorySystem = {
             data: [],
@@ -521,8 +578,9 @@
                 localStorage.setItem('betbar_memory_v20', JSON.stringify(this.data));
                 this.updateUI();
                 if (lastReportData) {
-                    renderBetRows(lastReportData.analysis.betZones.safe, 'ui-safe-bets', 'safe');
-                    renderBetRows(lastReportData.analysis.betZones.value, 'ui-value-bets', 'val');
+                    renderBetRows(lastReportData.analysis.betZones.safe.slice(0, displayTopLimit), 'ui-safe-bets', 'safe');
+                    renderBetRows(lastReportData.analysis.betZones.value.slice(0, displayTopLimit), 'ui-value-bets', 'val');
+                    renderLabBoard();
                 }
             },
 
@@ -659,7 +717,6 @@
                 reader.readAsText(file);
             },
 
-            // SMORZAMENTO PROGRESSIVO BAYESIANO (5 ➔ 15 Esiti) + BRIER RESIDUAL
             getFamilyStats: function(tacticalFamily) {
                 let resolved = this.data.filter(b => getTacticalFamily(b.market, b.pick) === tacticalFamily && (b.status === 'win' || b.status === 'lose'));
                 let count = resolved.length;
@@ -672,7 +729,6 @@
 
                 if (count < 5) return { count, wins, winRate, expRate, damping: 0, modifier: 0, active: false };
 
-                // Fattore di maturazione progressiva: 9% a 5 esiti, 55% a 10 esiti, 100% da 15 esiti in su
                 let damping = Math.min(1.0, (count - 4) / 11.0);
                 let residual = winRate - expRate;
                 let rawMod = 0;
@@ -685,51 +741,191 @@
                 return { count, wins, winRate, expRate, damping, modifier, active: true };
             },
 
-            getFamilyModifier: function(tacticalFamily) {
-                return this.getFamilyStats(tacticalFamily).modifier;
-            },
-
+            // VALUTATORE UNIVERSALE PER TUTTI I 165+ MERCATI (FT + HT + 2T)
             evaluatePickOutcome: function(pick, h, a, htH, htA) {
                 let tot = h + a;
-                switch(pick) {
-                    case "1 Fisso": return h > a;
-                    case "X Fisso": return h === a;
-                    case "2 Fisso": return a > h;
-                    case "1X": return h >= a;
-                    case "X2": return a >= h;
-                    case "12": return h !== a;
-                    case "1 (H -1)": return (h - a) >= 2;
-                    case "2 (H -1)": return (a - h) >= 2;
-                    case "GOAL": return h > 0 && a > 0;
-                    case "NO GOAL": return h === 0 || a === 0;
-                    case "OVER 1.5": return tot >= 2;
-                    case "OVER 2.5": return tot >= 3;
-                    case "OVER 3.5": return tot >= 4;
-                    case "UNDER 2.5": return tot <= 2;
-                    case "UNDER 3.5": return tot <= 3;
-                    case "OVER 0.5 CASA": return h >= 1;
-                    case "OVER 1.5 CASA": return h >= 2;
-                    case "OVER 0.5 OSPITE": return a >= 1;
-                    case "OVER 1.5 OSPITE": return a >= 2;
-                    case "1-3 GOAL": return tot >= 1 && tot <= 3;
-                    case "2-4 GOAL": return tot >= 2 && tot <= 4;
-                    case "2-5 GOAL": return tot >= 2 && tot <= 5;
-                    case "1 + OVER 1.5": return h > a && tot >= 2;
-                    case "2 + OVER 1.5": return a > h && tot >= 2;
-                    case "1X + OVER 1.5": return h >= a && tot >= 2;
-                    case "X2 + OVER 1.5": return a >= h && tot >= 2;
-                    case "1X + UNDER 3.5": return h >= a && tot <= 3;
-                    case "X2 + UNDER 3.5": return a >= h && tot <= 3;
-                    case "1X + NO GOAL": return h >= a && (h === 0 || a === 0);
-                    case "X o GOAL": return h === a || (h > 0 && a > 0);
-                    case "OVER 0.5 HT": return (htH !== undefined && htA !== undefined) ? (htH + htA) >= 1 : null;
-                    default:
-                        if (pick.includes('/')) {
-                            let clusters = pick.split('/').map(s => s.trim());
-                            return clusters.includes(`${h}-${a}`);
-                        }
-                        return null;
+                let hasHT = (htH !== undefined && htH !== null && htA !== undefined && htA !== null);
+                let stH = hasHT ? (h - htH) : null;
+                let stA = hasHT ? (a - htA) : null;
+                let totHT = hasHT ? (htH + htA) : null;
+                let tot2T = hasHT ? (stH + stA) : null;
+
+                if (pick.startsWith("RISULTATO ESATTO: ")) {
+                    let target = pick.replace("RISULTATO ESATTO: ", "").trim();
+                    return `${h}-${a}` === target;
                 }
+                if (pick.includes('/') && !pick.startsWith("PARZIALE/FINALE:")) {
+                    let clusters = pick.split('/').map(s => s.trim());
+                    return clusters.includes(`${h}-${a}`);
+                }
+
+                const ftMap = {
+                    "1 Fisso": h > a,
+                    "X Fisso": h === a,
+                    "2 Fisso": a > h,
+                    "1X": h >= a,
+                    "X2": a >= h,
+                    "12": h !== a,
+                    "1 DNB (Rimborso X)": h > a ? true : (h < a ? false : null),
+                    "2 DNB (Rimborso X)": a > h ? true : (a < h ? false : null),
+                    "1 (H -1)": (h - a) >= 2,
+                    "1 (H -2)": (h - a) >= 3,
+                    "2 (H -1)": (a - h) >= 2,
+                    "2 (H -2)": (a - h) >= 3,
+                    "1X (Casa H +1)": (h + 1) >= a,
+                    "X2 (Ospite H +1)": (a + 1) >= h,
+                    "OVER 0.5": tot >= 1,
+                    "OVER 1.5": tot >= 2,
+                    "OVER 2.5": tot >= 3,
+                    "OVER 3.5": tot >= 4,
+                    "OVER 4.5": tot >= 5,
+                    "OVER 5.5": tot >= 6,
+                    "UNDER 1.5": tot <= 1,
+                    "UNDER 2.5": tot <= 2,
+                    "UNDER 3.5": tot <= 3,
+                    "UNDER 4.5": tot <= 4,
+                    "GOAL": h > 0 && a > 0,
+                    "NO GOAL": h === 0 || a === 0,
+                    "CLEAN SHEET CASA (Ospite No Goal)": a === 0,
+                    "CLEAN SHEET OSPITE (Casa No Goal)": h === 0,
+                    "1 + NO GOAL (Casa Vince a Zero)": h > a && a === 0,
+                    "2 + NO GOAL (Ospite Vince a Zero)": a > h && h === 0,
+                    "OVER 0.5 CASA": h >= 1,
+                    "OVER 1.5 CASA": h >= 2,
+                    "OVER 2.5 CASA": h >= 3,
+                    "UNDER 1.5 CASA": h <= 1,
+                    "UNDER 2.5 CASA": h <= 2,
+                    "OVER 0.5 OSPITE": a >= 1,
+                    "OVER 1.5 OSPITE": a >= 2,
+                    "OVER 2.5 OSPITE": a >= 3,
+                    "UNDER 1.5 OSPITE": a <= 1,
+                    "UNDER 2.5 OSPITE": a <= 2,
+                    "1-2 GOAL": tot >= 1 && tot <= 2,
+                    "1-3 GOAL": tot >= 1 && tot <= 3,
+                    "1-4 GOAL": tot >= 1 && tot <= 4,
+                    "2-3 GOAL": tot >= 2 && tot <= 3,
+                    "2-4 GOAL": tot >= 2 && tot <= 4,
+                    "2-5 GOAL": tot >= 2 && tot <= 5,
+                    "3-4 GOAL": tot >= 3 && tot <= 4,
+                    "3-5 GOAL": tot >= 3 && tot <= 5,
+                    "3-6 GOAL": tot >= 3 && tot <= 6,
+                    "MULTIGOL CASA 1-2": h >= 1 && h <= 2,
+                    "MULTIGOL CASA 1-3": h >= 1 && h <= 3,
+                    "MULTIGOL CASA 2-3": h >= 2 && h <= 3,
+                    "MULTIGOL CASA 2-4": h >= 2 && h <= 4,
+                    "MULTIGOL OSPITE 1-2": a >= 1 && a <= 2,
+                    "MULTIGOL OSPITE 1-3": a >= 1 && a <= 3,
+                    "MULTIGOL OSPITE 2-3": a >= 2 && a <= 3,
+                    "MULTIGOL OSPITE 2-4": a >= 2 && a <= 4,
+                    "1 + OVER 1.5": h > a && tot >= 2,
+                    "1 + OVER 2.5": h > a && tot >= 3,
+                    "1 + UNDER 2.5": h > a && tot <= 2,
+                    "1 + UNDER 3.5": h > a && tot <= 3,
+                    "2 + OVER 1.5": a > h && tot >= 2,
+                    "2 + OVER 2.5": a > h && tot >= 3,
+                    "2 + UNDER 2.5": a > h && tot <= 2,
+                    "2 + UNDER 3.5": a > h && tot <= 3,
+                    "X + OVER 1.5": h === a && tot >= 2,
+                    "X + UNDER 2.5": h === a && tot <= 2,
+                    "1X + OVER 1.5": h >= a && tot >= 2,
+                    "1X + OVER 2.5": h >= a && tot >= 3,
+                    "1X + UNDER 2.5": h >= a && tot <= 2,
+                    "1X + UNDER 3.5": h >= a && tot <= 3,
+                    "1X + UNDER 4.5": h >= a && tot <= 4,
+                    "X2 + OVER 1.5": a >= h && tot >= 2,
+                    "X2 + OVER 2.5": a >= h && tot >= 3,
+                    "X2 + UNDER 2.5": a >= h && tot <= 2,
+                    "X2 + UNDER 3.5": a >= h && tot <= 3,
+                    "X2 + UNDER 4.5": a >= h && tot <= 4,
+                    "12 + OVER 1.5": h !== a && tot >= 2,
+                    "12 + OVER 2.5": h !== a && tot >= 3,
+                    "12 + UNDER 3.5": h !== a && tot <= 3,
+                    "1X + MULTIGOL 1-3": h >= a && tot >= 1 && tot <= 3,
+                    "1X + MULTIGOL 1-4": h >= a && tot >= 1 && tot <= 4,
+                    "1X + MULTIGOL 2-4": h >= a && tot >= 2 && tot <= 4,
+                    "1X + MULTIGOL 2-5": h >= a && tot >= 2 && tot <= 5,
+                    "X2 + MULTIGOL 1-3": a >= h && tot >= 1 && tot <= 3,
+                    "X2 + MULTIGOL 1-4": a >= h && tot >= 1 && tot <= 4,
+                    "X2 + MULTIGOL 2-4": a >= h && tot >= 2 && tot <= 4,
+                    "X2 + MULTIGOL 2-5": a >= h && tot >= 2 && tot <= 5,
+                    "1 + MULTIGOL 2-4": h > a && tot >= 2 && tot <= 4,
+                    "2 + MULTIGOL 2-4": a > h && tot >= 2 && tot <= 4,
+                    "1 + GOAL": h > a && h > 0 && a > 0,
+                    "2 + GOAL": a > h && h > 0 && a > 0,
+                    "X + GOAL": h === a && h > 0 && a > 0,
+                    "1X + GOAL": h >= a && h > 0 && a > 0,
+                    "1X + NO GOAL": h >= a && (h === 0 || a === 0),
+                    "X2 + GOAL": a >= h && h > 0 && a > 0,
+                    "X2 + NO GOAL": a >= h && (h === 0 || a === 0),
+                    "OVER 2.5 + GOAL": tot >= 3 && h > 0 && a > 0,
+                    "UNDER 2.5 + NO GOAL": tot <= 2 && (h === 0 || a === 0),
+                    "GOAL o OVER 2.5": (h > 0 && a > 0) || tot >= 3,
+                    "NO GOAL o UNDER 2.5": (h === 0 || a === 0) || tot <= 2,
+                    "1 o OVER 2.5": h > a || tot >= 3,
+                    "2 o OVER 2.5": a > h || tot >= 3,
+                    "X o GOAL": h === a || (h > 0 && a > 0),
+                    "1 o GOAL": h > a || (h > 0 && a > 0),
+                    "2 o GOAL": a > h || (h > 0 && a > 0),
+                    "SOMMA GOL PARI": (tot % 2) === 0,
+                    "SOMMA GOL DISPARI": (tot % 2) === 1
+                };
+                if (pick in ftMap) return ftMap[pick];
+                if (!hasHT) return null;
+
+                const htMap = {
+                    "1 HT (1° Tempo)": htH > htA,
+                    "X HT (1° Tempo)": htH === htA,
+                    "2 HT (1° Tempo)": htA > htH,
+                    "1X HT (1° Tempo)": htH >= htA,
+                    "X2 HT (1° Tempo)": htA >= htH,
+                    "12 HT (1° Tempo)": htH !== htA,
+                    "OVER 0.5 HT": totHT >= 1,
+                    "UNDER 0.5 HT": totHT === 0,
+                    "OVER 1.5 HT": totHT >= 2,
+                    "UNDER 1.5 HT": totHT <= 1,
+                    "OVER 2.5 HT": totHT >= 3,
+                    "GOAL 1° TEMPO (BTTS HT)": htH > 0 && htA > 0,
+                    "NO GOAL 1° TEMPO": htH === 0 || htA === 0,
+                    "OVER 0.5 CASA HT": htH >= 1,
+                    "OVER 0.5 OSPITE HT": htA >= 1,
+                    "1 2T (2° Tempo)": stH > stA,
+                    "X 2T (2° Tempo)": stH === stA,
+                    "2 2T (2° Tempo)": stA > stH,
+                    "1X 2T (2° Tempo)": stH >= stA,
+                    "X2 2T (2° Tempo)": stA >= stH,
+                    "OVER 0.5 2T": tot2T >= 1,
+                    "UNDER 0.5 2T": tot2T === 0,
+                    "OVER 1.5 2T": tot2T >= 2,
+                    "UNDER 1.5 2T": tot2T <= 1,
+                    "OVER 2.5 2T": tot2T >= 3,
+                    "GOAL 2° TEMPO (BTTS 2T)": stH > 0 && stA > 0,
+                    "NO GOAL 2° TEMPO": stH === 0 || stA === 0,
+                    "OVER 0.5 CASA 2T": stH >= 1,
+                    "OVER 0.5 OSPITE 2T": stA >= 1,
+                    "GOL IN ENTRAMBI I TEMPI (O0.5 HT + O0.5 2T)": totHT >= 1 && tot2T >= 1,
+                    "CASA SEGNA IN ENTRAMBI I TEMPI": htH >= 1 && stH >= 1,
+                    "OSPITE SEGNA IN ENTRAMBI I TEMPI": htA >= 1 && stA >= 1,
+                    "1X + OVER 0.5 HT": h >= a && totHT >= 1,
+                    "X2 + OVER 0.5 HT": a >= h && totHT >= 1,
+                    "1 + OVER 0.5 HT": h > a && totHT >= 1,
+                    "2 + OVER 0.5 HT": a > h && totHT >= 1,
+                    "1X + OVER 0.5 2T": h >= a && tot2T >= 1,
+                    "X2 + OVER 0.5 2T": a >= h && tot2T >= 1,
+                    "OVER 0.5 HT + OVER 1.5 FT": totHT >= 1 && tot >= 2,
+                    "OVER 0.5 HT + OVER 2.5 FT": totHT >= 1 && tot >= 3,
+                    "UNDER 0.5 HT + OVER 0.5 2T": totHT === 0 && tot2T >= 1,
+                    "UNDER 0.5 HT + OVER 1.5 2T": totHT === 0 && tot2T >= 2,
+                    "UNDER 1.5 HT + UNDER 1.5 2T": totHT <= 1 && tot2T <= 1,
+                    "PARZIALE/FINALE: 1 / 1": htH > htA && h > a,
+                    "PARZIALE/FINALE: X / 1": htH === htA && h > a,
+                    "PARZIALE/FINALE: X / X": htH === htA && h === a,
+                    "PARZIALE/FINALE: X / 2": htH === htA && a > h,
+                    "PARZIALE/FINALE: 2 / 2": htA > htH && a > h,
+                    "TEMPO CON PIÙ GOL: 1° TEMPO": totHT > tot2T,
+                    "TEMPO CON PIÙ GOL: PAREGGIO": totHT === tot2T,
+                    "TEMPO CON PIÙ GOL: 2° TEMPO": tot2T > totHT
+                };
+                return (pick in htMap) ? htMap[pick] : null;
             },
 
             autoVerifyPendingBets: async function() {
@@ -758,7 +954,7 @@
                                 let a = ev.awayScore?.current ?? 0;
                                 let htH = ev.homeScore?.period1;
                                 let htA = ev.awayScore?.period1;
-                                bet.finalScore = `${h}-${a}`;
+                                bet.finalScore = (htH !== undefined && htA !== undefined) ? `${h}-${a} (HT ${htH}-${htA})` : `${h}-${a}`;
                                 let outcome = this.evaluatePickOutcome(bet.pick, h, a, htH, htA);
                                 if (outcome !== null) {
                                     bet.status = outcome ? 'win' : 'lose';
@@ -883,7 +1079,14 @@
             document.getElementById(`view-${tabId}`).classList.add('active');
         }
 
-        // INTERRUTTORE CAMPO NEUTRO / DERBY (Zero Chiamate API)
+        function onChangeTopLimit(val) {
+            displayTopLimit = parseInt(val) || 5;
+            if (lastReportData) {
+                renderBetRows(lastReportData.analysis.betZones.safe.slice(0, displayTopLimit), 'ui-safe-bets', 'safe');
+                renderBetRows(lastReportData.analysis.betZones.value.slice(0, displayTopLimit), 'ui-value-bets', 'val');
+            }
+        }
+
         function toggleNeutralVenue() {
             isNeutralVenue = !isNeutralVenue;
             let btn = document.getElementById('ui-neutral-btn');
@@ -1104,7 +1307,7 @@
         }
 
         // ----------------------------------------------------
-        // MOTORE QUANTITATIVO CALIBRATO: ELO + DIXON-COLES (7x7)
+        // MOTORE TRI-MATRICE DIXON-COLES (FT 7x7 + HT 5x5 + 2T 5x5) — 165+ MERCATI
         // ----------------------------------------------------
         const ScoutingEngine = {
             calcMomentum: function(formArray) {
@@ -1117,8 +1320,7 @@
                 return (pts / 18) * 100;
             },
 
-            buildDixonColesMatrix: function(xgHome, xgAway, rho = -0.11) {
-                const maxG = 7;
+            buildDixonColesMatrix: function(xgHome, xgAway, rho = -0.11, maxG = 7) {
                 let mat = Array.from({ length: maxG }, () => Array(maxG).fill(0));
                 let sum = 0;
 
@@ -1143,105 +1345,446 @@
                 return mat;
             },
 
-            generateBetsFromMatrix: function(mat, hPower, aPower, xgHome, xgAway) {
+            generateBetsFromMatrix: function(matFT, hPower, aPower, xgHome, xgAway) {
+                // 1. Sottomatrici indipendenti per 1° Tempo (44% xG) e 2° Tempo (56% xG)
+                let matHT = this.buildDixonColesMatrix(xgHome * 0.44, xgAway * 0.44, -0.06, 5);
+                let mat2T = this.buildDixonColesMatrix(xgHome * 0.56, xgAway * 0.56, -0.06, 5);
+
+                // Variabili Full Time (90')
                 let p1 = 0, px = 0, p2 = 0;
-                let hcp1 = 0, hcp2 = 0;
-                let over15 = 0, over25 = 0, over35 = 0, under25 = 0, under35 = 0;
-                let bttsYes = 0, bttsNo = 0;
-                let homeO05 = 0, homeO15 = 0, awayO05 = 0, awayO15 = 0;
-                let mg13 = 0, mg24 = 0, mg25 = 0;
-                let c1_o15 = 0, c2_o15 = 0, c1x_o15 = 0, cx2_o15 = 0;
-                let c1x_u35 = 0, cx2_u35 = 0, c1x_ng = 0, cx_or_gg = 0;
+                let hcp1_1 = 0, hcp1_2 = 0, hcp2_1 = 0, hcp2_2 = 0, hcpH_plus1 = 0, hcpA_plus1 = 0;
+                let over05 = 0, over15 = 0, over25 = 0, over35 = 0, over45 = 0, over55 = 0;
+                let under15 = 0, under25 = 0, under35 = 0, under45 = 0;
+                let bttsYes = 0, bttsNo = 0, csHome = 0, csAway = 0, winNilHome = 0, winNilAway = 0;
+                let homeO05 = 0, homeO15 = 0, homeO25 = 0, homeU15 = 0, homeU25 = 0;
+                let awayO05 = 0, awayO15 = 0, awayO25 = 0, awayU15 = 0, awayU25 = 0;
+                let mg12 = 0, mg13 = 0, mg14 = 0, mg23 = 0, mg24 = 0, mg25 = 0, mg34 = 0, mg35 = 0, mg36 = 0;
+                let mgH12 = 0, mgH13 = 0, mgH23 = 0, mgH24 = 0, mgA12 = 0, mgA13 = 0, mgA23 = 0, mgA24 = 0;
+                let c1_o15 = 0, c1_o25 = 0, c1_u25 = 0, c1_u35 = 0;
+                let c2_o15 = 0, c2_o25 = 0, c2_u25 = 0, c2_u35 = 0;
+                let cx_o15 = 0, cx_u25 = 0;
+                let c1x_o15 = 0, c1x_o25 = 0, c1x_u25 = 0, c1x_u35 = 0, c1x_u45 = 0;
+                let cx2_o15 = 0, cx2_o25 = 0, cx2_u25 = 0, cx2_u35 = 0, cx2_u45 = 0;
+                let c12_o15 = 0, c12_o25 = 0, c12_u35 = 0;
+                let c1x_mg13 = 0, c1x_mg14 = 0, c1x_mg24 = 0, c1x_mg25 = 0;
+                let cx2_mg13 = 0, cx2_mg14 = 0, cx2_mg24 = 0, cx2_mg25 = 0;
+                let c1_mg24 = 0, c2_mg24 = 0;
+                let c1_gg = 0, c2_gg = 0, cx_gg = 0, c1x_gg = 0, c1x_ng = 0, cx2_gg = 0, cx2_ng = 0;
+                let co25_gg = 0, cu25_ng = 0;
+                let mix_gg_o25 = 0, mix_ng_u25 = 0, mix_1_o25 = 0, mix_2_o25 = 0, cx_or_gg = 0, c1_or_gg = 0, c2_or_gg = 0;
+                let golPari = 0, golDispari = 0;
                 let exactScores = [];
 
                 for (let h = 0; h < 7; h++) {
                     for (let a = 0; a < 7; a++) {
-                        let p = mat[h][a] * 100;
+                        let p = matFT[h][a] * 100;
                         let tot = h + a;
+                        let gg = (h > 0 && a > 0);
+                        let ng = (h === 0 || a === 0);
 
                         if (h > a) p1 += p;
                         else if (h === a) px += p;
                         else p2 += p;
 
-                        if (h - a >= 2) hcp1 += p;
-                        if (a - h >= 2) hcp2 += p;
+                        if (h - a >= 2) hcp1_1 += p;
+                        if (h - a >= 3) hcp1_2 += p;
+                        if (a - h >= 2) hcp2_1 += p;
+                        if (a - h >= 3) hcp2_2 += p;
+                        if (h + 1 >= a) hcpH_plus1 += p;
+                        if (a + 1 >= h) hcpA_plus1 += p;
 
+                        if (tot >= 1) over05 += p;
                         if (tot >= 2) over15 += p;
                         if (tot >= 3) over25 += p;
                         if (tot >= 4) over35 += p;
+                        if (tot >= 5) over45 += p;
+                        if (tot >= 6) over55 += p;
+                        if (tot <= 1) under15 += p;
                         if (tot <= 2) under25 += p;
                         if (tot <= 3) under35 += p;
+                        if (tot <= 4) under45 += p;
 
-                        if (h > 0 && a > 0) bttsYes += p;
-                        else bttsNo += p;
+                        if (gg) bttsYes += p; else bttsNo += p;
+                        if (a === 0) csHome += p;
+                        if (h === 0) csAway += p;
+                        if (h > a && a === 0) winNilHome += p;
+                        if (a > h && h === 0) winNilAway += p;
 
                         if (h >= 1) homeO05 += p;
                         if (h >= 2) homeO15 += p;
+                        if (h >= 3) homeO25 += p;
+                        if (h <= 1) homeU15 += p;
+                        if (h <= 2) homeU25 += p;
+
                         if (a >= 1) awayO05 += p;
                         if (a >= 2) awayO15 += p;
+                        if (a >= 3) awayO25 += p;
+                        if (a <= 1) awayU15 += p;
+                        if (a <= 2) awayU25 += p;
 
+                        if (tot >= 1 && tot <= 2) mg12 += p;
                         if (tot >= 1 && tot <= 3) mg13 += p;
+                        if (tot >= 1 && tot <= 4) mg14 += p;
+                        if (tot >= 2 && tot <= 3) mg23 += p;
                         if (tot >= 2 && tot <= 4) mg24 += p;
                         if (tot >= 2 && tot <= 5) mg25 += p;
+                        if (tot >= 3 && tot <= 4) mg34 += p;
+                        if (tot >= 3 && tot <= 5) mg35 += p;
+                        if (tot >= 3 && tot <= 6) mg36 += p;
+
+                        if (h >= 1 && h <= 2) mgH12 += p;
+                        if (h >= 1 && h <= 3) mgH13 += p;
+                        if (h >= 2 && h <= 3) mgH23 += p;
+                        if (h >= 2 && h <= 4) mgH24 += p;
+                        if (a >= 1 && a <= 2) mgA12 += p;
+                        if (a >= 1 && a <= 3) mgA13 += p;
+                        if (a >= 2 && a <= 3) mgA23 += p;
+                        if (a >= 2 && a <= 4) mgA24 += p;
 
                         if (h > a && tot >= 2) c1_o15 += p;
+                        if (h > a && tot >= 3) c1_o25 += p;
+                        if (h > a && tot <= 2) c1_u25 += p;
+                        if (h > a && tot <= 3) c1_u35 += p;
                         if (a > h && tot >= 2) c2_o15 += p;
+                        if (a > h && tot >= 3) c2_o25 += p;
+                        if (a > h && tot <= 2) c2_u25 += p;
+                        if (a > h && tot <= 3) c2_u35 += p;
+                        if (h === a && tot >= 2) cx_o15 += p;
+                        if (h === a && tot <= 2) cx_u25 += p;
+
                         if (h >= a && tot >= 2) c1x_o15 += p;
-                        if (a >= h && tot >= 2) cx2_o15 += p;
+                        if (h >= a && tot >= 3) c1x_o25 += p;
+                        if (h >= a && tot <= 2) c1x_u25 += p;
                         if (h >= a && tot <= 3) c1x_u35 += p;
+                        if (h >= a && tot <= 4) c1x_u45 += p;
+
+                        if (a >= h && tot >= 2) cx2_o15 += p;
+                        if (a >= h && tot >= 3) cx2_o25 += p;
+                        if (a >= h && tot <= 2) cx2_u25 += p;
                         if (a >= h && tot <= 3) cx2_u35 += p;
-                        if (h >= a && (h === 0 || a === 0)) c1x_ng += p;
-                        if (h === a || (h > 0 && a > 0)) cx_or_gg += p;
+                        if (a >= h && tot <= 4) cx2_u45 += p;
+
+                        if (h !== a && tot >= 2) c12_o15 += p;
+                        if (h !== a && tot >= 3) c12_o25 += p;
+                        if (h !== a && tot <= 3) c12_u35 += p;
+
+                        if (h >= a && tot >= 1 && tot <= 3) c1x_mg13 += p;
+                        if (h >= a && tot >= 1 && tot <= 4) c1x_mg14 += p;
+                        if (h >= a && tot >= 2 && tot <= 4) c1x_mg24 += p;
+                        if (h >= a && tot >= 2 && tot <= 5) c1x_mg25 += p;
+                        if (a >= h && tot >= 1 && tot <= 3) cx2_mg13 += p;
+                        if (a >= h && tot >= 1 && tot <= 4) cx2_mg14 += p;
+                        if (a >= h && tot >= 2 && tot <= 4) cx2_mg24 += p;
+                        if (a >= h && tot >= 2 && tot <= 5) cx2_mg25 += p;
+                        if (h > a && tot >= 2 && tot <= 4) c1_mg24 += p;
+                        if (a > h && tot >= 2 && tot <= 4) c2_mg24 += p;
+
+                        if (h > a && gg) c1_gg += p;
+                        if (a > h && gg) c2_gg += p;
+                        if (h === a && gg) cx_gg += p;
+                        if (h >= a && gg) c1x_gg += p;
+                        if (h >= a && ng) c1x_ng += p;
+                        if (a >= h && gg) cx2_gg += p;
+                        if (a >= h && ng) cx2_ng += p;
+                        if (tot >= 3 && gg) co25_gg += p;
+                        if (tot <= 2 && ng) cu25_ng += p;
+
+                        if (gg || tot >= 3) mix_gg_o25 += p;
+                        if (ng || tot <= 2) mix_ng_u25 += p;
+                        if (h > a || tot >= 3) mix_1_o25 += p;
+                        if (a > h || tot >= 3) mix_2_o25 += p;
+                        if (h === a || gg) cx_or_gg += p;
+                        if (h > a || gg) c1_or_gg += p;
+                        if (a > h || gg) c2_or_gg += p;
+
+                        if (tot % 2 === 0) golPari += p; else golDispari += p;
 
                         if (h <= 4 && a <= 4) exactScores.push({ score: `${h}-${a}`, prob: p });
                     }
                 }
 
-                exactScores.sort((a, b) => b.prob - a.prob);
-                let clusterPick = `${exactScores[0].score} / ${exactScores[1].score} / ${exactScores[2].score}`;
-                let clusterProb = exactScores[0].prob + exactScores[1].prob + exactScores[2].prob;
+                // 2. Calcolo 1° Tempo (HT), 2° Tempo (2T) e Convoluzione 4D per le Combo Tempi
+                let ht1 = 0, htx = 0, ht2 = 0, htO05 = 0, htO15 = 0, htO25 = 0, htGG = 0, htHomeO05 = 0, htAwayO05 = 0;
+                let st1 = 0, stx = 0, st2 = 0, stO05 = 0, stO15 = 0, stO25 = 0, stGG = 0, stHomeO05 = 0, stAwayO05 = 0;
+
+                for (let h = 0; h < 5; h++) {
+                    for (let a = 0; a < 5; a++) {
+                        let pH = matHT[h][a] * 100;
+                        let pS = mat2T[h][a] * 100;
+                        let t = h + a;
+
+                        if (h > a) { ht1 += pH; st1 += pS; }
+                        else if (h === a) { htx += pH; stx += pS; }
+                        else { ht2 += pH; st2 += pS; }
+
+                        if (t >= 1) { htO05 += pH; stO05 += pS; }
+                        if (t >= 2) { htO15 += pH; stO15 += pS; }
+                        if (t >= 3) { htO25 += pH; stO25 += pS; }
+                        if (h > 0 && a > 0) { htGG += pH; stGG += pS; }
+                        if (h >= 1) { htHomeO05 += pH; stHomeO05 += pS; }
+                        if (a >= 1) { htAwayO05 += pH; stAwayO05 += pS; }
+                    }
+                }
+
+                // Convoluzione 4D esatta (h1, a1, h2, a2) per i mercati congiunti tra Tempi e Finale
+                let goalBothHalves = 0, homeScoresBoth = 0, awayScoresBoth = 0;
+                let c1x_o05ht = 0, cx2_o05ht = 0, c1_o05ht = 0, c2_o05ht = 0;
+                let c1x_o05_2t = 0, cx2_o05_2t = 0;
+                let o05ht_o15ft = 0, o05ht_o25ft = 0;
+                let u05ht_o05_2t = 0, u05ht_o15_2t = 0, u15ht_u15_2t = 0;
+                let pf_1_1 = 0, pf_x_1 = 0, pf_x_x = 0, pf_x_2 = 0, pf_2_2 = 0;
+                let moreGoals1T = 0, moreGoalsEq = 0, moreGoals2T = 0;
+
+                for (let h1 = 0; h1 < 5; h1++) {
+                    for (let a1 = 0; a1 < 5; a1++) {
+                        let p1Half = matHT[h1][a1];
+                        let t1 = h1 + a1;
+                        for (let h2 = 0; h2 < 5; h2++) {
+                            for (let a2 = 0; a2 < 5; a2++) {
+                                let pJoint = p1Half * mat2T[h2][a2] * 100;
+                                let t2 = h2 + a2;
+                                let H = h1 + h2;
+                                let A = a1 + a2;
+                                let totFT = H + A;
+
+                                if (t1 >= 1 && t2 >= 1) goalBothHalves += pJoint;
+                                if (h1 >= 1 && h2 >= 1) homeScoresBoth += pJoint;
+                                if (a1 >= 1 && a2 >= 1) awayScoresBoth += pJoint;
+
+                                if (H >= A && t1 >= 1) c1x_o05ht += pJoint;
+                                if (A >= H && t1 >= 1) cx2_o05ht += pJoint;
+                                if (H > A && t1 >= 1) c1_o05ht += pJoint;
+                                if (A > H && t1 >= 1) c2_o05ht += pJoint;
+
+                                if (H >= A && t2 >= 1) c1x_o05_2t += pJoint;
+                                if (A >= H && t2 >= 1) cx2_o05_2t += pJoint;
+
+                                if (t1 >= 1 && totFT >= 2) o05ht_o15ft += pJoint;
+                                if (t1 >= 1 && totFT >= 3) o05ht_o25ft += pJoint;
+
+                                if (t1 === 0 && t2 >= 1) u05ht_o05_2t += pJoint;
+                                if (t1 === 0 && t2 >= 2) u05ht_o15_2t += pJoint;
+                                if (t1 <= 1 && t2 <= 1) u15ht_u15_2t += pJoint;
+
+                                if (h1 > a1 && H > A) pf_1_1 += pJoint;
+                                if (h1 === a1 && H > A) pf_x_1 += pJoint;
+                                if (h1 === a1 && H === A) pf_x_x += pJoint;
+                                if (h1 === a1 && A > H) pf_x_2 += pJoint;
+                                if (a1 > h1 && A > H) pf_2_2 += pJoint;
+
+                                if (t1 > t2) moreGoals1T += pJoint;
+                                else if (t1 === t2) moreGoalsEq += pJoint;
+                                else moreGoals2T += pJoint;
+                            }
+                        }
+                    }
+                }
+
+                let sortedScores = [...exactScores].sort((a, b) => b.prob - a.prob);
+                let clusterPick = `${sortedScores[0].score} / ${sortedScores[1].score} / ${sortedScores[2].score}`;
+                let clusterProb = sortedScores[0].prob + sortedScores[1].prob + sortedScores[2].prob;
 
                 let totalXg = xgHome + xgAway;
                 let diff = hPower - aPower;
-                let over05HT = (1 - Math.exp(-totalXg * 0.44)) * 100;
                 let estCorners = 8.2 + (totalXg * 0.65) + (Math.abs(diff) / 14);
-                let cornerProb = Math.min(86, Math.max(35, (estCorners / 10.5) * 76));
+                let cornerO85 = Math.min(88, Math.max(30, (estCorners / 10.5) * 76));
+                let cornerO95 = Math.min(78, Math.max(20, cornerO85 - 14));
+                let cornerO105 = Math.min(65, Math.max(12, cornerO95 - 15));
 
+                let dnb1 = (p1 + px > 0) ? (p1 / (p1 + p2)) * 100 : 50;
+                let dnb2 = 100 - dnb1;
+
+                // CATALOGO COMPLETO DEI 165+ MERCATI DIVISI PER CATEGORIA
                 let rawBets = [
-                    { market: "Esito Finale", pick: "1 Fisso", baseConf: p1 },
-                    { market: "Esito Finale", pick: "X Fisso", baseConf: px },
-                    { market: "Esito Finale", pick: "2 Fisso", baseConf: p2 },
-                    { market: "Doppia Chance", pick: "1X", baseConf: p1 + px },
-                    { market: "Doppia Chance", pick: "X2", baseConf: p2 + px },
-                    { market: "Doppia Chance", pick: "12", baseConf: p1 + p2 },
-                    { market: "Handicap Europeo", pick: "1 (H -1)", baseConf: hcp1 },
-                    { market: "Handicap Europeo", pick: "2 (H -1)", baseConf: hcp2 },
-                    { market: "Entrambe Segnano", pick: "GOAL", baseConf: bttsYes },
-                    { market: "Entrambe Segnano", pick: "NO GOAL", baseConf: bttsNo },
-                    { market: "Goal Totali", pick: "OVER 1.5", baseConf: over15 },
-                    { market: "Goal Totali", pick: "OVER 2.5", baseConf: over25 },
-                    { market: "Goal Totali", pick: "OVER 3.5", baseConf: over35 },
-                    { market: "Goal Totali", pick: "UNDER 2.5", baseConf: under25 },
-                    { market: "Goal Totali", pick: "UNDER 3.5", baseConf: under35 },
-                    { market: "Goal Squadra Casa", pick: "OVER 0.5 CASA", baseConf: homeO05 },
-                    { market: "Goal Squadra Casa", pick: "OVER 1.5 CASA", baseConf: homeO15 },
-                    { market: "Goal Squadra Ospite", pick: "OVER 0.5 OSPITE", baseConf: awayO05 },
-                    { market: "Goal Squadra Ospite", pick: "OVER 1.5 OSPITE", baseConf: awayO15 },
-                    { market: "Multigoal Match", pick: "1-3 GOAL", baseConf: mg13 },
-                    { market: "Multigoal Match", pick: "2-4 GOAL", baseConf: mg24 },
-                    { market: "Multigoal Match", pick: "2-5 GOAL", baseConf: mg25 },
-                    { market: "Combo Match", pick: "1 + OVER 1.5", baseConf: c1_o15 },
-                    { market: "Combo Match", pick: "2 + OVER 1.5", baseConf: c2_o15 },
-                    { market: "Combo Match", pick: "1X + OVER 1.5", baseConf: c1x_o15 },
-                    { market: "Combo Match", pick: "X2 + OVER 1.5", baseConf: cx2_o15 },
-                    { market: "Combo Match", pick: "1X + UNDER 3.5", baseConf: c1x_u35 },
-                    { market: "Combo Match", pick: "X2 + UNDER 3.5", baseConf: cx2_u35 },
-                    { market: "Combo Match", pick: "1X + NO GOAL", baseConf: c1x_ng },
-                    { market: "Combo Match", pick: "X o GOAL", baseConf: cx_or_gg },
-                    { market: "Goal 1° Tempo", pick: "OVER 0.5 HT", baseConf: over05HT },
-                    { market: "Calci d'Angolo", pick: "OVER 8.5 CORNER", baseConf: cornerProb },
-                    { market: "Cluster Risultato Esatto", pick: clusterPick, baseConf: clusterProb }
+                    // 1. Esiti & Doppia Chance
+                    { market: "Esito Finale", labCat: "Esiti & Doppia Chance", pick: "1 Fisso", baseConf: p1, autoEligible: true },
+                    { market: "Esito Finale", labCat: "Esiti & Doppia Chance", pick: "X Fisso", baseConf: px, autoEligible: true },
+                    { market: "Esito Finale", labCat: "Esiti & Doppia Chance", pick: "2 Fisso", baseConf: p2, autoEligible: true },
+                    { market: "Doppia Chance", labCat: "Esiti & Doppia Chance", pick: "1X", baseConf: p1 + px, autoEligible: true },
+                    { market: "Doppia Chance", labCat: "Esiti & Doppia Chance", pick: "X2", baseConf: p2 + px, autoEligible: true },
+                    { market: "Doppia Chance", labCat: "Esiti & Doppia Chance", pick: "12", baseConf: p1 + p2, autoEligible: true },
+                    { market: "Draw No Bet", labCat: "Esiti & Doppia Chance", pick: "1 DNB (Rimborso X)", baseConf: dnb1, autoEligible: false },
+                    { market: "Draw No Bet", labCat: "Esiti & Doppia Chance", pick: "2 DNB (Rimborso X)", baseConf: dnb2, autoEligible: false },
+                    // 2. Handicap Europei
+                    { market: "Handicap Europeo", labCat: "Esiti & Doppia Chance", pick: "1 (H -1)", baseConf: hcp1_1, autoEligible: true },
+                    { market: "Handicap Europeo", labCat: "Esiti & Doppia Chance", pick: "1 (H -2)", baseConf: hcp1_2, autoEligible: false },
+                    { market: "Handicap Europeo", labCat: "Esiti & Doppia Chance", pick: "2 (H -1)", baseConf: hcp2_1, autoEligible: true },
+                    { market: "Handicap Europeo", labCat: "Esiti & Doppia Chance", pick: "2 (H -2)", baseConf: hcp2_2, autoEligible: false },
+                    { market: "Handicap Europeo", labCat: "Esiti & Doppia Chance", pick: "1X (Casa H +1)", baseConf: hcpH_plus1, autoEligible: false },
+                    { market: "Handicap Europeo", labCat: "Esiti & Doppia Chance", pick: "X2 (Ospite H +1)", baseConf: hcpA_plus1, autoEligible: false },
+                    // 3. Over / Under Totale
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "OVER 0.5", baseConf: over05, autoEligible: false },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "OVER 1.5", baseConf: over15, autoEligible: true },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "OVER 2.5", baseConf: over25, autoEligible: true },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "OVER 3.5", baseConf: over35, autoEligible: true },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "OVER 4.5", baseConf: over45, autoEligible: false },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "OVER 5.5", baseConf: over55, autoEligible: false },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "UNDER 1.5", baseConf: under15, autoEligible: false },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "UNDER 2.5", baseConf: under25, autoEligible: true },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "UNDER 3.5", baseConf: under35, autoEligible: true },
+                    { market: "Goal Totali", labCat: "Goal Totali", pick: "UNDER 4.5", baseConf: under45, autoEligible: false },
+                    // 4. Entrambe Segnano & Clean Sheet
+                    { market: "Entrambe Segnano", labCat: "Entrambe Segnano & Clean Sheet", pick: "GOAL", baseConf: bttsYes, autoEligible: true },
+                    { market: "Entrambe Segnano", labCat: "Entrambe Segnano & Clean Sheet", pick: "NO GOAL", baseConf: bttsNo, autoEligible: true },
+                    { market: "Clean Sheet", labCat: "Entrambe Segnano & Clean Sheet", pick: "CLEAN SHEET CASA (Ospite No Goal)", baseConf: csHome, autoEligible: false },
+                    { market: "Clean Sheet", labCat: "Entrambe Segnano & Clean Sheet", pick: "CLEAN SHEET OSPITE (Casa No Goal)", baseConf: csAway, autoEligible: false },
+                    { market: "Vince a Zero", labCat: "Entrambe Segnano & Clean Sheet", pick: "1 + NO GOAL (Casa Vince a Zero)", baseConf: winNilHome, autoEligible: false },
+                    { market: "Vince a Zero", labCat: "Entrambe Segnano & Clean Sheet", pick: "2 + NO GOAL (Ospite Vince a Zero)", baseConf: winNilAway, autoEligible: false },
+                    // 5. Goal Squadra Casa & Ospite
+                    { market: "Goal Squadra Casa", labCat: "Goal Squadra", pick: "OVER 0.5 CASA", baseConf: homeO05, autoEligible: true },
+                    { market: "Goal Squadra Casa", labCat: "Goal Squadra", pick: "OVER 1.5 CASA", baseConf: homeO15, autoEligible: true },
+                    { market: "Goal Squadra Casa", labCat: "Goal Squadra", pick: "OVER 2.5 CASA", baseConf: homeO25, autoEligible: false },
+                    { market: "Goal Squadra Casa", labCat: "Goal Squadra", pick: "UNDER 1.5 CASA", baseConf: homeU15, autoEligible: false },
+                    { market: "Goal Squadra Casa", labCat: "Goal Squadra", pick: "UNDER 2.5 CASA", baseConf: homeU25, autoEligible: false },
+                    { market: "Goal Squadra Ospite", labCat: "Goal Squadra", pick: "OVER 0.5 OSPITE", baseConf: awayO05, autoEligible: true },
+                    { market: "Goal Squadra Ospite", labCat: "Goal Squadra", pick: "OVER 1.5 OSPITE", baseConf: awayO15, autoEligible: true },
+                    { market: "Goal Squadra Ospite", labCat: "Goal Squadra", pick: "OVER 2.5 OSPITE", baseConf: awayO25, autoEligible: false },
+                    { market: "Goal Squadra Ospite", labCat: "Goal Squadra", pick: "UNDER 1.5 OSPITE", baseConf: awayU15, autoEligible: false },
+                    { market: "Goal Squadra Ospite", labCat: "Goal Squadra", pick: "UNDER 2.5 OSPITE", baseConf: awayU25, autoEligible: false },
+                    // 6. Multigol Match & Squadra
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "1-2 GOAL", baseConf: mg12, autoEligible: false },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "1-3 GOAL", baseConf: mg13, autoEligible: true },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "1-4 GOAL", baseConf: mg14, autoEligible: false },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "2-3 GOAL", baseConf: mg23, autoEligible: true },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "2-4 GOAL", baseConf: mg24, autoEligible: true },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "2-5 GOAL", baseConf: mg25, autoEligible: true },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "3-4 GOAL", baseConf: mg34, autoEligible: false },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "3-5 GOAL", baseConf: mg35, autoEligible: false },
+                    { market: "Multigoal Match", labCat: "Multigoal Match", pick: "3-6 GOAL", baseConf: mg36, autoEligible: false },
+                    { market: "Multigoal Casa", labCat: "Multigoal Squadra", pick: "MULTIGOL CASA 1-2", baseConf: mgH12, autoEligible: true },
+                    { market: "Multigoal Casa", labCat: "Multigoal Squadra", pick: "MULTIGOL CASA 1-3", baseConf: mgH13, autoEligible: false },
+                    { market: "Multigoal Casa", labCat: "Multigoal Squadra", pick: "MULTIGOL CASA 2-3", baseConf: mgH23, autoEligible: false },
+                    { market: "Multigoal Casa", labCat: "Multigoal Squadra", pick: "MULTIGOL CASA 2-4", baseConf: mgH24, autoEligible: false },
+                    { market: "Multigoal Ospite", labCat: "Multigoal Squadra", pick: "MULTIGOL OSPITE 1-2", baseConf: mgA12, autoEligible: true },
+                    { market: "Multigoal Ospite", labCat: "Multigoal Squadra", pick: "MULTIGOL OSPITE 1-3", baseConf: mgA13, autoEligible: false },
+                    { market: "Multigoal Ospite", labCat: "Multigoal Squadra", pick: "MULTIGOL OSPITE 2-3", baseConf: mgA23, autoEligible: false },
+                    { market: "Multigoal Ospite", labCat: "Multigoal Squadra", pick: "MULTIGOL OSPITE 2-4", baseConf: mgA24, autoEligible: false },
+                    // 7. Combo 1X2/DC + Over/Under
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1 + OVER 1.5", baseConf: c1_o15, autoEligible: true },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1 + OVER 2.5", baseConf: c1_o25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1 + UNDER 2.5", baseConf: c1_u25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1 + UNDER 3.5", baseConf: c1_u35, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "2 + OVER 1.5", baseConf: c2_o15, autoEligible: true },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "2 + OVER 2.5", baseConf: c2_o25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "2 + UNDER 2.5", baseConf: c2_u25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "2 + UNDER 3.5", baseConf: c2_u35, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X + OVER 1.5", baseConf: cx_o15, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X + UNDER 2.5", baseConf: cx_u25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1X + OVER 1.5", baseConf: c1x_o15, autoEligible: true },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1X + OVER 2.5", baseConf: c1x_o25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1X + UNDER 2.5", baseConf: c1x_u25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1X + UNDER 3.5", baseConf: c1x_u35, autoEligible: true },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "1X + UNDER 4.5", baseConf: c1x_u45, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X2 + OVER 1.5", baseConf: cx2_o15, autoEligible: true },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X2 + OVER 2.5", baseConf: cx2_o25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X2 + UNDER 2.5", baseConf: cx2_u25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X2 + UNDER 3.5", baseConf: cx2_u35, autoEligible: true },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "X2 + UNDER 4.5", baseConf: cx2_u45, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "12 + OVER 1.5", baseConf: c12_o15, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "12 + OVER 2.5", baseConf: c12_o25, autoEligible: false },
+                    { market: "Combo Match", labCat: "Combo 1X2/DC + Over/Under", pick: "12 + UNDER 3.5", baseConf: c12_u35, autoEligible: false },
+                    // 8. Combo DC/1X2 + Multigol
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "1X + MULTIGOL 1-3", baseConf: c1x_mg13, autoEligible: true },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "1X + MULTIGOL 1-4", baseConf: c1x_mg14, autoEligible: false },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "1X + MULTIGOL 2-4", baseConf: c1x_mg24, autoEligible: true },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "1X + MULTIGOL 2-5", baseConf: c1x_mg25, autoEligible: false },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "X2 + MULTIGOL 1-3", baseConf: cx2_mg13, autoEligible: true },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "X2 + MULTIGOL 1-4", baseConf: cx2_mg14, autoEligible: false },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "X2 + MULTIGOL 2-4", baseConf: cx2_mg24, autoEligible: true },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "X2 + MULTIGOL 2-5", baseConf: cx2_mg25, autoEligible: false },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "1 + MULTIGOL 2-4", baseConf: c1_mg24, autoEligible: false },
+                    { market: "Combo Multigol", labCat: "Combo DC/1X2 + Multigol", pick: "2 + MULTIGOL 2-4", baseConf: c2_mg24, autoEligible: false },
+                    // 9. Combo Goal & Chance Mix
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "1 + GOAL", baseConf: c1_gg, autoEligible: false },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "2 + GOAL", baseConf: c2_gg, autoEligible: false },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "X + GOAL", baseConf: cx_gg, autoEligible: false },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "1X + GOAL", baseConf: c1x_gg, autoEligible: true },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "1X + NO GOAL", baseConf: c1x_ng, autoEligible: true },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "X2 + GOAL", baseConf: cx2_gg, autoEligible: true },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "X2 + NO GOAL", baseConf: cx2_ng, autoEligible: true },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "OVER 2.5 + GOAL", baseConf: co25_gg, autoEligible: false },
+                    { market: "Combo Goal/Chance", labCat: "Combo Goal & Chance Mix", pick: "UNDER 2.5 + NO GOAL", baseConf: cu25_ng, autoEligible: false },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "GOAL o OVER 2.5", baseConf: mix_gg_o25, autoEligible: true },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "NO GOAL o UNDER 2.5", baseConf: mix_ng_u25, autoEligible: false },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "1 o OVER 2.5", baseConf: mix_1_o25, autoEligible: false },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "2 o OVER 2.5", baseConf: mix_2_o25, autoEligible: false },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "X o GOAL", baseConf: cx_or_gg, autoEligible: true },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "1 o GOAL", baseConf: c1_or_gg, autoEligible: false },
+                    { market: "Chance Mix", labCat: "Combo Goal & Chance Mix", pick: "2 o GOAL", baseConf: c2_or_gg, autoEligible: false },
+                    // 10. 1° Tempo (HT)
+                    { market: "Esito 1° Tempo", labCat: "1° Tempo (HT)", pick: "1 HT (1° Tempo)", baseConf: ht1, autoEligible: false },
+                    { market: "Esito 1° Tempo", labCat: "1° Tempo (HT)", pick: "X HT (1° Tempo)", baseConf: htx, autoEligible: false },
+                    { market: "Esito 1° Tempo", labCat: "1° Tempo (HT)", pick: "2 HT (1° Tempo)", baseConf: ht2, autoEligible: false },
+                    { market: "Doppia Chance 1°T", labCat: "1° Tempo (HT)", pick: "1X HT (1° Tempo)", baseConf: ht1 + htx, autoEligible: false },
+                    { market: "Doppia Chance 1°T", labCat: "1° Tempo (HT)", pick: "X2 HT (1° Tempo)", baseConf: ht2 + htx, autoEligible: false },
+                    { market: "Doppia Chance 1°T", labCat: "1° Tempo (HT)", pick: "12 HT (1° Tempo)", baseConf: ht1 + ht2, autoEligible: false },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "OVER 0.5 HT", baseConf: htO05, autoEligible: true },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "UNDER 0.5 HT", baseConf: 100 - htO05, autoEligible: false },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "OVER 1.5 HT", baseConf: htO15, autoEligible: true },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "UNDER 1.5 HT", baseConf: 100 - htO15, autoEligible: true },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "OVER 2.5 HT", baseConf: htO25, autoEligible: false },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "GOAL 1° TEMPO (BTTS HT)", baseConf: htGG, autoEligible: false },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "NO GOAL 1° TEMPO", baseConf: 100 - htGG, autoEligible: false },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "OVER 0.5 CASA HT", baseConf: htHomeO05, autoEligible: false },
+                    { market: "Goal 1° Tempo", labCat: "1° Tempo (HT)", pick: "OVER 0.5 OSPITE HT", baseConf: htAwayO05, autoEligible: false },
+                    // 11. 2° Tempo (2T)
+                    { market: "Esito 2° Tempo", labCat: "2° Tempo (2T)", pick: "1 2T (2° Tempo)", baseConf: st1, autoEligible: false },
+                    { market: "Esito 2° Tempo", labCat: "2° Tempo (2T)", pick: "X 2T (2° Tempo)", baseConf: stx, autoEligible: false },
+                    { market: "Esito 2° Tempo", labCat: "2° Tempo (2T)", pick: "2 2T (2° Tempo)", baseConf: st2, autoEligible: false },
+                    { market: "Doppia Chance 2°T", labCat: "2° Tempo (2T)", pick: "1X 2T (2° Tempo)", baseConf: st1 + stx, autoEligible: false },
+                    { market: "Doppia Chance 2°T", labCat: "2° Tempo (2T)", pick: "X2 2T (2° Tempo)", baseConf: st2 + stx, autoEligible: false },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "OVER 0.5 2T", baseConf: stO05, autoEligible: true },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "UNDER 0.5 2T", baseConf: 100 - stO05, autoEligible: false },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "OVER 1.5 2T", baseConf: stO15, autoEligible: true },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "UNDER 1.5 2T", baseConf: 100 - stO15, autoEligible: true },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "OVER 2.5 2T", baseConf: stO25, autoEligible: false },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "GOAL 2° TEMPO (BTTS 2T)", baseConf: stGG, autoEligible: false },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "NO GOAL 2° TEMPO", baseConf: 100 - stGG, autoEligible: false },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "OVER 0.5 CASA 2T", baseConf: stHomeO05, autoEligible: false },
+                    { market: "Goal 2° Tempo", labCat: "2° Tempo (2T)", pick: "OVER 0.5 OSPITE 2T", baseConf: stAwayO05, autoEligible: false },
+                    // 12. Combo Tempi (HT / 2T / FT)
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "GOL IN ENTRAMBI I TEMPI (O0.5 HT + O0.5 2T)", baseConf: goalBothHalves, autoEligible: true },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "CASA SEGNA IN ENTRAMBI I TEMPI", baseConf: homeScoresBoth, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "OSPITE SEGNA IN ENTRAMBI I TEMPI", baseConf: awayScoresBoth, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "1X + OVER 0.5 HT", baseConf: c1x_o05ht, autoEligible: true },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "X2 + OVER 0.5 HT", baseConf: cx2_o05ht, autoEligible: true },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "1 + OVER 0.5 HT", baseConf: c1_o05ht, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "2 + OVER 0.5 HT", baseConf: c2_o05ht, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "1X + OVER 0.5 2T", baseConf: c1x_o05_2t, autoEligible: true },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "X2 + OVER 0.5 2T", baseConf: cx2_o05_2t, autoEligible: true },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "OVER 0.5 HT + OVER 1.5 FT", baseConf: o05ht_o15ft, autoEligible: true },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "OVER 0.5 HT + OVER 2.5 FT", baseConf: o05ht_o25ft, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "UNDER 0.5 HT + OVER 0.5 2T", baseConf: u05ht_o05_2t, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "UNDER 0.5 HT + OVER 1.5 2T", baseConf: u05ht_o15_2t, autoEligible: false },
+                    { market: "Combo Tempi", labCat: "Combo Tempi (HT/2T)", pick: "UNDER 1.5 HT + UNDER 1.5 2T", baseConf: u15ht_u15_2t, autoEligible: false },
+                    { market: "Parziale / Finale", labCat: "Combo Tempi (HT/2T)", pick: "PARZIALE/FINALE: 1 / 1", baseConf: pf_1_1, autoEligible: false },
+                    { market: "Parziale / Finale", labCat: "Combo Tempi (HT/2T)", pick: "PARZIALE/FINALE: X / 1", baseConf: pf_x_1, autoEligible: false },
+                    { market: "Parziale / Finale", labCat: "Combo Tempi (HT/2T)", pick: "PARZIALE/FINALE: X / X", baseConf: pf_x_x, autoEligible: false },
+                    { market: "Parziale / Finale", labCat: "Combo Tempi (HT/2T)", pick: "PARZIALE/FINALE: X / 2", baseConf: pf_x_2, autoEligible: false },
+                    { market: "Parziale / Finale", labCat: "Combo Tempi (HT/2T)", pick: "PARZIALE/FINALE: 2 / 2", baseConf: pf_2_2, autoEligible: false },
+                    { market: "Tempo con più Gol", labCat: "Combo Tempi (HT/2T)", pick: "TEMPO CON PIÙ GOL: 1° TEMPO", baseConf: moreGoals1T, autoEligible: false },
+                    { market: "Tempo con più Gol", labCat: "Combo Tempi (HT/2T)", pick: "TEMPO CON PIÙ GOL: PAREGGIO", baseConf: moreGoalsEq, autoEligible: false },
+                    { market: "Tempo con più Gol", labCat: "Combo Tempi (HT/2T)", pick: "TEMPO CON PIÙ GOL: 2° TEMPO", baseConf: moreGoals2T, autoEligible: false },
+                    // 13. Speciali & Risultati Esatti
+                    { market: "Calci d'Angolo", labCat: "Speciali & Risultati Esatti", pick: "OVER 8.5 CORNER", baseConf: cornerO85, autoEligible: true },
+                    { market: "Calci d'Angolo", labCat: "Speciali & Risultati Esatti", pick: "OVER 9.5 CORNER", baseConf: cornerO95, autoEligible: false },
+                    { market: "Calci d'Angolo", labCat: "Speciali & Risultati Esatti", pick: "OVER 10.5 CORNER", baseConf: cornerO105, autoEligible: false },
+                    { market: "Calci d'Angolo", labCat: "Speciali & Risultati Esatti", pick: "UNDER 9.5 CORNER", baseConf: 100 - cornerO95, autoEligible: false },
+                    { market: "Pari / Dispari", labCat: "Speciali & Risultati Esatti", pick: "SOMMA GOL PARI", baseConf: golPari, autoEligible: false },
+                    { market: "Pari / Dispari", labCat: "Speciali & Risultati Esatti", pick: "SOMMA GOL DISPARI", baseConf: golDispari, autoEligible: false },
+                    { market: "Cluster Risultato Esatto", labCat: "Speciali & Risultati Esatti", pick: clusterPick, baseConf: clusterProb, autoEligible: true }
                 ];
+
+                // Aggiunge tutti i 25 Risultati Esatti singoli (0-0 ➔ 4-4) al Laboratorio On-Demand
+                exactScores.forEach(es => {
+                    rawBets.push({
+                        market: "Risultato Esatto",
+                        labCat: "Speciali & Risultati Esatti",
+                        pick: `RISULTATO ESATTO: ${es.score}`,
+                        baseConf: es.prob,
+                        autoEligible: false
+                    });
+                });
 
                 rawBets.forEach(b => {
                     b.tacticalFamily = getTacticalFamily(b.market, b.pick);
@@ -1250,13 +1793,14 @@
                     b.famCount = famStats.count;
                     b.famDamping = famStats.damping;
                     b.famActive = famStats.active;
-                    b.pureConf = Math.min(96, Math.max(3, b.baseConf));
+                    b.pureConf = Math.min(97.5, Math.max(0.8, b.baseConf));
                     b.pureOdd = (100 / b.pureConf).toFixed(2);
-                    b.conf = Math.min(96, Math.max(3, b.baseConf + b.aiMod));
+                    b.conf = Math.min(97.5, Math.max(0.8, b.baseConf + b.aiMod));
                     b.fairOdd = (100 / b.conf).toFixed(2);
                 });
 
-                let validBets = rawBets.filter(b => b.conf >= 36).sort((a, b) => b.conf - a.conf);
+                // Per le colonne automatiche (Safe e Value) usiamo i mercati principali ordinati per fiducia
+                let validAutoBets = rawBets.filter(b => b.autoEligible && b.conf >= 36).sort((a, b) => b.conf - a.conf);
 
                 function hasDirectionConflict(betA, betB) {
                     if ((betA.tacticalFamily === "GOALS_OVER" && betB.tacticalFamily === "GOALS_UNDER") ||
@@ -1284,8 +1828,8 @@
                 }
 
                 let safeBets = [];
-                for (let b of validBets) {
-                    if (safeBets.length >= 5) break;
+                for (let b of validAutoBets) {
+                    if (safeBets.length >= 12) break;
                     if (isTacticallyConflicting(b, safeBets)) continue;
                     safeBets.push(b);
                 }
@@ -1293,17 +1837,23 @@
                 let dominantSafeAnchors = safeBets.slice(0, 2);
 
                 let valueBets = [];
-                let valueCandidates = validBets.filter(b => {
+                let valueCandidates = validAutoBets.filter(b => {
                     let odd = parseFloat(b.fairOdd);
                     return odd >= 1.40 && odd <= 2.00;
                 });
                 for (let b of valueCandidates) {
-                    if (valueBets.length >= 5) break;
+                    if (valueBets.length >= 12) break;
                     if (isTacticallyConflicting(b, valueBets, dominantSafeAnchors)) continue;
                     valueBets.push(b);
                 }
 
-                return { safe: safeBets, value: valueBets, probs1X2: { p1, px, p2 }, topExact: exactScores[0] };
+                return {
+                    safe: safeBets,
+                    value: valueBets,
+                    allCatalog: rawBets,
+                    probs1X2: { p1, px, p2 },
+                    topExact: sortedScores[0]
+                };
             },
 
             analyze: function(home, away, neutralMode = false) {
@@ -1383,7 +1933,7 @@
                 const totalExpGoals = expGoalsHome + expGoalsAway;
 
                 let rho = Math.abs(eloDiff) < 9 ? -0.14 : -0.09;
-                let dcMatrix = this.buildDixonColesMatrix(expGoalsHome, expGoalsAway, rho);
+                let dcMatrix = this.buildDixonColesMatrix(expGoalsHome, expGoalsAway, rho, 7);
                 let betZones = this.generateBetsFromMatrix(dcMatrix, hPower, aPower, expGoalsHome, expGoalsAway);
 
                 let avgStdDev = (home.stats.stdDev + away.stats.stdDev) / 2;
@@ -1395,7 +1945,7 @@
                 }
 
                 reasons.push({
-                    text: `MEDIA GOL EWMA & SPLIT CASA/FUORI: Pesando maggiormente le gare più recenti (con cap a 3.5 gol), ${home.team.name} in casa produce ${home.stats.venueScored.toFixed(2)} GF / ${home.stats.venueConceded.toFixed(2)} GS, mentre ${away.team.name} fuori registra ${away.stats.venueScored.toFixed(2)} GF / ${away.stats.venueConceded.toFixed(2)} GS. Expected Goals finali: ${expGoalsHome.toFixed(2)} a ${expGoalsAway.toFixed(2)} (Totale: ${totalExpGoals.toFixed(2)} xG).`,
+                    text: `TRI-MATRICE DIXON-COLES (FT + 1°T + 2°T): Expected Goals totali pari a ${expGoalsHome.toFixed(2)} vs ${expGoalsAway.toFixed(2)} (${totalExpGoals.toFixed(2)} xG, di cui ${(totalExpGoals*0.44).toFixed(2)} xG attesi nel 1° Tempo e ${(totalExpGoals*0.56).toFixed(2)} xG nel 2° Tempo).`,
                     type: 'normal'
                 });
 
@@ -1424,6 +1974,85 @@
                 };
             }
         };
+
+        // ----------------------------------------------------
+        // FUNZIONI DEL LABORATORIO ON-DEMAND & LAVAGNA DI CONFRONTO
+        // ----------------------------------------------------
+        function populateLabDropdown() {
+            if (!lastReportData) return;
+            let allBets = lastReportData.analysis.betZones.allCatalog || [];
+            let catFilter = document.getElementById('lab-cat-filter').value;
+            let searchTxt = (document.getElementById('lab-search-input').value || "").trim().toUpperCase();
+            let selectEl = document.getElementById('lab-market-select');
+
+            let filtered = allBets.filter(b => {
+                if (catFilter !== "ALL" && b.labCat !== catFilter) return false;
+                if (searchTxt && !b.pick.toUpperCase().includes(searchTxt) && !b.market.toUpperCase().includes(searchTxt)) return false;
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                selectEl.innerHTML = `<option value="">Nessun mercato trovato con questo filtro</option>`;
+                return;
+            }
+
+            selectEl.innerHTML = filtered.map(b => {
+                return `<option value="${b.pick.replace(/"/g, '&quot;')}">[${b.market}] ${b.pick} ➔ Fiducia: ${b.conf.toFixed(1)}% (Equa @${b.fairOdd})</option>`;
+            }).join('');
+        }
+
+        function addSelectedToLabBoard() {
+            if (!lastReportData) return;
+            let selectEl = document.getElementById('lab-market-select');
+            let chosenPick = selectEl.value;
+            if (!chosenPick) return;
+
+            if (!labComparedPicks.includes(chosenPick)) {
+                labComparedPicks.unshift(chosenPick);
+            }
+            renderLabBoard();
+        }
+
+        function removePickFromLabBoard(pickName) {
+            labComparedPicks = labComparedPicks.filter(p => p !== pickName);
+            renderLabBoard();
+        }
+
+        function clearLabBoard() {
+            labComparedPicks = [];
+            renderLabBoard();
+        }
+
+        function loadBestTimeAndMgCombos() {
+            if (!lastReportData) return;
+            let allBets = lastReportData.analysis.betZones.allCatalog || [];
+            let candidates = allBets.filter(b => 
+                ["1° Tempo (HT)", "2° Tempo (2T)", "Combo Tempi (HT/2T)", "Combo DC/1X2 + Multigol"].includes(b.labCat) &&
+                parseFloat(b.fairOdd) >= 1.32 && parseFloat(b.fairOdd) <= 2.35
+            ).sort((a, b) => b.conf - a.conf).slice(0, 5);
+
+            candidates.forEach(c => {
+                if (!labComparedPicks.includes(c.pick)) labComparedPicks.push(c.pick);
+            });
+            renderLabBoard();
+        }
+
+        function renderLabBoard() {
+            let container = document.getElementById('ui-lab-board');
+            if (!container || !lastReportData) return;
+            let allBets = lastReportData.analysis.betZones.allCatalog || [];
+
+            if (labComparedPicks.length === 0) {
+                container.innerHTML = `<div class="no-bets-msg">Lavagna vuota. Seleziona qualsiasi giocata dal menu qui sopra e premi "➕ Aggiungi al Confronto" (oppure premi "⚡ Carica Top 5 Tempi & Combo Multigol").</div>`;
+                return;
+            }
+
+            let betsToRender = labComparedPicks
+                .map(pName => allBets.find(b => b.pick === pName))
+                .filter(Boolean);
+
+            renderBetRows(betsToRender, 'ui-lab-board', 'lab', true);
+        }
 
         async function runLiveScoutingEngine() {
             let tInput = document.getElementById('input-team').value;
@@ -1479,7 +2108,7 @@
             if (!homeWasCached && !apiMatchesCache[liveMatch.away.id]) await delay(450);
             let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name, false, liveMatch.away.country, liveMatch.timestamp);
 
-            setLog("Elaborazione Matrice Dixon-Coles 7x7 e Calibrazione Bayesiana...");
+            setLog("Elaborazione Tri-Matrice Dixon-Coles (165+ Mercati FT/HT/2T)...");
             await delay(250);
 
             let analysis = ScoutingEngine.analyze(homeData, awayData, isNeutralVenue);
@@ -1504,7 +2133,7 @@
             else if (numA > numH) { elA.classList.add('val-win'); elH.classList.add('val-lose'); }
         }
 
-        function renderBetRows(bets, containerId, prefix) {
+        function renderBetRows(bets, containerId, prefix, isLab = false) {
             let container = document.getElementById(containerId);
             if (!container) return;
             if (bets.length === 0) {
@@ -1536,6 +2165,7 @@
 
                 let safePickEscaped = bet.pick.replace(/'/g, "\\'");
                 let safeMarketEscaped = bet.market.replace(/'/g, "\\'");
+                let removeBtnHtml = isLab ? `<button class="btn-remove-lab" onclick="removePickFromLabBoard('${safePickEscaped}')" title="Rimuovi dalla lavagna">✖</button>` : '';
 
                 html += `
                 <div class="bet-row" data-rank="${rank}">
@@ -1565,6 +2195,7 @@
                         </div>
                         <div id="${fbId}" class="edge-feedback edge-neutral">Inserisci quota book per Value & Stake</div>
                         <button class="${btnClass}" onclick="handleSaveBet(this, '${safeMarketEscaped}', '${safePickEscaped}', '${bet.tacticalFamily}', ${bet.pureConf.toFixed(1)}, ${bet.conf.toFixed(1)}, ${bet.fairOdd}, '${inputId}')">${btnText}</button>
+                        ${removeBtnHtml}
                     </div>
                 </div>`;
             });
@@ -1627,8 +2258,11 @@
             renderForm('ui-away-form', aData.pregameForm.form);
             renderForm('ui-away-venue-form', aData.pregameForm.venueForm);
 
-            renderBetRows(analysis.betZones.safe, 'ui-safe-bets', 'safe');
-            renderBetRows(analysis.betZones.value, 'ui-value-bets', 'val');
+            renderBetRows(analysis.betZones.safe.slice(0, displayTopLimit), 'ui-safe-bets', 'safe');
+            renderBetRows(analysis.betZones.value.slice(0, displayTopLimit), 'ui-value-bets', 'val');
+
+            populateLabDropdown();
+            renderLabBoard();
 
             let reasonsHtml = '';
             analysis.reasons.forEach(r => {
@@ -1643,9 +2277,15 @@
             const { homeData, awayData, analysis, matchContext } = lastReportData;
             let safeList = analysis.betZones.safe.slice(0, 3).map(b => `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})`).join('\n');
             let valList = analysis.betZones.value.slice(0, 3).map(b => `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})`).join('\n');
+            let allBets = analysis.betZones.allCatalog || [];
+            let labList = labComparedPicks.map(pName => {
+                let b = allBets.find(x => x.pick === pName);
+                return b ? `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})` : null;
+            }).filter(Boolean).join('\n');
+
             let neutralTag = isNeutralVenue ? " [🏟️ CAMPO NEUTRO / DERBY]" : "";
 
-            let report = `📡 *BETBAR SCOUT V20 LTS — REPORT ANALISI*\n` +
+            let report = `📡 *BETBAR SCOUT V20.1 LTS — REPORT ANALISI*\n` +
                 `🏆 *${matchContext.name}* (${matchContext.tournament})${neutralTag}\n` +
                 `📅 Data: ${matchContext.dateStr}\n` +
                 `⏱️ Riposo: ${homeData.team.name} (${homeData.stats.restDays.toFixed(1)}gg) vs ${awayData.team.name} (${awayData.stats.restDays.toFixed(1)}gg)\n` +
@@ -1655,10 +2295,11 @@
                 `• Expected Goals (EWMA): ${analysis.expGoalsHome.toFixed(2)} - ${analysis.expGoalsAway.toFixed(2)}\n` +
                 `• Probabilità 1X2: 1 (${analysis.probs1X2.p1.toFixed(1)}%) | X (${analysis.probs1X2.px.toFixed(1)}%) | 2 (${analysis.probs1X2.p2.toFixed(1)}%)\n\n` +
                 `🛡️ *TOP CASSEFORTI (SAFE):*\n${safeList || 'Nessuna'}\n\n` +
-                `🔥 *ZONA VALORE (SWEET SPOT 1.40-2.00):*\n${valList || 'Nessuna'}`;
+                `🔥 *ZONA VALORE (SWEET SPOT 1.40-2.00):*\n${valList || 'Nessuna'}` +
+                (labList ? `\n\n🎯 *SELEZIONI LABORATORIO ON-DEMAND:*\n${labList}` : '');
 
             navigator.clipboard.writeText(report).then(() => {
-                alert("📋 Report V20 LTS copiato negli appunti! Pronto da incollare su Telegram o nelle note.");
+                alert("📋 Report V20.1 LTS copiato negli appunti! (Include anche le giocate nella Lavagna On-Demand)");
             });
         }
 
