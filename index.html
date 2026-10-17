@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>BETBAR | Scouting Engine V19 - 11/10 Singularity Edition</title>
+    <title>BETBAR | Scouting Engine V20 LTS - Production Freeze</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -22,7 +22,7 @@
         .top-nav { background: var(--bg-darker); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;}
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; }
         .logo span { color: var(--accent-blue); }
-        .logo-v19 { font-size: 0.75rem; background: linear-gradient(90deg, var(--neon-green), var(--accent-blue)); color: #000; padding: 3px 8px; border-radius: 4px; margin-left: 6px; vertical-align: top; font-weight: 900;}
+        .logo-v20 { font-size: 0.75rem; background: linear-gradient(90deg, var(--accent-gold), var(--neon-green)); color: #000; padding: 3px 8px; border-radius: 4px; margin-left: 6px; vertical-align: top; font-weight: 900;}
         
         .tab-menu { display: flex; gap: 10px; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 8px;}
         .tab-btn { background: transparent; border: none; color: var(--text-muted); font-weight: bold; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: 0.2s;}
@@ -55,15 +55,18 @@
         .dashboard { display: none; }
 
         /* TOP BAR MATCH & CONTROLS */
-        .match-top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: var(--bg-darker); padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 18px;}
+        .match-top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; background: var(--bg-darker); padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 18px;}
         .match-selector-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .match-select { background: var(--bg-panel); color: var(--accent-gold); border: 1px solid rgba(251, 191, 36, 0.4); padding: 8px 12px; border-radius: 6px; font-weight: bold; font-size: 0.85rem; outline: none; cursor: pointer;}
-        .readability-badge { font-size: 0.78rem; font-weight: 900; padding: 6px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
+        .readability-badge { font-size: 0.76rem; font-weight: 900; padding: 6px 12px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px;}
         .read-high { background: rgba(34, 197, 94, 0.15); color: var(--neon-green); border: 1px solid var(--neon-green);}
         .read-med { background: rgba(251, 191, 36, 0.15); color: var(--accent-gold); border: 1px solid var(--accent-gold);}
         .read-low { background: rgba(239, 68, 68, 0.15); color: var(--neon-red); border: 1px solid var(--neon-red);}
         
-        .btn-copy-report { background: var(--bg-panel); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .top-actions-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .btn-neutral-toggle { background: var(--bg-panel); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.18); padding: 8px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
+        .btn-neutral-toggle.active { background: rgba(168, 85, 247, 0.2); color: #fff; border-color: var(--ai-purple); box-shadow: 0 0 10px rgba(168, 85, 247, 0.35);}
+        .btn-copy-report { background: var(--bg-panel); color: var(--text-main); border: 1px solid rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; cursor: pointer; transition: 0.2s;}
         .btn-copy-report:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
 
         .match-arena { display: flex; gap: 15px; margin-bottom: 20px; align-items: stretch;}
@@ -171,21 +174,23 @@
         .ai-list li.ai-alert::before { content: '🚨'; }
 
         /* MEMORY VIEW STYLES */
-        .ai-grid { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px;}
+        .ai-grid { display: grid; grid-template-columns: 1.12fr 1.88fr; gap: 20px;}
         @media (max-width: 880px) { .ai-grid { grid-template-columns: 1fr; } }
         
         .ai-panel { background: var(--bg-panel); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;}
         .ai-panel-title { font-size: 1rem; font-weight: 900; color: var(--ai-purple); text-transform: uppercase; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;}
         
-        .passport-area { width: 100%; height: 95px; background: var(--bg-darker); border: 1px dashed var(--ai-purple); color: var(--text-muted); font-family: monospace; padding: 10px; border-radius: 6px; margin-bottom: 10px; outline: none; font-size: 0.78rem; resize: none;}
+        .passport-area { width: 100%; height: 85px; background: var(--bg-darker); border: 1px dashed var(--ai-purple); color: var(--text-muted); font-family: monospace; padding: 10px; border-radius: 6px; margin-bottom: 10px; outline: none; font-size: 0.76rem; resize: none;}
         .passport-area:focus { border-color: var(--accent-gold); color: #fff;}
-        .pass-btn-group { display: flex; gap: 10px; }
-        .btn-pass { flex: 1; padding: 10px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; text-transform: uppercase; font-size: 0.78rem; transition: 0.2s;}
+        .pass-btn-group { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap;}
+        .btn-pass { flex: 1; padding: 9px; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; text-transform: uppercase; font-size: 0.74rem; transition: 0.2s;}
         .btn-pass.export { background: var(--bg-darker); color: var(--ai-purple); border: 1px solid var(--ai-purple);}
         .btn-pass.import { background: var(--ai-purple); color: #fff; }
+        .btn-pass.json-dl { background: rgba(34, 197, 94, 0.15); color: var(--neon-green); border: 1px solid var(--neon-green);}
+        .btn-pass.json-ul { background: rgba(0, 240, 255, 0.12); color: var(--accent-blue); border: 1px solid var(--accent-blue);}
         .btn-autoverify { background: linear-gradient(90deg, var(--accent-blue), #3b82f6); color: #000; border: none; padding: 7px 12px; border-radius: 5px; font-weight: 900; font-size: 0.75rem; cursor: pointer; text-transform: uppercase;}
 
-        .memory-list { display: flex; flex-direction: column; gap: 10px; max-height: 620px; overflow-y: auto; padding-right: 5px;}
+        .memory-list { display: flex; flex-direction: column; gap: 10px; max-height: 640px; overflow-y: auto; padding-right: 5px;}
         .mem-item { background: var(--bg-darker); border-left: 4px solid var(--text-muted); padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;}
         .mem-item.win { border-left-color: var(--neon-green); background: rgba(34,197,94,0.06);}
         .mem-item.lose { border-left-color: var(--neon-red); background: rgba(239,68,68,0.06);}
@@ -203,12 +208,12 @@
         .badge-lose { background: var(--neon-red); color: #fff;}
         .badge-pend { background: rgba(255,255,255,0.1); color: var(--text-muted);}
 
-        .ai-stats-box { background: rgba(168, 85, 247, 0.08); border: 1px solid var(--ai-purple); padding: 15px; border-radius: 8px; margin-top: 16px;}
+        .ai-stats-box { background: rgba(168, 85, 247, 0.08); border: 1px solid var(--ai-purple); padding: 15px; border-radius: 8px; margin-top: 14px;}
         .stat-line { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.84rem;}
         .stat-val { font-weight: 900; color: #fff;}
 
-        .family-weights-box { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; margin-top: 16px;}
-        .fw-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); gap: 6px;}
+        .family-weights-box { background: var(--bg-darker); border: 1px solid rgba(255,255,255,0.08); padding: 14px; border-radius: 8px; margin-top: 14px;}
+        .fw-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.71rem; padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); gap: 6px;}
         .fw-row:last-child { border-bottom: none; }
         .fw-name { color: var(--text-main); font-weight: bold; }
         .fw-meta { color: var(--text-muted); font-family: monospace; text-align: right;}
@@ -217,19 +222,19 @@
 <body>
 
     <div class="top-nav">
-        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v19">V19 SINGULARITY 11/10</span></div>
+        <div class="logo">BETBAR<span>SCOUT</span> <span class="logo-v20">V20 LTS FREEZE</span></div>
         <div class="tab-menu">
             <button class="tab-btn active" id="tab-btn-radar" onclick="switchTab('radar')">📡 Radar Live</button>
-            <button class="tab-btn" id="tab-btn-console" onclick="switchTab('console')">🧠 Console AI & ROI</button>
+            <button class="tab-btn" id="tab-btn-console" onclick="switchTab('console')">🧠 Console AI & Backup</button>
         </div>
-        <div class="api-status"><div class="api-dot"></div> EWMA + BRIER AI + RIPOSO</div>
+        <div class="api-status"><div class="api-dot"></div> BAYESIAN BRIER + EWMA</div>
     </div>
 
     <!-- VISTA RADAR -->
     <div id="view-radar" class="view-section active">
         <div class="search-container">
             <div class="search-box">
-                <span class="search-lbl">Radar Partite Ufficiali (EWMA, Fattore Stanchezza & Coerenza Safe↔Value)</span>
+                <span class="search-lbl">Radar Partite Ufficiali (Versione Stabile LTS — Test Fino a Fine Anno)</span>
                 <input type="text" id="input-team" class="search-input" placeholder="Scrivi una squadra (es. Atalanta, Villarreal, Inter, Arsenal)..." onkeydown="if(event.key==='Enter') runLiveScoutingEngine()">
             </div>
             <button class="btn-scout" onclick="runLiveScoutingEngine()">Scannerizza</button>
@@ -248,7 +253,10 @@
                     <select id="ui-match-select" class="match-select" onchange="onSelectUpcomingMatch(this.value)"></select>
                 </div>
                 <div id="ui-readability-badge" class="readability-badge read-med">⚖️ LEGGIBILITÀ STANDARD</div>
-                <button class="btn-copy-report" onclick="copyTelegramReport()">📋 Copia Report</button>
+                <div class="top-actions-wrap">
+                    <button class="btn-neutral-toggle" id="ui-neutral-btn" onclick="toggleNeutralVenue()" title="Attiva per Finali in Campo Neutro o Derby cittadini nello stesso stadio">🏟️ Campo Neutro / Derby: OFF</button>
+                    <button class="btn-copy-report" onclick="copyTelegramReport()">📋 Copia Report</button>
+                </div>
             </div>
 
             <div class="match-arena">
@@ -267,10 +275,10 @@
                 </div>
 
                 <div class="h2h-col">
-                    <div class="h2h-title">📊 Confronto ELO, EWMA & Recupero</div>
+                    <div class="h2h-title" id="ui-h2h-title">📊 Confronto ELO, EWMA & Recupero</div>
                     <div class="h2h-row">
                         <div class="h2h-val" id="h2h-pi-h">0.0</div>
-                        <div class="h2h-lbl">Power Index Reale (con Fatica)</div>
+                        <div class="h2h-lbl" id="h2h-pi-lbl">Power Index Reale (+Fattore Campo)</div>
                         <div class="h2h-val" id="h2h-pi-a">0.0</div>
                     </div>
                     <div class="h2h-row">
@@ -340,12 +348,17 @@
     <div id="view-console" class="view-section">
         <div class="ai-grid">
             <div class="ai-panel">
-                <div class="ai-panel-title">🛂 Passaporto Dati (UTF-8 Safe)</div>
-                <p style="font-size:0.76rem; color:var(--text-muted); margin-bottom:10px;">Esporta o importa il Cervello AI tra PC e Smartphone. Codifica protetta per caratteri internazionali.</p>
+                <div class="ai-panel-title">🛂 Passaporto Dati & Backup File (.json)</div>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Usa il testo Base64 per sincronizzare al volo PC e Smartphone, oppure scarica il file <strong>.json</strong> per blindare il tuo storico fino a fine dicembre.</p>
                 <textarea id="passport-box" class="passport-area" placeholder="Incolla qui il codice Passaporto o premi Esporta..."></textarea>
                 <div class="pass-btn-group">
-                    <button class="btn-pass export" onclick="MemorySystem.exportPassport()">⬇️ Esporta</button>
-                    <button class="btn-pass import" onclick="MemorySystem.importPassport()">⬆️ Importa</button>
+                    <button class="btn-pass export" onclick="MemorySystem.exportPassport()">⬇️ Copia Codice</button>
+                    <button class="btn-pass import" onclick="MemorySystem.importPassport()">⬆️ Importa Codice</button>
+                </div>
+                <div class="pass-btn-group">
+                    <button class="btn-pass json-dl" onclick="MemorySystem.downloadJsonBackup()">💾 Scarica File .json</button>
+                    <button class="btn-pass json-ul" onclick="document.getElementById('json-file-input').click()">📂 Carica File .json</button>
+                    <input type="file" id="json-file-input" accept=".json" style="display:none" onchange="MemorySystem.uploadJsonBackup(event)">
                 </div>
                 
                 <div class="ai-stats-box">
@@ -359,7 +372,7 @@
                 </div>
 
                 <div class="family-weights-box">
-                    <div style="font-size:0.78rem; font-weight:900; color:var(--accent-blue); text-transform:uppercase; margin-bottom:8px;">⚙️ Calibrazione Brier per Famiglia (WR vs Atteso)</div>
+                    <div style="font-size:0.76rem; font-weight:900; color:var(--accent-blue); text-transform:uppercase; margin-bottom:8px;">⚙️ Pesi Brier & Maturazione Bayesiana (5➔15 Esiti)</div>
                     <div id="ui-family-weights"></div>
                 </div>
             </div>
@@ -369,7 +382,7 @@
                     <span>📚 Registro Scommesse & Auto-Training</span>
                     <button class="btn-autoverify" id="btn-autoverify" onclick="MemorySystem.autoVerifyPendingBets()">🔄 Auto-Verifica Risultati (API)</button>
                 </div>
-                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:15px;">Il Cervello 2 confronta il tuo Win Rate Reale con la Probabilità Media Attesa delle giocate salvate in ogni famiglia tattica.</p>
+                <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:15px;">Il Cervello 2 applica uno smorzamento progressivo tra la 5ª e la 15ª giocata di ogni famiglia per proteggerti dalla varianza di breve periodo.</p>
                 <div class="memory-list" id="ui-memory-list"></div>
             </div>
         </div>
@@ -383,9 +396,10 @@
         
         let myRadarChart = null;
         let upcomingMatchesCache = [];
-        let apiMatchesCache = {}; // Cache di sessione per evitare chiamate duplicate
+        let apiMatchesCache = {};
         let currentMatchContext = null;
         let lastReportData = null;
+        let isNeutralVenue = false;
 
         function setLog(text) {
             const logEl = document.getElementById('loader-log');
@@ -483,13 +497,13 @@
         }
 
         // ----------------------------------------------------
-        // SISTEMA DI MEMORIA E AI ADATTIVA (V19 - BRIER RESIDUAL)
+        // SISTEMA DI MEMORIA E AI ADATTIVA (V20 LTS - BAYESIAN BRIER)
         // ----------------------------------------------------
         const MemorySystem = {
             data: [],
 
             init: function() {
-                let saved = localStorage.getItem('betbar_memory_v19') || localStorage.getItem('betbar_memory_v18') || localStorage.getItem('betbar_memory_v17') || localStorage.getItem('betbar_memory_v16');
+                let saved = localStorage.getItem('betbar_memory_v20') || localStorage.getItem('betbar_memory_v19') || localStorage.getItem('betbar_memory_v18') || localStorage.getItem('betbar_memory_v17') || localStorage.getItem('betbar_memory_v16');
                 if (saved) {
                     try {
                         this.data = JSON.parse(saved);
@@ -497,15 +511,15 @@
                             b.tacticalFamily = getTacticalFamily(b.market, b.pick);
                             if (!b.pureConf) b.pureConf = b.conf || 60;
                         });
+                        localStorage.setItem('betbar_memory_v20', JSON.stringify(this.data));
                     } catch(e) { this.data = []; }
                 }
                 this.updateUI();
             },
 
             save: function() {
-                localStorage.setItem('betbar_memory_v19', JSON.stringify(this.data));
+                localStorage.setItem('betbar_memory_v20', JSON.stringify(this.data));
                 this.updateUI();
-                // Sincronizzazione Bidirezionale: aggiorna anche le righe del Radar se visibili
                 if (lastReportData) {
                     renderBetRows(lastReportData.analysis.betZones.safe, 'ui-safe-bets', 'safe');
                     renderBetRows(lastReportData.analysis.betZones.value, 'ui-value-bets', 'val');
@@ -528,7 +542,6 @@
                 let usedOdd = hasCustomBook ? parseFloat(bookOdd) : parseFloat(fairOdd);
                 let usedStake = (stake && !isNaN(stake) && stake > 0) ? parseInt(stake) : 2;
 
-                // Se esiste già, aggiorna eventuale nuova Quota Book inserita dall'utente
                 if (existing) {
                     if (hasCustomBook) {
                         existing.odd = usedOdd.toFixed(2);
@@ -581,7 +594,7 @@
                 let str = btoa(encodeURIComponent(JSON.stringify(this.data)));
                 document.getElementById('passport-box').value = str;
                 navigator.clipboard?.writeText(str);
-                alert("Passaporto generato e copiato negli appunti! Incollalo sul tuo smartphone.");
+                alert("Passaporto copiato negli appunti! Incollalo sul tuo smartphone.");
             },
 
             importPassport: function() {
@@ -606,29 +619,70 @@
                 }
             },
 
-            // CALIBRAZIONE SCIENTIFICA BRIER RESIDUAL: Confronta il Win Rate reale con la Probabilità Media Attesa!
+            downloadJsonBackup: function() {
+                if (this.data.length === 0) { alert("Memoria vuota. Salva almeno una giocata prima di scaricare il file .json."); return; }
+                let dateTag = new Date().toISOString().slice(0, 10);
+                let blob = new Blob([JSON.stringify(this.data, null, 2)], { type: "application/json" });
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = `betbar_ai_backup_${dateTag}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            },
+
+            uploadJsonBackup: function(event) {
+                let file = event.target.files[0];
+                if (!file) return;
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        let parsed = JSON.parse(e.target.result);
+                        if (Array.isArray(parsed)) {
+                            parsed.forEach(b => {
+                                b.tacticalFamily = getTacticalFamily(b.market, b.pick);
+                                if (!b.pureConf) b.pureConf = b.conf || 60;
+                            });
+                            this.data = parsed;
+                            this.save();
+                            alert(`📂 File .json caricato con successo! (${parsed.length} giocate ripristinate)`);
+                        } else {
+                            alert("Errore: Il file .json non contiene un elenco valido di giocate.");
+                        }
+                    } catch (err) {
+                        alert("Errore nella lettura del file .json.");
+                    }
+                    event.target.value = "";
+                };
+                reader.readAsText(file);
+            },
+
+            // SMORZAMENTO PROGRESSIVO BAYESIANO (5 ➔ 15 Esiti) + BRIER RESIDUAL
             getFamilyStats: function(tacticalFamily) {
                 let resolved = this.data.filter(b => getTacticalFamily(b.market, b.pick) === tacticalFamily && (b.status === 'win' || b.status === 'lose'));
                 let count = resolved.length;
-                if (count === 0) return { count: 0, wins: 0, winRate: 0, expRate: 0, modifier: 0, active: false };
+                if (count === 0) return { count: 0, wins: 0, winRate: 0, expRate: 0, damping: 0, modifier: 0, active: false };
                 
                 let wins = resolved.filter(b => b.status === 'win').length;
                 let winRate = wins / count;
                 let sumExp = resolved.reduce((acc, b) => acc + (parseFloat(b.pureConf || b.conf || 60) / 100), 0);
                 let expRate = sumExp / count;
 
-                if (count < 5) return { count, wins, winRate, expRate, modifier: 0, active: false };
+                if (count < 5) return { count, wins, winRate, expRate, damping: 0, modifier: 0, active: false };
 
-                // Residuo tra Vittorie Reali e Probabilità Attesa (con zona neutra ±2.5% anti-rumore)
+                // Fattore di maturazione progressiva: 9% a 5 esiti, 55% a 10 esiti, 100% da 15 esiti in su
+                let damping = Math.min(1.0, (count - 4) / 11.0);
                 let residual = winRate - expRate;
-                let modifier = 0;
+                let rawMod = 0;
                 if (residual > 0.025) {
-                    modifier = (residual - 0.025) * 26;
+                    rawMod = (residual - 0.025) * 26;
                 } else if (residual < -0.025) {
-                    modifier = (residual + 0.025) * 26;
+                    rawMod = (residual + 0.025) * 26;
                 }
-                modifier = Math.max(-10, Math.min(10, modifier));
-                return { count, wins, winRate, expRate, modifier, active: true };
+                let modifier = Math.max(-10, Math.min(10, rawMod * damping));
+                return { count, wins, winRate, expRate, damping, modifier, active: true };
             },
 
             getFamilyModifier: function(tacticalFamily) {
@@ -796,13 +850,14 @@
                 Object.keys(TacticalFamiliesMeta).forEach(famKey => {
                     let st = this.getFamilyStats(famKey);
                     if (st.active) anyActiveFamily = true;
+                    let dampPct = Math.round(st.damping * 100);
                     let modTxt = !st.active 
                         ? `<span style="color:var(--text-muted)">Quarantena (${st.count}/5)</span>`
                         : (st.modifier > 0 
-                            ? `<span style="color:var(--neon-green); font-weight:bold;">+${st.modifier.toFixed(1)}% (WR ${(st.winRate*100).toFixed(0)}% vs ${(st.expRate*100).toFixed(0)}%)</span>`
+                            ? `<span style="color:var(--neon-green); font-weight:bold;">+${st.modifier.toFixed(1)}% [Peso ${dampPct}%] (WR ${(st.winRate*100).toFixed(0)}%)</span>`
                             : (st.modifier < 0 
-                                ? `<span style="color:var(--neon-red); font-weight:bold;">${st.modifier.toFixed(1)}% (WR ${(st.winRate*100).toFixed(0)}% vs ${(st.expRate*100).toFixed(0)}%)</span>`
-                                : `<span style="color:var(--accent-gold)">0.0% (WR ${(st.winRate*100).toFixed(0)}% vs ${(st.expRate*100).toFixed(0)}%)</span>`));
+                                ? `<span style="color:var(--neon-red); font-weight:bold;">${st.modifier.toFixed(1)}% [Peso ${dampPct}%] (WR ${(st.winRate*100).toFixed(0)}%)</span>`
+                                : `<span style="color:var(--accent-gold)">0.0% [Peso ${dampPct}%] (WR ${(st.winRate*100).toFixed(0)}%)</span>`));
                     fwHtml += `<div class="fw-row"><span class="fw-name">${TacticalFamiliesMeta[famKey]}</span><span class="fw-meta">${modTxt}</span></div>`;
                 });
                 let fwContainer = document.getElementById('ui-family-weights');
@@ -813,7 +868,7 @@
                     statusEl.textContent = `Quarantena (Min. 5 esiti/famiglia)`;
                     statusEl.style.color = 'var(--accent-gold)';
                 } else {
-                    statusEl.textContent = '🧠 AI BRIER ATTIVA';
+                    statusEl.textContent = '🧠 AI BAYESIANA ATTIVA';
                     statusEl.style.color = 'var(--neon-green)';
                 }
             }
@@ -826,6 +881,25 @@
             document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
             document.getElementById(`tab-btn-${tabId}`).classList.add('active');
             document.getElementById(`view-${tabId}`).classList.add('active');
+        }
+
+        // INTERRUTTORE CAMPO NEUTRO / DERBY (Zero Chiamate API)
+        function toggleNeutralVenue() {
+            isNeutralVenue = !isNeutralVenue;
+            let btn = document.getElementById('ui-neutral-btn');
+            if (isNeutralVenue) {
+                btn.classList.add('active');
+                btn.textContent = "🏟️ Campo Neutro / Derby: ON";
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = "🏟️ Campo Neutro / Derby: OFF";
+            }
+            if (lastReportData) {
+                let analysis = ScoutingEngine.analyze(lastReportData.homeData, lastReportData.awayData, isNeutralVenue);
+                lastReportData.analysis = analysis;
+                renderDashboard(lastReportData.homeData, lastReportData.awayData, analysis);
+                drawRadarChart(lastReportData.homeData.team.name, lastReportData.awayData.team.name, analysis.radarData);
+            }
         }
 
         function onBookOddInput(inputEl, fairOdd, conf, feedbackId) {
@@ -945,7 +1019,6 @@
 
             if (allFinished.length === 0) throw new Error(`Dati storici non disponibili per ${actualName}.`);
 
-            // CALCOLO GIORNI DI RIPOSO PRIMA DEL MATCH SELEZIONATO
             let lastPlayedTs = allFinished[0]?.startTimestamp || 0;
             let targetTs = matchTimestamp || Math.floor(Date.now() / 1000);
             let restDays = 7.0;
@@ -976,7 +1049,6 @@
             let venueMatches = allFinished.filter(ev => isHomeVenue ? (ev.homeTeam?.id === teamId) : (ev.awayTeam?.id === teamId)).slice(0, 5);
             if (venueMatches.length < 2) venueMatches = overall5;
 
-            // EWMA (Media Ponderata Esponenziale) + Tetto Anti-Goleada a 3.5 Gol
             function parseMatchBatch(batch) {
                 let form = []; let weightedGf = 0; let weightedGs = 0; let totalWeight = 0; let pts = 0; let totGoalsArr = [];
                 [...batch].reverse().forEach((ev, idx) => {
@@ -984,7 +1056,6 @@
                     let rawScored = isH ? (ev.homeScore?.current ?? 0) : (ev.awayScore?.current ?? 0);
                     let rawConceded = isH ? (ev.awayScore?.current ?? 0) : (ev.homeScore?.current ?? 0);
                     
-                    // Peso cronologico EWMA: le gare più recenti pesano fino a +72% rispetto alla più vecchia
                     let w = 1 + (idx * 0.18);
                     weightedGf += Math.min(3.5, rawScored) * w;
                     weightedGs += Math.min(3.5, rawConceded) * w;
@@ -1014,13 +1085,16 @@
             let blendedConceded = (ovStats.avgConceded * 0.5) + (vnStats.avgConceded * 0.5);
             let blendedWinRatio = (ovStats.winRatio * 0.55) + (vnStats.winRatio * 0.45);
             let rawRating = 6.4 + (blendedWinRatio * 1.25) + (blendedScored * 0.22);
+            let neutralRating = 6.4 + (ovStats.winRatio * 1.25) + (ovStats.avgScored * 0.22);
 
             return {
                 team: { name: actualName, country: detectedCountry || "Standard", tier: tierData.tier, label: tierData.label },
-                pregameForm: { avgRating: rawRating, form: ovStats.form, venueForm: vnStats.form },
+                pregameForm: { avgRating: rawRating, neutralRating: neutralRating, form: ovStats.form, venueForm: vnStats.form },
                 stats: {
                     rawScored: blendedScored,
                     rawConceded: blendedConceded,
+                    overallScored: ovStats.avgScored,
+                    overallConceded: ovStats.avgConceded,
                     venueScored: vnStats.avgScored,
                     venueConceded: vnStats.avgConceded,
                     stdDev: ovStats.stdDevGoals,
@@ -1174,6 +1248,7 @@
                     let famStats = MemorySystem.getFamilyStats(b.tacticalFamily);
                     b.aiMod = famStats.modifier;
                     b.famCount = famStats.count;
+                    b.famDamping = famStats.damping;
                     b.famActive = famStats.active;
                     b.pureConf = Math.min(96, Math.max(3, b.baseConf));
                     b.pureOdd = (100 / b.pureConf).toFixed(2);
@@ -1183,7 +1258,6 @@
 
                 let validBets = rawBets.filter(b => b.conf >= 36).sort((a, b) => b.conf - a.conf);
 
-                // CONTROLLO DI COERENZA TATTICA INTRA-COLONNA E INTER-COLONNA (SAFE <-> VALUE)
                 function hasDirectionConflict(betA, betB) {
                     if ((betA.tacticalFamily === "GOALS_OVER" && betB.tacticalFamily === "GOALS_UNDER") ||
                         (betA.tacticalFamily === "GOALS_UNDER" && betB.tacticalFamily === "GOALS_OVER")) return true;
@@ -1203,7 +1277,6 @@
                             (s.market === "Doppia Chance" && candidate.market === "Esito Finale")) return true;
                         if (hasDirectionConflict(s, candidate)) return true;
                     }
-                    // Controllo Orizzontale contro la Tesi Dominante delle prime 2 Casseforti
                     for (let anchor of anchorSafeList) {
                         if (hasDirectionConflict(anchor, candidate)) return true;
                     }
@@ -1217,7 +1290,6 @@
                     safeBets.push(b);
                 }
 
-                // Tesi Dominante: le prime 2 giocate più probabili delle Casseforti
                 let dominantSafeAnchors = safeBets.slice(0, 2);
 
                 let valueBets = [];
@@ -1234,18 +1306,26 @@
                 return { safe: safeBets, value: valueBets, probs1X2: { p1, px, p2 }, topExact: exactScores[0] };
             },
 
-            analyze: function(home, away) {
+            analyze: function(home, away, neutralMode = false) {
                 let reasons = [];
                 let hFormGen = this.calcMomentum(home.pregameForm.form);
                 let aFormGen = this.calcMomentum(away.pregameForm.form);
                 let hFormVenue = this.calcMomentum(home.pregameForm.venueForm);
                 let aFormVenue = this.calcMomentum(away.pregameForm.venueForm);
 
-                let hFormBlended = (hFormGen * 0.65) + (hFormVenue * 0.35);
-                let aFormBlended = (aFormGen * 0.65) + (aFormVenue * 0.35);
+                let hFormBlended = neutralMode ? hFormGen : ((hFormGen * 0.65) + (hFormVenue * 0.35));
+                let aFormBlended = neutralMode ? aFormGen : ((aFormGen * 0.65) + (aFormVenue * 0.35));
 
-                let hPower = ((home.pregameForm.avgRating * 10) * 0.55) + (hFormBlended * 0.45) + 2.0;
-                let aPower = ((away.pregameForm.avgRating * 10) * 0.55) + (aFormBlended * 0.45);
+                let homeEloBonus = neutralMode ? 0.0 : 2.0;
+                let hBaseRate = neutralMode ? home.pregameForm.neutralRating : home.pregameForm.avgRating;
+                let aBaseRate = neutralMode ? away.pregameForm.neutralRating : away.pregameForm.avgRating;
+
+                let hPower = ((hBaseRate * 10) * 0.55) + (hFormBlended * 0.45) + homeEloBonus;
+                let aPower = ((aBaseRate * 10) * 0.55) + (aFormBlended * 0.45);
+
+                if (neutralMode) {
+                    reasons.push({ text: `🏟️ MODALITÀ CAMPO NEUTRO / DERBY ATTIVA: Azzerato il vantaggio casalingo (+2.0 ELO e +3% xG Casa) per riflettere un match in stadio condiviso o neutro.`, type: 'normal'});
+                }
 
                 let tierDiff = home.team.tier - away.team.tier;
                 let hMalus = 0, aMalus = 0;
@@ -1258,7 +1338,6 @@
                     reasons.push({ text: `PENALITÀ DI LEGA (TIER GAP): ${away.team.name} (${away.team.label}) affronta una squadra di fascia superiore (${home.team.label}). Applicato Malus di -${aMalus} punti ELO.`, type: 'alert'});
                 }
 
-                // FATTORE STANCHEZZA / GIORNI DI RIPOSO
                 let hRest = home.stats.restDays;
                 let aRest = away.stats.restDays;
                 let hFatigueConcededMult = 1.0;
@@ -1273,7 +1352,7 @@
                     aPower -= 3.5;
                     aMalus += 3.5;
                     aFatigueConcededMult = 1.06;
-                    reasons.push({ text: `FATTORE STANCHEZZA: ${away.team.name} viaggia in trasferta con soli ${aRest.toFixed(1)} giorni di riposo contro i ${hRest.toFixed(1)} giorni di ${home.team.name}. Applicato malus fatica (-3.5 ELO e +6% vulnerabilità difensiva).`, type: 'alert'});
+                    reasons.push({ text: `FATTORE STANCHEZZA: ${away.team.name} viaggia con soli ${aRest.toFixed(1)} giorni di riposo contro i ${hRest.toFixed(1)} giorni di ${home.team.name}. Applicato malus fatica (-3.5 ELO e +6% vulnerabilità difensiva).`, type: 'alert'});
                 }
 
                 hPower = Math.max(12, hPower);
@@ -1282,17 +1361,25 @@
                 let hGoalMult = Math.max(0.4, Math.min(1.8, 1 - (tierDiff * 0.2)));
                 let aGoalMult = Math.max(0.4, Math.min(1.8, 1 + (tierDiff * 0.2)));
 
-                const hWeightedScored = home.stats.rawScored * hGoalMult;
-                const aWeightedScored = away.stats.rawScored * aGoalMult;
-                const hWeightedConceded = (home.stats.rawConceded / hGoalMult) * hFatigueConcededMult;
-                const aWeightedConceded = (away.stats.rawConceded / aGoalMult) * aFatigueConcededMult;
+                let baseHScored = neutralMode ? home.stats.overallScored : home.stats.rawScored;
+                let baseAScored = neutralMode ? away.stats.overallScored : away.stats.rawScored;
+                let baseHConceded = neutralMode ? home.stats.overallConceded : home.stats.rawConceded;
+                let baseAConceded = neutralMode ? away.stats.overallConceded : away.stats.rawConceded;
+
+                const hWeightedScored = baseHScored * hGoalMult;
+                const aWeightedScored = baseAScored * aGoalMult;
+                const hWeightedConceded = (baseHConceded / hGoalMult) * hFatigueConcededMult;
+                const aWeightedConceded = (baseAConceded / aGoalMult) * aFatigueConcededMult;
 
                 let eloDiff = hPower - aPower;
                 let eloModH = Math.max(0.78, Math.min(1.24, 1 + (eloDiff / 180)));
                 let eloModA = Math.max(0.78, Math.min(1.24, 1 - (eloDiff / 180)));
 
-                const expGoalsHome = Math.max(0.25, Math.min(3.8, ((hWeightedScored + aWeightedConceded) / 2) * 1.03 * eloModH));
-                const expGoalsAway = Math.max(0.25, Math.min(3.8, ((aWeightedScored + hWeightedConceded) / 2) * 0.98 * eloModA));
+                let venueXgMultH = neutralMode ? 1.00 : 1.03;
+                let venueXgMultA = neutralMode ? 1.00 : 0.98;
+
+                const expGoalsHome = Math.max(0.25, Math.min(3.8, ((hWeightedScored + aWeightedConceded) / 2) * venueXgMultH * eloModH));
+                const expGoalsAway = Math.max(0.25, Math.min(3.8, ((aWeightedScored + hWeightedConceded) / 2) * venueXgMultA * eloModA));
                 const totalExpGoals = expGoalsHome + expGoalsAway;
 
                 let rho = Math.abs(eloDiff) < 9 ? -0.14 : -0.09;
@@ -1392,10 +1479,10 @@
             if (!homeWasCached && !apiMatchesCache[liveMatch.away.id]) await delay(450);
             let awayData = await fetchStatsById(liveMatch.away.id, liveMatch.away.name, false, liveMatch.away.country, liveMatch.timestamp);
 
-            setLog("Elaborazione Matrice Dixon-Coles 7x7 e Coerenza Safe↔Value...");
+            setLog("Elaborazione Matrice Dixon-Coles 7x7 e Calibrazione Bayesiana...");
             await delay(250);
 
-            let analysis = ScoutingEngine.analyze(homeData, awayData);
+            let analysis = ScoutingEngine.analyze(homeData, awayData, isNeutralVenue);
             lastReportData = { homeData, awayData, analysis, matchContext: currentMatchContext };
 
             renderDashboard(homeData, awayData, analysis);
@@ -1436,9 +1523,10 @@
                 if (bet.aiMod > 0) aiTag = `<span class="ai-badge pos">AI +${bet.aiMod.toFixed(1)}%</span>`;
                 else if (bet.aiMod < 0) aiTag = `<span class="ai-badge neg">AI ${bet.aiMod.toFixed(1)}%</span>`;
 
+                let dampPct = Math.round((bet.famDamping || 0) * 100);
                 let c2StatusTxt = !bet.famActive 
                     ? `Quarantena [${bet.tacticalFamily}: ${bet.famCount}/5]` 
-                    : `🤖 C2 (Brier AI): ${bet.conf.toFixed(1)}% (@${bet.fairOdd})`;
+                    : `🤖 C2 (Peso ${dampPct}%): ${bet.conf.toFixed(1)}% (@${bet.fairOdd})`;
 
                 let savedBet = MemorySystem.getSavedBet(currentMatchContext?.id, bet.pick);
                 let alreadySaved = !!savedBet;
@@ -1482,7 +1570,6 @@
             });
             container.innerHTML = html;
 
-            // Ripristina il feedback Value & Stake se l'utente aveva già salvato una Quota Book
             bets.forEach((bet, index) => {
                 let inputEl = document.getElementById(`book-odd-${prefix}-${index}`);
                 if (inputEl && inputEl.value) {
@@ -1496,6 +1583,10 @@
             document.getElementById('ui-home-tier').textContent = hData.team.label;
             document.getElementById('ui-away-name').textContent = aData.team.name;
             document.getElementById('ui-away-tier').textContent = aData.team.label;
+
+            document.getElementById('h2h-pi-lbl').textContent = isNeutralVenue 
+                ? "Power Index Reale (🏟️ Campo Neutro)" 
+                : "Power Index Reale (+Fattore Campo)";
 
             let hRestEl = document.getElementById('ui-home-rest');
             hRestEl.textContent = `⏱️ Riposo: ${hData.stats.restDays.toFixed(1)} gg`;
@@ -1552,9 +1643,10 @@
             const { homeData, awayData, analysis, matchContext } = lastReportData;
             let safeList = analysis.betZones.safe.slice(0, 3).map(b => `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})`).join('\n');
             let valList = analysis.betZones.value.slice(0, 3).map(b => `• ${b.market}: ${b.pick} (${b.conf.toFixed(1)}% | Equa @${b.fairOdd})`).join('\n');
+            let neutralTag = isNeutralVenue ? " [🏟️ CAMPO NEUTRO / DERBY]" : "";
 
-            let report = `📡 *BETBAR SCOUT V19 — REPORT ANALISI*\n` +
-                `🏆 *${matchContext.name}* (${matchContext.tournament})\n` +
+            let report = `📡 *BETBAR SCOUT V20 LTS — REPORT ANALISI*\n` +
+                `🏆 *${matchContext.name}* (${matchContext.tournament})${neutralTag}\n` +
                 `📅 Data: ${matchContext.dateStr}\n` +
                 `⏱️ Riposo: ${homeData.team.name} (${homeData.stats.restDays.toFixed(1)}gg) vs ${awayData.team.name} (${awayData.stats.restDays.toFixed(1)}gg)\n` +
                 `${analysis.readability.text}\n\n` +
@@ -1566,7 +1658,7 @@
                 `🔥 *ZONA VALORE (SWEET SPOT 1.40-2.00):*\n${valList || 'Nessuna'}`;
 
             navigator.clipboard.writeText(report).then(() => {
-                alert("📋 Report V19 copiato negli appunti! Pronto da incollare su Telegram o nelle note.");
+                alert("📋 Report V20 LTS copiato negli appunti! Pronto da incollare su Telegram o nelle note.");
             });
         }
 
